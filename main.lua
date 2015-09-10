@@ -1,3 +1,7 @@
+local background = display.newImage("BG.jpg",true)
+background.x = display.contentWidth / 2
+background.y = display.contentHeight / 2
+
 local physics = require( "physics")
 physics.start( )
 
@@ -55,3 +59,4 @@ function animation:touch( event )
 end
 
 animation:addEventListener( "touch", animation )
+
