@@ -36,9 +36,20 @@ local sequenceData ={
 
 }
 
+local sHolder = display.newImage('A_grey.png', 60, 130)
+
 local animation = display.newSprite( mySheet, sequenceData )
 animation.x = display.contentWidth/2
 animation.y = display.contentHeight/2
+animation.name = "A_anim"
+
+function hitTestObjects(obj1, obj2)
+        local left = obj1.contentBounds.xMin <= obj2.contentBounds.xMin and obj1.contentBounds.xMax >= obj2.contentBounds.xMin
+        local right = obj1.contentBounds.xMin >= obj2.contentBounds.xMin and obj1.contentBounds.xMin <= obj2.contentBounds.xMax
+        local up = obj1.contentBounds.yMin <= obj2.contentBounds.yMin and obj1.contentBounds.yMax >= obj2.contentBounds.yMin
+        local down = obj1.contentBounds.yMin >= obj2.contentBounds.yMin and obj1.contentBounds.yMin <= obj2.contentBounds.yMax
+        return (left or right) and (up or down)
+end
 
 function animation:touch( event )
 	if (event.phase == "began") then
@@ -50,6 +61,18 @@ function animation:touch( event )
 		local x = (event.x - event.xStart) +  self.markX
 		local y = (event.y - event.yStart) + self.markY
 		self.x, self.y = x,y
+
+	elseif(event.target.name == 'A_anim' and event.phase == 'ended' and hitTestObjects(event.target, sHolder)) then
+        print("bla")
+        self:setFrame(0)
+		self:pause()	
+		audio.stop()
+		transition.to( event.target, {time=500, x=60, y = 130} )
+        -- event.target.x = 60.5
+        -- event.target.y = 175
+        event.target:removeEventListener('touch', dragShape)
+        -- correct = correct + 1
+        -- audio.play(correctSnd)
 	elseif event.phase == "ended" or event.phase == "cancelled" then
 		self:setFrame(0)
 		self:pause()	
