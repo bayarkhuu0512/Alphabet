@@ -1,6 +1,10 @@
 local physics = require( "physics")
 physics.start( )
 
+local soundTable = {
+    aShortSound = audio.loadSound( "A-short.mp3" ),
+}
+
 
 local sheetData = {
 	width = 191,
@@ -37,6 +41,7 @@ function animation:touch( event )
 		self.markX = self.x
 		self.markY = self.y
 		self:play()
+		audio.play( soundTable["aShortSound"],{ loops=-1 } )
 	elseif event.phase == "moved" then
 		local x = (event.x - event.xStart) +  self.markX
 		local y = (event.y - event.yStart) + self.markY
@@ -44,7 +49,7 @@ function animation:touch( event )
 	elseif event.phase == "ended" or event.phase == "cancelled" then
 		self:setFrame(0)
 		self:pause()	
-
+		audio.stop()
 	end
 	return true
 end
