@@ -2,11 +2,11 @@ local background = display.newImage("BG.jpg",true)
 background.x = display.contentWidth / 2
 background.y = display.contentHeight / 2
 
-local physics = require( "physics")
-physics.start( )
+local scalePoint = 1.3
 
 local soundTable = {
-    aShortSound = audio.loadSound( "A-short.mp3" ),
+    aShortSound = audio.loadSound( "A-short.mp3" ), 
+    bShortSound = audio.loadSound( "B-long.mp3"),
 }
 
 
@@ -18,30 +18,56 @@ local sheetData = {
 	sheetContentHeight = 206
 }
 
-local mySheet = graphics.newImageSheet( "sprite_sheet.png", sheetData )
+local aSheet = graphics.newImageSheet( "sprite_sheet.png", sheetData )
+local bSheet = graphics.newImageSheet( "b_sprite_sheet.png", sheetData )
 
 local sequenceData ={
 	{
-		name = "normalRun",
+		name = "seq1",
+		sheet = aSheet,
 		start = 1,
 		count = 7,
 		time = 700
 	},
 	{
-		name = "fastRun",
-		frames = {1,2,3},
-		time = 250,
-		loopCount = 0
+		name = "seq2",
+		sheet = bSheet,
+		start = 1,
+		count = 7,
+		time = 700
 	}
 
 }
 
-local sHolder = display.newImage('A_grey.png', 60, 130)
+local holdersTable = {}
 
-local animation = display.newSprite( mySheet, sequenceData )
+local sHolder = display.newImage('A_grey.png', 60, 130)
+holdersTable[0]  = sHolder
+local bHolder = display.newImage('B_grey.png', 250, 130)
+holdersTable[1] = bHolder
+
+
+
+local animation = display.newSprite( aSheet, sequenceData )
 animation.x = display.contentWidth/2
 animation.y = display.contentHeight/2
-animation.name = "A_anim"
+animation.isVisible = false
+animation.xScale = scalePoint
+animation.yScale = scalePoint
+animation.name = "animation"
+
+local aRealImage = display.newImage('A.png')
+aRealImage.x = display.contentWidth/2
+aRealImage.y = display.contentHeight/2
+aRealImage.name = "A_anim"
+
+
+
+local bRealImage = display.newImage('B.png')
+bRealImage.x = display.contentWidth/2 + 200
+bRealImage.y = display.contentHeight/2
+bRealImage.name = "B_anim"
+
 
 function hitTestObjects(obj1, obj2)
         local left = obj1.contentBounds.xMin <= obj2.contentBounds.xMin and obj1.contentBounds.xMax >= obj2.contentBounds.xMin
@@ -51,35 +77,120 @@ function hitTestObjects(obj1, obj2)
         return (left or right) and (up or down)
 end
 
-function animation:touch( event )
-	if (event.phase == "began") then
-		self.markX = self.x
-		self.markY = self.y
-		self:play()
-		audio.play( soundTable["aShortSound"],{ loops=-1 } )
-	elseif event.phase == "moved" then
-		local x = (event.x - event.xStart) +  self.markX
-		local y = (event.y - event.yStart) + self.markY
-		self.x, self.y = x,y
+local target 
+local targetAnim 
+local targetHolder
+local sound
+local b = 0
 
-	elseif(event.target.name == 'A_anim' and event.phase == 'ended' and hitTestObjects(event.target, sHolder)) then
-        print("bla")
-        self:setFrame(0)
-		self:pause()	
+
+function dragLetters( event )
+	if (b == 0) then
+		target = event.target
+		targetAnim = animation
+		if (target.name == "A_anim") then
+			targetHolder = sHolder
+			sound  = soundTable["aShortSound"]
+			targetAnim:setSequence( "seq1" )
+		elseif (target.name == "B_anim") then
+			targetHolder = holdersTable[1]
+			sound  = soundTable["bShortSound"]
+			targetAnim:setSequence( "seq2" )			
+		end	
+		b = 1
+	end
+
+	if (event.phase == "began") then
+		if (target.name ~= "animation") then
+			function complete ()
+				targetAnim.x, targetAnim.y = target.x,target.y
+				targetAnim.markX = target.x
+				targetAnim.markY = target.y
+				target.isVisible = false
+				targetAnim.isVisible = true
+				-- targetAnim.name = target.name		
+				targetAnim:play()
+				audio.play( sound,{ loops=-1 } )
+			end
+			targetAnim.markX = target.x
+			targetAnim.markY = target.y
+			transition.scaleTo( target, {time=100, xScale = scalePoint, yScale = scalePoint, onComplete = complete} )
+		end
+	elseif event.phase == "moved" then
+		local x = (event.x - event.xStart) +  targetAnim.markX
+		local y = (event.y - event.yStart) + targetAnim.markY
+		targetAnim.x, targetAnim.y = x,y
+		target.x, target.y = x, y
+
+	elseif(event.phase == 'ended' and hitTestObjects(targetAnim, targetHolder)) then
+		targetAnim:setFrame(1)	
+		targetAnim.isVisible = false	
+		target.isVisible = true
+     	targetAnim:pause()	
+
 		audio.stop()
-		transition.to( event.target, {time=500, x=60, y = 130} )
         -- event.target.x = 60.5
         -- event.target.y = 175
-        event.target:removeEventListener('touch', dragShape)
+        -- target:removeEventListener('touch', dragShape)
+        function transitionComplete()
+			endAnimation(target)
+			target:removeEventListener("touch", dragLetters)
+	        b = 0
+        end
+		transition.to( target, {time=500, x=targetHolder.x , y = targetHolder.y, onComplete = transitionComplete} )
+
         -- correct = correct + 1
         -- audio.play(correctSnd)
 	elseif event.phase == "ended" or event.phase == "cancelled" then
-		self:setFrame(0)
-		self:pause()	
+
+
+		targetAnim:pause()	
+		targetAnim:setFrame(1)	
+		targetAnim.isVisible = false	
+		target.isVisible = true
 		audio.stop()
+		function noEqualizerCompleted()
+			endAnimation(target)
+		end
+
+		local notChanging = false
+		for k, v in pairs(holdersTable) do
+			if (targetHolder ~= v) then
+				if (hitTestObjects(targetAnim, v)) then
+					transition.to( target, {time=500, x=target.x  + 30, y = targetHolder.y + 150, onComplete = noEqualizerCompleted} )
+					notChanging = true
+				end
+			end
+		end
+		if (notChanging == false) then
+			endAnimation(target)	
+		end
+		b = 0
 	end
 	return true
 end
 
-animation:addEventListener( "touch", animation )
+
+function endAnimation( realImage )
+	function secondComplete()
+		transition.scaleTo( realImage, {time=100, xScale = 1.0, yScale = 1.0 } )
+
+	end
+	function firstComplete()
+		transition.scaleTo( realImage, {time=100, xScale = 1.07, yScale = 1.07, onComplete = secondComplete} )
+
+	end
+	transition.scaleTo( realImage, {time=100, xScale = 1.0, yScale = 1.0, onComplete = firstComplete} )
+
+end
+
+function setDefaultImage( targetAnim )
+	
+end
+
+aRealImage:addEventListener("touch", dragLetters)
+bRealImage:addEventListener("touch", dragLetters)
+animation:addEventListener( "touch", dragLetters )
+-- bAnimation:addEventListener( "touch", dragLetters )
+
 
