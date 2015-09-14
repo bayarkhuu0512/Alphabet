@@ -51,8 +51,10 @@ local holdersTable = {}
 
 local sHolder = display.newImage('A_grey.png', 60, 130)
 holdersTable[0]  = sHolder
-local bHolder = display.newImage('B_grey.png', 250, 130)
-holdersTable[1] = bHolder
+local s2Holder = display.newImage('A_grey.png', 250, 130)
+holdersTable[1]  = s2Holder
+local bHolder = display.newImage('B_grey.png', 440, 130)
+holdersTable[2] = bHolder
 
 
 
@@ -69,8 +71,14 @@ aRealImage.x = display.contentWidth/2
 aRealImage.y = display.contentHeight/2
 aRealImage.name = "A_anim"
 
+
+local aRealImage2 = display.newImage('A.png')
+aRealImage2.x = display.contentWidth/2 + 200
+aRealImage2.y = display.contentHeight/2
+aRealImage2.name = "A_anim2"
+
 local bRealImage = display.newImage('B.png')
-bRealImage.x = display.contentWidth/2 + 200
+bRealImage.x = display.contentWidth/2 + 400
 bRealImage.y = display.contentHeight/2
 bRealImage.name = "B_anim"
 
@@ -98,8 +106,12 @@ function dragLetters( event )
 			targetHolder = sHolder
 			sound  = soundTable["aShortSound"]
 			targetAnim:setSequence( "seq1" )
-		elseif (target.name == "B_anim") then
+		elseif (target.name == "A_anim2") then
 			targetHolder = holdersTable[1]
+			sound  = soundTable["aShortSound"]
+			targetAnim:setSequence( "seq1" )
+		elseif (target.name == "B_anim") then
+			targetHolder = holdersTable[2]
 			sound  = soundTable["bShortSound"]
 			targetAnim:setSequence( "seq2" )			
 		end	
@@ -195,6 +207,7 @@ function setDefaultImage( targetAnim )
 end
 
 aRealImage:addEventListener("touch", dragLetters)
+aRealImage2:addEventListener("touch", dragLetters)
 bRealImage:addEventListener("touch", dragLetters)
 animation:addEventListener( "touch", dragLetters )
 -- bAnimation:addEventListener( "touch", dragLetters )
