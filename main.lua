@@ -1,3 +1,11 @@
+--[[
+Play intro video.. it'll be moved
+local onComplete = function( event )
+   print( "video session ended" )
+end
+media.playVideo( "intro.m4v", true, onComplete )
+--]]
+
 local background = display.newImage("BG.jpg",true)
 background.x = display.contentWidth / 2
 background.y = display.contentHeight / 2
@@ -60,8 +68,6 @@ local aRealImage = display.newImage('A.png')
 aRealImage.x = display.contentWidth/2
 aRealImage.y = display.contentHeight/2
 aRealImage.name = "A_anim"
-
-
 
 local bRealImage = display.newImage('B.png')
 bRealImage.x = display.contentWidth/2 + 200
