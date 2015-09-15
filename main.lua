@@ -6,17 +6,23 @@ end
 media.playVideo( "intro.m4v", true, onComplete )
 --]]
 
+
+-- Background Image
 local background = display.newImage("BG.jpg",true)
 background.x = display.contentWidth / 2
 background.y = display.contentHeight / 2
 
+
 local scalePoint = 1.3
 
 local soundTable = {
-    aShortSound = audio.loadSound( "A-short.mp3" ), 
-    bShortSound = audio.loadSound( "B-long.mp3"),
+    aShortSound = audio.loadSound( "sounds/A-short.mp3" ), 
+    bShortSound = audio.loadSound( "sounds/B-long.mp3"),
+    -- Background Music
+    backgroundMusic = audio.loadStream( "sounds/bg_music1.mp3" )
 }
 
+audio.play( soundTable["backgroundMusic"],{ loops=-1 }  )
 
 local sheetData = {
 	width = 191,
@@ -128,7 +134,7 @@ function dragLetters( event )
 				targetAnim.isVisible = true
 				-- targetAnim.name = target.name		
 				targetAnim:play()
-				audio.play( sound,{ loops=-1 } )
+				sound = audio.play( sound,{ loops=-1 } )
 			end
 			targetAnim.markX = target.x
 			targetAnim.markY = target.y
@@ -146,7 +152,7 @@ function dragLetters( event )
 		target.isVisible = true
      	targetAnim:pause()	
 
-		audio.stop()
+		audio.stop(sound)
         -- event.target.x = 60.5
         -- event.target.y = 175
         -- target:removeEventListener('touch', dragShape)
@@ -166,7 +172,7 @@ function dragLetters( event )
 		targetAnim:setFrame(1)	
 		targetAnim.isVisible = false	
 		target.isVisible = true
-		audio.stop()
+		audio.stop(sound)
 		function noEqualizerCompleted()
 			endAnimation(target)
 		end
