@@ -3,7 +3,8 @@ L.allLetters = 2
 L.letters = {}
 
 L.letters[1] = {}
-L.letters[1].name = 'A'
+L.letters[1].nameCyrillic = 'А'
+L.letters[1].nameLatin = 'A'
 L.letters[1].imgNormal = '/images/A.png'
 L.letters[1].imgWon = '/images/A_01.png'
 L.letters[1].imgGrey = '/images/A_grey.png'
@@ -12,7 +13,8 @@ L.letters[1].soundSelected = '/sounds/A-short.mp3'
 
 
 L.letters[2] = {}
-L.letters[2].name = 'B'
+L.letters[2].nameCyrillic = 'В'
+L.letters[2].nameLatin = 'Ve'
 L.letters[2].imgNormal = '/images/B.png'
 L.letters[2].imgWon = '/images/A_01.png'
 L.letters[2].imgGrey = '/images/B_grey.png'
