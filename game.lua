@@ -12,7 +12,7 @@ local widget = require( "widget" )
 function scene:create( event )
     local sceneGroup = self.view
      for i = 1, dataletter.allLetters do
-        print (' Letters: ', dataletter.letters[i].name)
+        print (' Letters Latin: ', dataletter.letters[i].nameLatin)
       end
 
     print( 'Chosen word ID: ',dataword.settings.currentLevel )
