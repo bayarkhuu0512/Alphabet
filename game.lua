@@ -4,18 +4,27 @@ local composer = require( "composer" )
 
 -- Load scene with same root filename as this file
 local scene = composer.newScene( sceneName )
-local Letter = require ("Letter")
+local dataword = require( "dataword" )
+local dataletter = require( "dataletter" )
+local letter = require ("letter")
 local widget = require( "widget" )
 
 function scene:create( event )
     local sceneGroup = self.view
+     for i = 1, dataletter.allLetters do
+        print (' Letters: ', dataletter.letters[i].name)
+      end
+
+    print( 'Chosen word ID: ',dataword.settings.currentLevel )
 
     -- Called when the scene's view does not exist
     -- 
     -- INSERT code here to initialize the scene
     -- e.g. add display objects to 'sceneGroup', add touch listeners, etc
 
-local requiredWord = "AAB"
+local wordId = tonumber(dataword.settings.currentLevel)
+local requiredWord = tostring(dataword.settings.levels[wordId].name)
+  print('Chosen word Name: ',requiredWord)
 
 -- Background Image
 local background = display.newImage("images/BG.jpg",true)
@@ -77,7 +86,7 @@ for a = 1, string.len(requiredWord)+1 do  -- for 1 to the number of letters in o
             count = 7,
             time = 700
         }
-        splitedLetter[number] =  Letter.new(letterX, letterY, holder, rotation, audioFile, number, name , realImage )
+        splitedLetter[number] =  letter.new(letterX, letterY, holder, rotation, audioFile, number, name , realImage )
     elseif (string.sub(requiredWord, a,a) == "B") then
         print ("bbbbbbb")
         holder = display.newImage('images/B_grey.png', letterX, letterY)
@@ -92,7 +101,7 @@ for a = 1, string.len(requiredWord)+1 do  -- for 1 to the number of letters in o
             count = 7,
             time = 700
         }
-        splitedLetter[number] =  Letter.new( letterX, letterY, holder, rotation, audioFile, number, name , realImage )
+        splitedLetter[number] =  letter.new( letterX, letterY, holder, rotation, audioFile, number, name , realImage )
     end
     -- realImage:addEventListener("touch", dragLetters)
 

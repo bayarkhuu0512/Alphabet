@@ -5,7 +5,7 @@ local widget = require( "widget" )
 
 -- Require "global" data table (https://coronalabs.com/blog/2013/05/28/tutorial-goodbye-globals/)
 -- This will contain relevant data like the current level, max levels, number of stars earned, etc.
-local data = require( "data" )
+local dataword = require( "dataword" )
 
 -- Declare vertices for vector stars (an image is probably preferable for an actual game).
 local starVertices = { 0,-8,1.763,-2.427,7.608,-2.472,2.853,0.927,4.702,6.472,0.0,3.0,-4.702,6.472,-2.853,0.927,-7.608,-2.472,-1.763,-2.427 }
@@ -16,7 +16,7 @@ local function handleLevelSelect( event )
         -- 'event.target' is the button and '.id' is a number indicating which level to go to.  
         -- The 'game' scene will use this setting to determine which level to load.
         -- This could be done via passed parameters as well.
-        data.settings.currentLevel = event.target.id
+        dataword.settings.currentLevel = event.target.id
 
         -- Purge the game scene so we have a fresh start
         composer.removeScene( "game", false )
@@ -57,11 +57,11 @@ function scene:create( event )
     local buttons = {}
 
     -- Read 'maxLevels' from the 'data' table. Loop over them and generating one button for each.
-    for i = 1, data.maxLevels do
+    for i = 1, dataword.maxLevels do
         -- Create a button
         buttons[i] = widget.newButton({
             --label = tostring( i ),
-            label = data.settings.levels[i].name,
+            label = dataword.settings.levels[i].name,
             id = tostring( i ),
             onEvent = handleLevelSelect,
             emboss = false,
@@ -88,10 +88,10 @@ function scene:create( event )
         -- If not set (new user), this value should be 1.
 
         -- If the level is locked, disable the button and fade it out.
-        if ( data.settings.unlockedLevels == nil ) then
-            data.settings.unlockedLevels = 1
+        if ( dataword.settings.unlockedLevels == nil ) then
+            dataword.settings.unlockedLevels = 1
         end
-        if ( i <= data.settings.unlockedLevels ) then
+        if ( i <= dataword.settings.unlockedLevels ) then
             buttons[i]:setEnabled( true )
             buttons[i].alpha = 1.0
         else 
@@ -105,8 +105,8 @@ function scene:create( event )
         -- c. The number of stars is greater than 0 (no need to draw zero stars). 
 
         local star = {} 
-        if ( data.settings.levels[i] and data.settings.levels[i].stars and data.settings.levels[i].stars > 0 ) then
-            for j = 1, data.settings.levels[i].stars do
+        if ( dataword.settings.levels[i] and dataword.settings.levels[i].stars and dataword.settings.levels[i].stars > 0 ) then
+            for j = 1, dataword.settings.levels[i].stars do
                 star[j] = display.newPolygon( 0, 0, starVertices )
                 star[j]:setFillColor( 1, 0.9, 0 )
                 star[j].strokeWidth = 1

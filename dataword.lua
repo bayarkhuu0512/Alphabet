@@ -1,8 +1,8 @@
 local M = {}
 M.maxLevels = 5
 M.settings = {}
-M.settings.currentLevel = 1
-M.settings.unlockedLevels = 1
+M.settings.currentLevel = 2
+M.settings.unlockedLevels = 2
 M.settings.soundOn = true
 M.settings.musicOn = true
 M.settings.levels = {} 
@@ -12,7 +12,7 @@ M.settings.levels = {}
 -- Perhaps this happens at the end of your game level, or in a scene between game levels.
 M.settings.levels[1] = {}
 M.settings.levels[1].stars = 3
-M.settings.levels[1].name = 'Aав'
+M.settings.levels[1].name = 'AAB'
 
 M.settings.levels[2] = {}
 M.settings.levels[2].stars = 0
