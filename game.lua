@@ -110,10 +110,6 @@ for a = 1, string.len(requiredWord)+1 do  -- for 1 to the number of letters in o
     maxCount = a
 end  -- repeat untill the for loop end
 
-for k, v in pairs(sequenceData) do
-    print(v.sheet)
-end
-
 local soundTable = {
     -- aShortSound = audio.loadSound( "sounds/A-short.mp3" ), 
     -- bShortSound = audio.loadSound( "sounds/B-long.mp3"),
@@ -344,10 +340,11 @@ sceneGroup:insert( backButton )
 for a = 1, maxCount - 1, 1 do
     local eachLetter = splitedLetter[a]
     print (eachLetter:printArea())
-    eachLetter.realImage:addEventListener( "touch", dragLetters )
-    sceneGroup:insert( eachLetter.holder )
-    sceneGroup:insert( eachLetter.realImage )
-
+    if (eachLetter ~= nil) then
+        eachLetter.realImage:addEventListener( "touch", dragLetters )
+        sceneGroup:insert( eachLetter.holder )
+        sceneGroup:insert( eachLetter.realImage )
+    end
 end
 
 
