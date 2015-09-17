@@ -73,7 +73,7 @@ for a = 1, string.len(requiredWord)+1 do  -- for 1 to the number of letters in o
     name = string.sub(requiredWord, a,a)
     number = a
     print( number )
-    if (string.sub(requiredWord, a,a) == "A") then
+    if (string.sub(requiredWord, a,a) == "А") then
         holder = display.newImage('images/A_grey.png', letterX, letterY)
         audioFile = audio.loadSound( "sounds/A-short.mp3" )
         realImage = display.newImage('images/A.png',  display.contentWidth/2 + (a-1)*dif, display.contentHeight/2)
@@ -87,7 +87,7 @@ for a = 1, string.len(requiredWord)+1 do  -- for 1 to the number of letters in o
             time = 700
         }
         splitedLetter[number] =  letter.new(letterX, letterY, holder, rotation, audioFile, number, name , realImage )
-    elseif (string.sub(requiredWord, a,a) == "B") then
+    elseif (string.sub(requiredWord, a,a) == "В") then
         print ("bbbbbbb")
         holder = display.newImage('images/B_grey.png', letterX, letterY)
         audioFile = audio.loadSound( "sounds/B-long.mp3" )

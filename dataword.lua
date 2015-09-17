@@ -12,7 +12,7 @@ M.settings.levels = {}
 -- Perhaps this happens at the end of your game level, or in a scene between game levels.
 M.settings.levels[1] = {}
 M.settings.levels[1].stars = 3
-M.settings.levels[1].name = 'AAB'
+M.settings.levels[1].name = 'ААВ'
 
 M.settings.levels[2] = {}
 M.settings.levels[2].stars = 0
