@@ -9,17 +9,8 @@ M.settings.levels = {}
 -- In reality, your app would likely create a level entry when each level is unlocked and the score/stars are saved.
 -- Perhaps this happens at the end of your game level, or in a scene between game levels.
 M.settings.levels[1] = {}
-<<<<<<< HEAD
 M.settings.levels[1].name = 'ААВ'
 M.settings.levels[1].seq = '113'
-=======
-M.settings.levels[1].stars = 3
-<<<<<<< HEAD
-M.settings.levels[1].name = 'ААВ'
-=======
-M.settings.levels[1].name = 'Aab'
->>>>>>> origin/master
->>>>>>> origin/master
 
 M.settings.levels[2] = {}
 M.settings.levels[2].name = 'ВАА'
