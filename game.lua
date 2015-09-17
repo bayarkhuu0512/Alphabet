@@ -4,7 +4,7 @@ local composer = require( "composer" )
 
 -- Load scene with same root filename as this file
 local scene = composer.newScene( sceneName )
-
+local Letter = require ("Letter")
 local widget = require( "widget" )
 
 function scene:create( event )
@@ -15,6 +15,8 @@ function scene:create( event )
     -- INSERT code here to initialize the scene
     -- e.g. add display objects to 'sceneGroup', add touch listeners, etc
 
+local requiredWord = "AAB"
+
 -- Background Image
 local background = display.newImage("images/BG.jpg",true)
 background.x = display.contentWidth / 2
@@ -23,15 +25,15 @@ background.y = display.contentHeight / 2
 
 local scalePoint = 1.3
 
-local soundTable = {
-    aShortSound = audio.loadSound( "sounds/A-short.mp3" ), 
-    bShortSound = audio.loadSound( "sounds/B-long.mp3"),
-    -- Background Music
-    backgroundMusic = audio.loadStream( "sounds/bg_music1.mp3" )
-}
+
+local splitedLetter = {}
+local sequenceData = {}
 
 
-audio.play( soundTable["backgroundMusic"],{ loops=-1 }  )
+local x = 65
+local y = 130
+local dif = 200
+local maxCount = 0
 
 local sheetData = {
     width = 191,
@@ -41,37 +43,104 @@ local sheetData = {
     sheetContentHeight = 206
 }
 
-
-
 local aSheet = graphics.newImageSheet( "images/sprite_sheet.png", sheetData )
 local bSheet = graphics.newImageSheet( "images/b_sprite_sheet.png", sheetData )
 
-local sequenceData ={
-    {
-        name = "seq1",
-        sheet = aSheet,
-        start = 1,
-        count = 7,
-        time = 700
-    },
-    {
-        name = "seq2",
-        sheet = bSheet,
-        start = 1,
-        count = 7,
-        time = 700
-    }
+for a = 1, string.len(requiredWord)+1 do  -- for 1 to the number of letters in our text + 1
+    print (string.sub(requiredWord, a,a)) -- split the string with the start and end at "a"
+    local letterX = 0
+    local letterY = 0
+    local holder = nil
+    local rotation = 0
+    local audioFile = nil
+    local number = 0
+    local name = nil
+    local realImage = nil
+    local eachSheetData = nil
 
+    letterX = x 
+    letterY = y
+    rotation = 0
+    name = string.sub(requiredWord, a,a)
+    number = a
+    print( number )
+    if (string.sub(requiredWord, a,a) == "A") then
+        holder = display.newImage('images/A_grey.png', letterX, letterY)
+        audioFile = audio.loadSound( "sounds/A-short.mp3" )
+        realImage = display.newImage('images/A.png',  display.contentWidth/2 + (a-1)*dif, display.contentHeight/2)
+        realImage.name = number
+        eachSheetData =  graphics.newImageSheet( "images/sprite_sheet.png", sheetData )
+       sequenceData[number] = {
+            name = number,
+            sheet = eachSheetData,
+            start = 1,
+            count = 7,
+            time = 700
+        }
+        splitedLetter[number] =  Letter.new(letterX, letterY, holder, rotation, audioFile, number, name , realImage )
+    elseif (string.sub(requiredWord, a,a) == "B") then
+        print ("bbbbbbb")
+        holder = display.newImage('images/B_grey.png', letterX, letterY)
+        audioFile = audio.loadSound( "sounds/B-long.mp3" )
+        realImage = display.newImage('images/B.png',  display.contentWidth/2 + (a-1)*dif, display.contentHeight/2)
+        realImage.name = number
+        eachSheetData =  graphics.newImageSheet( "images/b_sprite_sheet.png", sheetData )
+        sequenceData[number] = {
+            name = number,
+            sheet = eachSheetData,
+            start = 1,
+            count = 7,
+            time = 700
+        }
+        splitedLetter[number] =  Letter.new( letterX, letterY, holder, rotation, audioFile, number, name , realImage )
+    end
+    -- realImage:addEventListener("touch", dragLetters)
+
+
+    x = x + dif
+    maxCount = a
+end  -- repeat untill the for loop end
+
+for k, v in pairs(sequenceData) do
+    print(v.sheet)
+end
+
+local soundTable = {
+    -- aShortSound = audio.loadSound( "sounds/A-short.mp3" ), 
+    -- bShortSound = audio.loadSound( "sounds/B-long.mp3"),
+    -- Background Music
+    backgroundMusic = audio.loadStream( "sounds/bg_music1.mp3" )
 }
 
-local holdersTable = {}
+audio.play( soundTable["backgroundMusic"],{ loops=-1 }  )
 
-local sHolder = display.newImage('images/A_grey.png', 60, 130)
-holdersTable[0]  = sHolder
-local s2Holder = display.newImage('images/A_grey.png', 250, 130)
-holdersTable[1]  = s2Holder
-local bHolder = display.newImage('images/B_grey.png', 440, 130)
-holdersTable[2] = bHolder
+
+-- local sequenceData ={
+--     {
+--         name = "seq1",
+--         sheet = aSheet,
+--         start = 1,
+--         count = 7,
+--         time = 700
+--     },
+--     {
+--         name = "seq2",
+--         sheet = bSheet,
+--         start = 1,
+--         count = 7,
+--         time = 700
+--     }
+
+-- }
+
+-- local holdersTable = {}
+
+-- local sHolder = display.newImage('images/A_grey.png', 60, 130)
+-- holdersTable[0]  = sHolder
+-- local s2Holder = display.newImage('images/A_grey.png', 250, 130)
+-- holdersTable[1]  = s2Holder
+-- local bHolder = display.newImage('images/B_grey.png', 440, 130)
+-- holdersTable[2] = bHolder
 
 
 
@@ -83,21 +152,21 @@ animation.xScale = scalePoint
 animation.yScale = scalePoint
 animation.name = "animation"
 
-local aRealImage = display.newImage('images/A.png')
-aRealImage.x = display.contentWidth/2
-aRealImage.y = display.contentHeight/2
-aRealImage.name = "A_anim"
+-- local aRealImage = display.newImage('images/A.png')
+-- aRealImage.x = display.contentWidth/2
+-- aRealImage.y = display.contentHeight/2
+-- aRealImage.name = "A_anim"
 
 
-local aRealImage2 = display.newImage('images/A.png')
-aRealImage2.x = display.contentWidth/2 + 200
-aRealImage2.y = display.contentHeight/2
-aRealImage2.name = "A_anim2"
+-- local aRealImage2 = display.newImage('images/A.png')
+-- aRealImage2.x = display.contentWidth/2 + 200
+-- aRealImage2.y = display.contentHeight/2
+-- aRealImage2.name = "A_anim2"
 
-local bRealImage = display.newImage('images/B.png')
-bRealImage.x = display.contentWidth/2 + 400
-bRealImage.y = display.contentHeight/2
-bRealImage.name = "B_anim"
+-- local bRealImage = display.newImage('images/B.png')
+-- bRealImage.x = display.contentWidth/2 + 400
+-- bRealImage.y = display.contentHeight/2
+-- bRealImage.name = "B_anim"
 
 
 function hitTestObjects(obj1, obj2)
@@ -119,19 +188,25 @@ function dragLetters( event )
     if (b == 0) then
         target = event.target
         targetAnim = animation
-        if (target.name == "A_anim") then
-            targetHolder = sHolder
-            sound  = soundTable["aShortSound"]
-            targetAnim:setSequence( "seq1" )
-        elseif (target.name == "A_anim2") then
-            targetHolder = holdersTable[1]
-            sound  = soundTable["aShortSound"]
-            targetAnim:setSequence( "seq1" )
-        elseif (target.name == "B_anim") then
-            targetHolder = holdersTable[2]
-            sound  = soundTable["bShortSound"]
-            targetAnim:setSequence( "seq2" )            
-        end 
+        print (target.name)
+        local chosenLetter = splitedLetter[target.name]
+        targetHolder = chosenLetter.holder
+        sound = chosenLetter.audioFile
+        print (sequenceData)
+        targetAnim:setSequence( sequenceData[target.name])
+        -- if (target.name == "A_anim") then
+        --     targetHolder = sHolder
+        --     sound  = soundTable["aShortSound"]
+        --     targetAnim:setSequence( "seq1" )
+        -- elseif (target.name == "A_anim2") then
+        --     targetHolder = holdersTable[1]
+        --     sound  = soundTable["aShortSound"]
+        --     targetAnim:setSequence( "seq1" )
+        -- elseif (target.name == "B_anim") then
+        --     targetHolder = holdersTable[2]
+        --     sound  = soundTable["bShortSound"]
+        --     targetAnim:setSequence( "seq2" )            
+        -- end 
         b = 1
     end
 
@@ -189,11 +264,14 @@ function dragLetters( event )
         end
 
         local notChanging = false
-        for k, v in pairs(holdersTable) do
-            if (targetHolder ~= v) then
-                if (hitTestObjects(targetAnim, v)) then
-                    transition.to( target, {time=500, x=target.x  + 30, y = targetHolder.y + 150, onComplete = noEqualizerCompleted} )
-                    notChanging = true
+        for k, v in pairs(splitedLetter) do
+            if (v ~= nil) then
+                print(v.name)
+                if (targetHolder ~= v.holder) then
+                    if (hitTestObjects(targetAnim, v.holder)) then
+                        transition.to( target, {time=500, x=target.x  + 30, y = targetHolder.y + 150, onComplete = noEqualizerCompleted} )
+                        notChanging = true
+                    end
                 end
             end
         end
@@ -223,9 +301,10 @@ function setDefaultImage( targetAnim )
     
 end
 
-aRealImage:addEventListener("touch", dragLetters)
-aRealImage2:addEventListener("touch", dragLetters)
-bRealImage:addEventListener("touch", dragLetters)
+
+-- aRealImage:addEventListener("touch", dragLetters)
+-- aRealImage2:addEventListener("touch", dragLetters)
+-- bRealImage:addEventListener("touch", dragLetters)
 animation:addEventListener( "touch", dragLetters )
 -- bAnimation:addEventListener( "touch", dragLetters )
 
@@ -252,12 +331,23 @@ local backButton = widget.newButton({
 
 sceneGroup:insert( background )
 sceneGroup:insert( backButton )
-sceneGroup:insert( aRealImage )
-sceneGroup:insert( aRealImage2 )
-sceneGroup:insert( bRealImage )
-sceneGroup:insert( sHolder )
-sceneGroup:insert( s2Holder )
-sceneGroup:insert( bHolder )
+
+for a = 1, maxCount - 1, 1 do
+    local eachLetter = splitedLetter[a]
+    print (eachLetter:printArea())
+    eachLetter.realImage:addEventListener( "touch", dragLetters )
+    sceneGroup:insert( eachLetter.holder )
+    sceneGroup:insert( eachLetter.realImage )
+
+end
+
+
+-- sceneGroup:insert( aRealImage )
+-- sceneGroup:insert( aRealImage2 )
+-- sceneGroup:insert( bRealImage )
+-- sceneGroup:insert( sHolder )
+-- sceneGroup:insert( s2Holder )
+-- sceneGroup:insert( bHolder )
 
 
 end
