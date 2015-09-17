@@ -73,10 +73,14 @@ for a = 1, string.len(requiredWord)+1 do  -- for 1 to the number of letters in o
     name = string.sub(requiredWord, a,a)
     number = a
     print( number )
+<<<<<<< HEAD
     print('string.sub(requiredWord, a,a) ',string.sub(requiredWord, a,a))
     if (string.sub(requiredWord, a,a)=="1") then
     print('A equals A')
 
+=======
+    if (string.sub(requiredWord, a,a) == "А") then
+>>>>>>> origin/master
         holder = display.newImage('images/A_grey.png', letterX, letterY)
         audioFile = audio.loadSound( "sounds/A-short.mp3" )
         realImage = display.newImage('images/A.png',  display.contentWidth/2 + (a-1)*dif, display.contentHeight/2)
@@ -90,7 +94,11 @@ for a = 1, string.len(requiredWord)+1 do  -- for 1 to the number of letters in o
             time = 700
         }
         splitedLetter[number] =  letter.new(letterX, letterY, holder, rotation, audioFile, number, name , realImage )
+<<<<<<< HEAD
     elseif (string.sub(requiredWord, a,a) == "3") then
+=======
+    elseif (string.sub(requiredWord, a,a) == "В") then
+>>>>>>> origin/master
         print ("bbbbbbb")
         holder = display.newImage('images/B_grey.png', letterX, letterY)
         audioFile = audio.loadSound( "sounds/B-long.mp3" )
@@ -112,10 +120,6 @@ for a = 1, string.len(requiredWord)+1 do  -- for 1 to the number of letters in o
     x = x + dif
     maxCount = a
 end  -- repeat untill the for loop end
-
-for k, v in pairs(sequenceData) do
-    print(v.sheet)
-end
 
 local soundTable = {
     -- aShortSound = audio.loadSound( "sounds/A-short.mp3" ), 
@@ -347,10 +351,11 @@ sceneGroup:insert( backButton )
 for a = 1, maxCount - 1, 1 do
     local eachLetter = splitedLetter[a]
     print (eachLetter:printArea())
-    eachLetter.realImage:addEventListener( "touch", dragLetters )
-    sceneGroup:insert( eachLetter.holder )
-    sceneGroup:insert( eachLetter.realImage )
-
+    if (eachLetter ~= nil) then
+        eachLetter.realImage:addEventListener( "touch", dragLetters )
+        sceneGroup:insert( eachLetter.holder )
+        sceneGroup:insert( eachLetter.realImage )
+    end
 end
 
 
