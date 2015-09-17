@@ -193,7 +193,7 @@ function dragLetters( event )
         targetHolder = chosenLetter.holder
         sound = chosenLetter.audioFile
         print (sequenceData)
-        targetAnim:setSequence( sequenceData[target.name])
+        targetAnim:setSequence( target.name)
         -- if (target.name == "A_anim") then
         --     targetHolder = sHolder
         --     sound  = soundTable["aShortSound"]
