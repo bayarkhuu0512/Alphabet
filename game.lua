@@ -12,7 +12,7 @@ local widget = require( "widget" )
 function scene:create( event )
     local sceneGroup = self.view
      for i = 1, dataletter.allLetters do
-        print (' Letters Latin: ', dataletter.letters[i].nameLatin)
+        print (' Letters Latin: ', dataletter.letters[i].name)
       end
 
     print( 'Chosen word ID: ',dataword.settings.selectedWord )
@@ -23,8 +23,9 @@ function scene:create( event )
     -- e.g. add display objects to 'sceneGroup', add touch listeners, etc
 
 local wordId = tonumber(dataword.settings.selectedWord)
-local requiredWord = tostring(dataword.settings.levels[wordId].seq)
-  print('Chosen word Name: ',requiredWord)
+local wordSequences = tostring(dataword.settings.levels[wordId].seq)
+  print('Chosen word Name: ',wordSequences)
+
 
 -- Background Image
 local background = display.newImage("images/BG.jpg",true)
@@ -55,8 +56,8 @@ local sheetData = {
 local aSheet = graphics.newImageSheet( "images/A_sprite.png", sheetData )
 local bSheet = graphics.newImageSheet( "images/B_sprite.png", sheetData )
 
-for a = 1, string.len(requiredWord)+1 do  -- for 1 to the number of letters in our text + 1
-    print (string.sub(requiredWord, a,a)) -- split the string with the start and end at "a"
+local num = 1;
+for word in string.gmatch(wordSequences, '([^,]+)') do
     local letterX = 0
     local letterY = 0
     local holder = nil
@@ -70,16 +71,19 @@ for a = 1, string.len(requiredWord)+1 do  -- for 1 to the number of letters in o
     letterX = x 
     letterY = y
     rotation = 0
-    name = string.sub(requiredWord, a,a)
-    number = a
-    print( number )
-    print('string.sub(requiredWord, a,a) ',string.sub(requiredWord, a,a))
-    if (string.sub(requiredWord, a,a)=="1") then
-        holder = display.newImage('images/A_grey.png', letterX, letterY)
-        audioFile = audio.loadSound( "sounds/A-short.mp3" )
-        realImage = display.newImage('images/A.png',  display.contentWidth/2 + (a-1)*dif, display.contentHeight/2)
+    name = word
+    number = num
+    print('name: ',name)
+    print('number: ',number)
+
+    for j = 1, dataletter.allLetters do        
+
+    if (name==tostring(dataletter.letters[j].seq)) then
+        holder = display.newImage(dataletter.letters[j].imgGrey, letterX, letterY)
+        audioFile = audio.loadSound( dataletter.letters[j].soundSelected)
+        realImage = display.newImage(dataletter.letters[j].imgNormal,  display.contentWidth/2 + (number-1)*dif, display.contentHeight/2)
         realImage.name = number
-        eachSheetData =  graphics.newImageSheet( "images/A_sprite.png", sheetData )
+        eachSheetData =  graphics.newImageSheet( dataletter.letters[j].imgSprite, sheetData )
        sequenceData[number] = {
             name = number,
             sheet = eachSheetData,
@@ -88,28 +92,18 @@ for a = 1, string.len(requiredWord)+1 do  -- for 1 to the number of letters in o
             time = 700
         }
         splitedLetter[number] =  letter.new(letterX, letterY, holder, rotation, audioFile, number, name , realImage )
-    elseif (string.sub(requiredWord, a,a) == "3") then
-        print ("bbbbbbb")
-        holder = display.newImage('images/B_grey.png', letterX, letterY)
-        audioFile = audio.loadSound( "sounds/B-long.mp3" )
-        realImage = display.newImage('images/B.png',  display.contentWidth/2 + (a-1)*dif, display.contentHeight/2)
-        realImage.name = number
-        eachSheetData =  graphics.newImageSheet( "images/B_sprite", sheetData )
-        sequenceData[number] = {
-            name = number,
-            sheet = eachSheetData,
-            start = 1,
-            count = 7,
-            time = 700
-        }
-        splitedLetter[number] =  letter.new( letterX, letterY, holder, rotation, audioFile, number, name , realImage )
+        break
     end
+end
     -- realImage:addEventListener("touch", dragLetters)
 
+    num = num + 1;
 
     x = x + dif
-    maxCount = a
+    maxCount = num
+
 end  -- repeat untill the for loop end
+
 
 local soundTable = {
     -- aShortSound = audio.loadSound( "sounds/A-short.mp3" ), 
