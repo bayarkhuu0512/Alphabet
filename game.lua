@@ -15,15 +15,15 @@ function scene:create( event )
         print (' Letters Latin: ', dataletter.letters[i].nameLatin)
       end
 
-    print( 'Chosen word ID: ',dataword.settings.currentLevel )
+    print( 'Chosen word ID: ',dataword.settings.selectedWord )
 
     -- Called when the scene's view does not exist
     -- 
     -- INSERT code here to initialize the scene
     -- e.g. add display objects to 'sceneGroup', add touch listeners, etc
 
-local wordId = tonumber(dataword.settings.currentLevel)
-local requiredWord = tostring(dataword.settings.levels[wordId].name)
+local wordId = tonumber(dataword.settings.selectedWord)
+local requiredWord = tostring(dataword.settings.levels[wordId].seq)
   print('Chosen word Name: ',requiredWord)
 
 -- Background Image
@@ -52,8 +52,8 @@ local sheetData = {
     sheetContentHeight = 206
 }
 
-local aSheet = graphics.newImageSheet( "images/sprite_sheet.png", sheetData )
-local bSheet = graphics.newImageSheet( "images/b_sprite_sheet.png", sheetData )
+local aSheet = graphics.newImageSheet( "images/A_sprite.png", sheetData )
+local bSheet = graphics.newImageSheet( "images/B_sprite.png", sheetData )
 
 for a = 1, string.len(requiredWord)+1 do  -- for 1 to the number of letters in our text + 1
     print (string.sub(requiredWord, a,a)) -- split the string with the start and end at "a"
@@ -73,12 +73,15 @@ for a = 1, string.len(requiredWord)+1 do  -- for 1 to the number of letters in o
     name = string.sub(requiredWord, a,a)
     number = a
     print( number )
-    if (string.sub(requiredWord, a,a) == "A") then
+    print('string.sub(requiredWord, a,a) ',string.sub(requiredWord, a,a))
+    if (string.sub(requiredWord, a,a)=="1") then
+    print('A equals A')
+
         holder = display.newImage('images/A_grey.png', letterX, letterY)
         audioFile = audio.loadSound( "sounds/A-short.mp3" )
         realImage = display.newImage('images/A.png',  display.contentWidth/2 + (a-1)*dif, display.contentHeight/2)
         realImage.name = number
-        eachSheetData =  graphics.newImageSheet( "images/sprite_sheet.png", sheetData )
+        eachSheetData =  graphics.newImageSheet( "images/A_sprite.png", sheetData )
        sequenceData[number] = {
             name = number,
             sheet = eachSheetData,
@@ -87,13 +90,13 @@ for a = 1, string.len(requiredWord)+1 do  -- for 1 to the number of letters in o
             time = 700
         }
         splitedLetter[number] =  letter.new(letterX, letterY, holder, rotation, audioFile, number, name , realImage )
-    elseif (string.sub(requiredWord, a,a) == "B") then
+    elseif (string.sub(requiredWord, a,a) == "3") then
         print ("bbbbbbb")
         holder = display.newImage('images/B_grey.png', letterX, letterY)
         audioFile = audio.loadSound( "sounds/B-long.mp3" )
         realImage = display.newImage('images/B.png',  display.contentWidth/2 + (a-1)*dif, display.contentHeight/2)
         realImage.name = number
-        eachSheetData =  graphics.newImageSheet( "images/b_sprite_sheet.png", sheetData )
+        eachSheetData =  graphics.newImageSheet( "images/B_sprite", sheetData )
         sequenceData[number] = {
             name = number,
             sheet = eachSheetData,

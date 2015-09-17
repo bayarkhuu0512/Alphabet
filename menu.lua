@@ -16,7 +16,7 @@ local function handleLevelSelect( event )
         -- 'event.target' is the button and '.id' is a number indicating which level to go to.  
         -- The 'game' scene will use this setting to determine which level to load.
         -- This could be done via passed parameters as well.
-        dataword.settings.currentLevel = event.target.id
+        dataword.settings.selectedWord = event.target.id
 
         -- Purge the game scene so we have a fresh start
         composer.removeScene( "game", false )
@@ -41,23 +41,23 @@ function scene:create( event )
     -- Use a scrollView to contain the level buttons (for support of more than one full screen).
     -- Since this will only scroll vertically, lock horizontal scrolling.
     local levelSelectGroup = widget.newScrollView({
-        width = 460,
-        height = 260,
-        scrollWidth = 460,
-        scrollHeight = 800,
+        width = display.contentWidth,
+        height = display.contentHeight,
+        scrollWidth = display.contentWidth,
+        scrollHeight = display.contentHeight,
         horizontalScrollDisabled = true
     })
 
     -- 'xOffset', 'yOffset' and 'cellCount' are used to position the buttons in the grid.
-    local xOffset = 64
-    local yOffset = 24
+    local xOffset = 100
+    local yOffset = 50
     local cellCount = 1
 
     -- Define the array to hold the buttons
     local buttons = {}
 
     -- Read 'maxLevels' from the 'data' table. Loop over them and generating one button for each.
-    for i = 1, dataword.maxLevels do
+    for i = 1, dataword.allWords do
         -- Create a button
         buttons[i] = widget.newButton({
             --label = tostring( i ),
@@ -99,23 +99,6 @@ function scene:create( event )
             buttons[i].alpha = 0.5 
         end 
 
-        -- Generate stars earned for each level, but only if:
-        -- a. The 'levels' table exists 
-        -- b. There is a 'stars' value inside of the 'levels' table 
-        -- c. The number of stars is greater than 0 (no need to draw zero stars). 
-
-        local star = {} 
-        if ( dataword.settings.levels[i] and dataword.settings.levels[i].stars and dataword.settings.levels[i].stars > 0 ) then
-            for j = 1, dataword.settings.levels[i].stars do
-                star[j] = display.newPolygon( 0, 0, starVertices )
-                star[j]:setFillColor( 1, 0.9, 0 )
-                star[j].strokeWidth = 1
-                star[j]:setStrokeColor( 1, 0.8, 0 )
-                star[j].x = buttons[i].x + (j * 16) - 32
-                star[j].y = buttons[i].y + 8
-                levelSelectGroup:insert( star[j] )
-            end
-        end
 
         -- Compute the position of the next button.
         -- This tutorial draws 5 buttons across.
@@ -124,8 +107,8 @@ function scene:create( event )
         cellCount = cellCount + 1
         if ( cellCount > 5 ) then
             cellCount = 1
-            xOffset = 64
-            yOffset = yOffset + 45
+            xOffset = 100
+            yOffset = yOffset + 100
         end
     end
 
