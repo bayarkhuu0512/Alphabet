@@ -11,40 +11,77 @@ local widget = require( "widget" )
 
 function scene:create( event )
     local sceneGroup = self.view
-     for i = 1, dataletter.allLetters do
-        print (' Letters Latin: ', dataletter.letters[i].name)
-      end
 
     print( 'Chosen word ID: ',dataword.settings.selectedWord )
 
-    -- Called when the scene's view does not exist
-    -- 
-    -- INSERT code here to initialize the scene
-    -- e.g. add display objects to 'sceneGroup', add touch listeners, etc
-
 local wordId = tonumber(dataword.settings.selectedWord)
-local wordSequences = tostring(dataword.settings.levels[wordId].seq)
+local word = dataword.settings.levels[wordId]
+local wordSequences = tostring(word.seq)
   print('Chosen word Name: ',wordSequences)
 
 
+local scalePoint = 1.3
+local displayHeight = display.contentHeight/2
+local displayWidth = display.contentWidth/2
+local navigationHeight = 50
+local mainWordHeight
+local topMargin
+local leftMargin
+local mainWordWidth
+local letterWidth = 185
+local letterHeight = 182
+local defaultHeight = 182
+local x, y
+local wordCount
+local letterMargin
+local dif = 150
+
 -- Background Image
 local background = display.newImage("images/BG.jpg",true)
-background.x = display.contentWidth / 2
-background.y = display.contentHeight / 2
+background.x = displayWidth
+background.y = displayHeight
 
-
-local scalePoint = 1.3
-
-
+--Үндсэн Letter.lua object-г агуулах array(үсэгний бүх мэдэээлэл scale, rotation, holder, audio etc)
 local splitedLetter = {}
+--үсэг болгоны spriteSheet-г агуулах array
 local sequenceData = {}
+--dataletters.lua-н үсэгнүүдийн обектийг агуулах array
+local letters = {}
+
+mainWordHeight = (displayHeight - navigationHeight)/3 - 30
+topMargin = (displayHeight - mainWordHeight)/2
+leftMargin = 20
+mainWordWidth = displayWidth - leftMargin * 2
+print ("mainWordWidth ", mainWordWidth)
+wordCount = tonumber(word.count)
+letterMargin = 15
+
+local tempWidth = 0
+local counter = 1
+--Орж ирсэн үгийн үсгүүдийг dataletters.lua-с нэг array-д хийж, мөн үсгүүдийн бодит уртыг олох loop
+for word in string.gmatch(wordSequences, '([^,]+)')  do
+    local selectedLetter = dataletter.letters[tonumber(word)]
+    letters[counter] = selectedLetter
+    tempWidth = tempWidth + tonumber(selectedLetter.width)/1.5
+    counter = counter + 1
+end
+tempWidth = tempWidth + letterMargin *(wordCount - 1)
 
 
-local x = 65
-local y = 130
-local dif = 200
-local maxCount = 0
+local percentageDif  = 0
+if (tempWidth  < mainWordWidth) then
+    local dif = mainWordWidth - tempWidth
+    x = displayWidth/2 + leftMargin + dif / 2
+else 
+    local dif = tempWidth - mainWordWidth
+    percentageDif = dif * tempWidth / 100
+    x =   leftMargin + dif 
+end
 
+print("x", topMargin)
+y =  displayHeight/2  + topMargin/2
+
+--SheetImage-н мэдээлэл
 local sheetData = {
     width = 191,
     height = 206,
@@ -55,8 +92,8 @@ local sheetData = {
 
 local globalSheet
 
-local num = 1;
-for word in string.gmatch(wordSequences, '([^,]+)') do
+--Letter object-г үүсгэж зурагнуудыг байршуулах loop
+for k, v in pairs(letters) do
     local letterX = 0
     local letterY = 0
     local holder = nil
@@ -70,41 +107,37 @@ for word in string.gmatch(wordSequences, '([^,]+)') do
     letterX = x 
     letterY = y
     rotation = 0
-    name = word
-    number = num
-    print('name: ',name)
-    print('number: ',number)
+    name = v.name
+    number = k
 
-    for j = 1, dataletter.allLetters do        
 
-        if (name==tostring(dataletter.letters[j].seq)) then
-            print ("dataletter", name)
-            holder = display.newImage(dataletter.letters[j].imgGrey, letterX, letterY)
-            audioFile = audio.loadSound( dataletter.letters[j].soundSelected)
-            realImage = display.newImage(dataletter.letters[j].imgNormal,  display.contentWidth/2 + (number-1)*dif, display.contentHeight/2)
-            realImage.name = number
-            eachSheetData =  graphics.newImageSheet( dataletter.letters[j].imgSprite, sheetData )
-            if (number == 1) then
-                globalSheet = eachSheetData
-            end
-            sequenceData[number] = {
-                name = number,
-                sheet = eachSheetData,
-                start = 1,
-                count = 7,
-                time = 700
-            }
-            splitedLetter[number] =  letter.new(letterX, letterY, holder, rotation, audioFile, number, name , realImage )
-            break
-        end
+    holder = display.newImage(v.imgGrey, letterX, letterY, true)
+    audioFile = audio.loadSound( v.soundSelected)
+    realImage = display.newImage(v.imgNormal,  displayWidth/2 + (number-1)*dif, y + letterHeight + 100)
+    -- print(holder.contentWidth, holder.contentHeight)
+    -- if (percentageDif ~= 0) then
+
+    --     realImage.contentWidth = realImage.contentWidth*100/percentageDif
+    --     realImage.contentHeight = realImage.contentHeight*100/percentageDif
+    -- end
+    realImage.name = number
+
+    eachSheetData =  graphics.newImageSheet( v.imgSprite, sheetData )
+    if (number == 1) then
+        globalSheet = eachSheetData
     end
+    sequenceData[number] = {
+        name = number,
+        sheet = eachSheetData,
+        start = 1,
+        count = 7,
+        time = 700
+    }
+    splitedLetter[number] =  letter.new(letterX, letterY, holder, rotation, audioFile, number, name , realImage )
+
     -- realImage:addEventListener("touch", dragLetters)
 
-    num = num + 1;
-
-    x = x + dif
-    maxCount = num
-
+    x = x + v.width + letterMargin
 end  -- repeat untill the for loop end
 
 
@@ -113,7 +146,7 @@ local soundTable = {
     backgroundMusic = audio.loadStream( "sounds/bg_music1.mp3" )
 }
 
-audio.play( soundTable["backgroundMusic"],{ loops=-1 }  )
+-- audio.play( soundTable["backgroundMusic"],{ loops=-1 }  )
 
 
 
@@ -257,7 +290,6 @@ local function handleBackButtonEvent( event )
     if ( "ended" == event.phase ) then
         composer.removeScene( "game", false )
         composer.gotoScene( "menu", { effect="crossFade", time=333 } )
-        print( "Button was pressed and released" )
     end
 end
 
@@ -277,9 +309,9 @@ sceneGroup:insert( background )
 sceneGroup:insert( backButton )
 
 for k, v in pairs(splitedLetter) do
-    print (k)
     if (v ~= nil) then
         v.realImage:addEventListener( "touch", dragLetters )
+        print (v.holder.x)
         sceneGroup:insert( v.holder )
         sceneGroup:insert( v.realImage )
     end
