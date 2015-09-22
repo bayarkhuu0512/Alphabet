@@ -8,13 +8,13 @@ local dataword = require( "dataword" )
 local dataletter = require( "dataletter" )
 local letter = require ("letter")
 local widget = require( "widget" )
-
+local wordId
 function scene:create( event )
     local sceneGroup = self.view
 
     print( 'Chosen word ID: ',dataword.settings.selectedWord )
 
-local wordId = tonumber(dataword.settings.selectedWord)
+wordId = tonumber(dataword.settings.selectedWord)
 local word = dataword.settings.levels[wordId]
 local wordSequences = tostring(word.seq)
   print('Chosen word Name: ',wordSequences)
@@ -99,6 +99,7 @@ for k, v in pairs(letters) do
     local holder = nil
     local rotation = 0
     local audioFile = nil
+    local audioLetter = nil    
     local number = 0
     local name = nil
     local realImage = nil
@@ -113,6 +114,7 @@ for k, v in pairs(letters) do
 
     holder = display.newImage(v.imgGrey, letterX, letterY, true)
     audioFile = audio.loadSound( v.soundSelected)
+    audioLetter = audio.loadSound( v.soundLetter)
     realImage = display.newImage(v.imgNormal,  displayWidth/2 + (number-1)*dif, y + letterHeight + 100)
     -- print(holder.contentWidth, holder.contentHeight)
     -- if (percentageDif ~= 0) then
@@ -133,7 +135,7 @@ for k, v in pairs(letters) do
         count = 7,
         time = 700
     }
-    splitedLetter[number] =  letter.new(letterX, letterY, holder, rotation, audioFile, number, name , realImage )
+    splitedLetter[number] =  letter.new(letterX, letterY, holder, rotation, audioFile, audioLetter, number, name , realImage )
 
     -- realImage:addEventListener("touch", dragLetters)
 
@@ -159,7 +161,7 @@ animation.yScale = scalePoint
 animation.name = "animation"
 
 
-function hitTestObjects(obj1, obj2)
+function hitObjects(obj1, obj2)
         local left = obj1.contentBounds.xMin <= obj2.contentBounds.xMin and obj1.contentBounds.xMax >= obj2.contentBounds.xMin
         local right = obj1.contentBounds.xMin >= obj2.contentBounds.xMin and obj1.contentBounds.xMin <= obj2.contentBounds.xMax
         local up = obj1.contentBounds.yMin <= obj2.contentBounds.yMin and obj1.contentBounds.yMax >= obj2.contentBounds.yMin
@@ -171,7 +173,9 @@ local target
 local targetAnim 
 local targetHolder
 local sound
+local soundLetter
 local b = 0
+local matchedLettersCount = 0;
 
 
 function dragLetters( event )
@@ -183,6 +187,7 @@ function dragLetters( event )
 
         targetHolder = chosenLetter.holder
         sound = chosenLetter.audioFile
+        soundLetter = chosenLetter.audioLetter
         targetAnim:setSequence( chosenLetter.number)
         b = 1
     end
@@ -209,8 +214,27 @@ function dragLetters( event )
         targetAnim.x, targetAnim.y = x,y
         target.x, target.y = x, y
 
-    elseif(event.phase == 'ended' and hitTestObjects(targetAnim, targetHolder)) then
-        print ("end animation by matched")
+    elseif(event.phase == 'ended' and hitObjects(targetAnim, targetHolder)) then
+        matchedLettersCount = matchedLettersCount+1;
+
+        if(wordCount==matchedLettersCount) then            
+        dataword.settings.selectedWord = wordId +1
+        print ("All letters matched!")        
+        print ("end animation: ",matchedLettersCount)
+        print ("All words : ",dataword.allWords)
+        print ("SelectedWord : ",dataword.settings.selectedWord)
+
+        if(dataword.allWords>=dataword.settings.selectedWord) then
+        -- Purge the game scene so we have a fresh start
+        print("Go to Next word")        
+        composer.removeScene( "game", false )
+        -- Go to the game scene
+        composer.gotoScene( "game", { effect="crossFade", time=333 } )
+    else
+        print("All words completed")        
+
+        end
+        else
         targetAnim:setFrame(1)  
         targetAnim.isVisible = false    
         target.isVisible = true
@@ -224,9 +248,10 @@ function dragLetters( event )
             endAnimation(target)
             target:removeEventListener("touch", dragLetters)
             b = 0
+            audio.play( soundLetter )
         end
         transition.to( target, {time=500, x=targetHolder.x , y = targetHolder.y, onComplete = transitionComplete} )
-
+    end
         -- correct = correct + 1
         -- audio.play(correctSnd)
     elseif event.phase == "ended" or event.phase == "cancelled" then
@@ -245,7 +270,7 @@ function dragLetters( event )
             if (v ~= nil) then
                 print(v.name)
                 if (targetHolder ~= v.holder) then
-                    if (hitTestObjects(targetAnim, v.holder)) then
+                    if (hitObjects(targetAnim, v.holder)) then
                         transition.to( target, {time=500, x=target.x  + 30, y = targetHolder.y + 150, onComplete = noEqualizerCompleted} )
                         notChanging = true
                     end
@@ -278,12 +303,7 @@ function setDefaultImage( targetAnim )
     
 end
 
-
--- aRealImage:addEventListener("touch", dragLetters)
--- aRealImage2:addEventListener("touch", dragLetters)
--- bRealImage:addEventListener("touch", dragLetters)
 animation:addEventListener( "touch", dragLetters )
--- bAnimation:addEventListener( "touch", dragLetters )
 
 -- Button handler to cancel the level selection and return to the menu
 local function handleBackButtonEvent( event )
@@ -292,7 +312,6 @@ local function handleBackButtonEvent( event )
         composer.gotoScene( "menu", { effect="crossFade", time=333 } )
     end
 end
-
 
     -- Create a cancel button for return to the menu scene.
 local backButton = widget.newButton({
@@ -317,15 +336,6 @@ for k, v in pairs(splitedLetter) do
     end
 end
 sceneGroup:insert( animation )
-
-
--- sceneGroup:insert( aRealImage )
--- sceneGroup:insert( aRealImage2 )
--- sceneGroup:insert( bRealImage )
--- sceneGroup:insert( sHolder )
--- sceneGroup:insert( s2Holder )
--- sceneGroup:insert( bHolder )
-
 
 end
 

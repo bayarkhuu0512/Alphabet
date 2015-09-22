@@ -43,8 +43,4 @@ M.settings.levels[7].name = 'САНСАР'
 M.settings.levels[7].count = 6
 M.settings.levels[7].seq = '20,1,15,20,1,19'
 
-
--- levels data members:
---      .stars -- Stars earned per level
---      .score -- Score for the level
 return M

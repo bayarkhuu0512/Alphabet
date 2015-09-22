@@ -3,12 +3,12 @@ local scene = composer.newScene()
 
 local widget = require( "widget" )
 
--- Require "global" data table (https://coronalabs.com/blog/2013/05/28/tutorial-goodbye-globals/)
--- This will contain relevant data like the current level, max levels, number of stars earned, etc.
 local dataword = require( "dataword" )
 
--- Declare vertices for vector stars (an image is probably preferable for an actual game).
-local starVertices = { 0,-8,1.763,-2.427,7.608,-2.472,2.853,0.927,4.702,6.472,0.0,3.0,-4.702,6.472,-2.853,0.927,-7.608,-2.472,-1.763,-2.427 }
+local displayHeight = display.contentHeight/2
+local displayWidth = display.contentWidth/2
+
+local menuSound = audio.loadSound( "sounds/menu_touch.mp3" );
 
 -- Button handler to go to the selected level
 local function handleLevelSelect( event )
@@ -16,6 +16,7 @@ local function handleLevelSelect( event )
         -- 'event.target' is the button and '.id' is a number indicating which level to go to.  
         -- The 'game' scene will use this setting to determine which level to load.
         -- This could be done via passed parameters as well.
+        audio.play( menuSound)
         dataword.settings.selectedWord = event.target.id
 
         -- Purge the game scene so we have a fresh start
@@ -32,20 +33,20 @@ function scene:create( event )
     local sceneGroup = self.view
 
     -- Create background
-    local background = display.newRect( 0, 0, display.contentWidth, display.contentHeight )
-    background:setFillColor( 1 )
-    background.x = display.contentCenterX
-    background.y = display.contentCenterY
+    local background = display.newImage("images/BG.jpg",true)
+    background.x = displayWidth
+    background.y = displayHeight
     sceneGroup:insert( background )
 
     -- Use a scrollView to contain the level buttons (for support of more than one full screen).
     -- Since this will only scroll vertically, lock horizontal scrolling.
-    local levelSelectGroup = widget.newScrollView({
+    local levelSelectGroup = widget.newScrollView({        
         width = display.contentWidth,
         height = display.contentHeight,
         scrollWidth = display.contentWidth,
         scrollHeight = display.contentHeight,
-        horizontalScrollDisabled = true
+        horizontalScrollDisabled = true,
+        hideBackground = true
     })
 
     -- 'xOffset', 'yOffset' and 'cellCount' are used to position the buttons in the grid.

@@ -6,6 +6,6 @@ display.setStatusBar( display.HiddenStatusBar )
 local composer = require "composer"
 
 -- load scene1
-composer.gotoScene( "menu" )
---composer.gotoScene( "intro" )
+--composer.gotoScene( "menu" )
+composer.gotoScene( "intro" )
 

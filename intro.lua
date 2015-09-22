@@ -1,6 +1,12 @@
 local composer = require( "composer" )
 local scene = composer.newScene()
 
+local displayHeight = display.contentHeight/2
+local displayWidth = display.contentWidth/2
+
+local video = native.newVideo( 0, 0, display.contentWidth, display.contentHeight)
+video.x = displayWidth
+video.y = displayHeight
 
 local onComplete = function( event )
    print( "video session ended" )
@@ -11,24 +17,37 @@ end
 local function tapListener( event )
     --code executed when the button is tapped
     print( "object tapped = "..tostring(event.target) )  --'event.target' is the tapped object
+ --   video:pause()
+ --   video:removeSelf()
+ --   video = nil
     composer.removeScene( "intro", false )
     composer.gotoScene( "menu" )
     return true
 end
 
-function scene:create( event )
+local function leaveScreen()
+    composer.removeScene( "intro", false )
+    composer.gotoScene( "menu" )
+end
+
+function scene:create( event )    
     local sceneGroup = self.view
         local sceneGroup = self.view
-    media.playVideo( "videos/intro.m4v", false, onComplete )
 
     -- Create background
-    local background = display.newRect( 0, 0, display.contentWidth, display.contentHeight )
-    background.alpha = 0
+    local background = display.newImage("images/HoldFrame.jpg",true)
     background.isHitTestable = true
-    background.x = display.contentCenterX
-    background.y = display.contentCenterY
-    background:addEventListener( "tap", tapListener )
-    sceneGroup:insert( background )
+    background.x = displayWidth
+    background.y = displayHeight
+    background:addEventListener( "tap", tapListener )        
+    sceneGroup:insert( background ) 
+    timer.performWithDelay(1500, leaveScreen)
+
+  --  media.playVideo( "videos/intro.m4v", false, onComplete )
+  --  video:load( "videos/intro.m4v", system.DocumentsDirectory )
+  --  video:play()
+  --  sceneGroup:insert( video )
+
 end
 
 -- On scene show...
