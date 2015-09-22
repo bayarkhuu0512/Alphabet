@@ -17,8 +17,8 @@ function scene:create( event )
 wordId = tonumber(dataword.settings.selectedWord)
 local word = dataword.settings.levels[wordId]
 local wordSequences = tostring(word.seq)
-local wordChorus = dataword.settings.levels[wordId].chorus
-local chorusAudio =  audio.loadSound(wordChorus)
+local wordDefAudio =  audio.loadSound(word.wordDef)
+local chorusAudio =  audio.loadSound(word.chorus)
   
   print('Chosen word Name: ',wordSequences)
 
@@ -344,6 +344,13 @@ local function handleBackButtonEvent( event )
     end
 end
 
+local function handleWordButtonEvent( event )
+    if ( "ended" == event.phase ) then
+    audio.play( wordDefAudio )
+    end
+end
+
+
     -- Create a cancel button for return to the menu scene.
 local backButton = widget.newButton({
         id = "button1",
@@ -355,8 +362,20 @@ local backButton = widget.newButton({
         onEvent = handleBackButtonEvent
 })
 
+    -- Create a cancel button for return to the menu scene.
+local wordButton = widget.newButton({
+        id = "buttonWord",
+        label = "Үг сонсох",
+        left = 200,
+        top = 0,
+        width = 100,
+        height = 50,
+        onEvent = handleWordButtonEvent
+})
+
 sceneGroup:insert( background )
 sceneGroup:insert( backButton )
+sceneGroup:insert( wordButton )
 
 for k, v in pairs(splitedLetter) do
     if (v ~= nil) then

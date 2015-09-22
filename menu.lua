@@ -17,6 +17,7 @@ local function handleLevelSelect( event )
         -- 'event.target' is the button and '.id' is a number indicating which level to go to.  
         -- The 'game' scene will use this setting to determine which level to load.
         -- This could be done via passed parameters as well.
+        audio.stop()
         audio.play( menuSound)
         dataword.settings.selectedWord = event.target.id
 
@@ -32,7 +33,6 @@ end
 -- On scene create...
 function scene:create( event )
     local sceneGroup = self.view
-    audio.play( backgroundMusic,{ loops=-1 }  )
     -- Create background
     local background = display.newImage("images/BG.jpg",true)
     background.x = displayWidth
@@ -119,12 +119,29 @@ function scene:create( event )
     levelSelectGroup.x = display.contentCenterX
     levelSelectGroup.y = display.contentCenterY
 
+local function handleInfoButtonEvent( event )
+    if ( "ended" == event.phase ) then
+    print("Info window is here")
+    end
+end
+    local infoButton = widget.newButton({
+        id = "buttonInfo",
+        label = "Info",
+        left = 0,
+        top = 0,
+        width = 100,
+        height = 50,
+        onEvent = handleInfoButtonEvent
+})
+    sceneGroup:insert( infoButton )
+
+
 end
 
 -- On scene show...
 function scene:show( event )
     local sceneGroup = self.view
-
+     audio.play( backgroundMusic,{ loops=-1 }  )
     if ( event.phase == "did" ) then
     end
 end
