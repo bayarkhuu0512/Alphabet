@@ -17,8 +17,10 @@ function scene:create( event )
 wordId = tonumber(dataword.settings.selectedWord)
 local word = dataword.settings.levels[wordId]
 local wordSequences = tostring(word.seq)
+local wordChorus = dataword.settings.levels[wordId].chorus
+local chorusAudio =  audio.loadSound(wordChorus)
+  
   print('Chosen word Name: ',wordSequences)
-
 
 local scalePoint = 1.3
 local displayHeight = display.contentHeight/2
@@ -223,16 +225,14 @@ function dragLetters( event )
         print ("end animation: ",matchedLettersCount)
         print ("All words : ",dataword.allWords)
         print ("SelectedWord : ",dataword.settings.selectedWord)
+        audio.play(chorusAudio)
 
         if(dataword.allWords>=dataword.settings.selectedWord) then
-        -- Purge the game scene so we have a fresh start
         print("Go to Next word")        
         composer.removeScene( "game", false )
-        -- Go to the game scene
         composer.gotoScene( "game", { effect="crossFade", time=333 } )
-    else
+        else
         print("All words completed")        
-
         end
         else
         targetAnim:setFrame(1)  

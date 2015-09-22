@@ -8,7 +8,8 @@ local dataword = require( "dataword" )
 local displayHeight = display.contentHeight/2
 local displayWidth = display.contentWidth/2
 
-local menuSound = audio.loadSound( "sounds/menu_touch.mp3" );
+local menuSound = audio.loadSound( "sounds/menu_touch.mp3" )
+local backgroundMusic = audio.loadStream( "sounds/nav_music.mp3" )
 
 -- Button handler to go to the selected level
 local function handleLevelSelect( event )
@@ -31,7 +32,7 @@ end
 -- On scene create...
 function scene:create( event )
     local sceneGroup = self.view
-
+    audio.play( backgroundMusic,{ loops=-1 }  )
     -- Create background
     local background = display.newImage("images/BG.jpg",true)
     background.x = displayWidth
