@@ -25,6 +25,8 @@ local chorusAudio =  audio.loadSound(wordChorus)
 local scalePoint = 1.3
 local displayHeight = display.contentHeight/2
 local displayWidth = display.contentWidth/2
+local actualHeight =  display.contentHeight
+local actualWidth =  display.contentWidth
 local navigationHeight = 50
 local mainWordHeight
 local topMargin
@@ -36,7 +38,7 @@ local defaultHeight = 182
 local x, y
 local wordCount
 local letterMargin
-local dif = 150
+local animation
 
 -- Background Image
 local background = display.newImage("images/BG.jpg",true)
@@ -50,13 +52,15 @@ local sequenceData = {}
 --dataletters.lua-н үсэгнүүдийн обектийг агуулах array
 local letters = {}
 
-mainWordHeight = (displayHeight - navigationHeight)/3 - 30
-topMargin = (displayHeight - mainWordHeight)/2
+mainWordHeight = (actualHeight - navigationHeight)/3 - 20
+topMargin = (actualHeight - mainWordHeight)/2
 leftMargin = 20
-mainWordWidth = displayWidth - leftMargin * 2
-print ("mainWordWidth ", mainWordWidth)
+mainWordWidth = actualWidth - leftMargin * 2
+print ("mainWordHeight ", mainWordWidth)
 wordCount = tonumber(word.count)
-letterMargin = 15
+letterMargin = 25
+
+
 
 local tempWidth = 0
 local counter = 1
@@ -64,7 +68,7 @@ local counter = 1
 for word in string.gmatch(wordSequences, '([^,]+)')  do
     local selectedLetter = dataletter.letters[tonumber(word)]
     letters[counter] = selectedLetter
-    tempWidth = tempWidth + tonumber(selectedLetter.width)/1.5
+    tempWidth = tempWidth + tonumber(selectedLetter.width)
     counter = counter + 1
 end
 tempWidth = tempWidth + letterMargin *(wordCount - 1)
@@ -73,15 +77,24 @@ tempWidth = tempWidth + letterMargin *(wordCount - 1)
 local percentageDif  = 0
 if (tempWidth  < mainWordWidth) then
     local dif = mainWordWidth - tempWidth
-    x = displayWidth/2 + leftMargin + dif / 2
+    leftMargin = dif/2
+    mainWordWidth = tempWidth
+    x = leftMargin
+
 else 
     local dif = tempWidth - mainWordWidth
     percentageDif = dif * tempWidth / 100
     x =   leftMargin + dif 
 end
 
+-- local myRectangle = display.newRect(leftMargin + mainWordWidth/2, topMargin + mainWordHeight/2, mainWordWidth, mainWordHeight)
+-- myRectangle.strokeWidth = 3
+-- myRectangle.alpha = 0.3
+-- myRectangle:setFillColor(0.5 )
+-- myRectangle:setStrokeColor( 1, 0, 0 )
+
 print("x", topMargin)
-y =  displayHeight/2  + topMargin/2
+y =  topMargin + mainWordHeight/2
 
 --SheetImage-н мэдээлэл
 local sheetData = {
@@ -115,9 +128,12 @@ for k, v in pairs(letters) do
 
 
     holder = display.newImage(v.imgGrey, letterX, letterY, true)
+    holder.x = holder.x + holder.contentWidth/2
+    holder.isVisible = false
     audioFile = audio.loadSound( v.soundSelected)
     audioLetter = audio.loadSound( v.soundLetter)
-    realImage = display.newImage(v.imgNormal,  displayWidth/2 + (number-1)*dif, y + letterHeight + 100)
+    realImage = display.newImage(v.imgNormal,  holder.x, holder.y, true)
+
     -- print(holder.contentWidth, holder.contentHeight)
     -- if (percentageDif ~= 0) then
 
@@ -145,22 +161,37 @@ for k, v in pairs(letters) do
 end  -- repeat untill the for loop end
 
 
-local soundTable = {
-    -- Background Music
-    backgroundMusic = audio.loadStream( "sounds/bg_music1.mp3" )
-}
 
--- audio.play( soundTable["backgroundMusic"],{ loops=-1 }  )
-
-
-
-local animation = display.newSprite( globalSheet, sequenceData )
+animation = display.newSprite( globalSheet, sequenceData )
 animation.x = display.contentWidth/2
 animation.y = display.contentHeight/2
 animation.isVisible = false
 animation.xScale = scalePoint
 animation.yScale = scalePoint
 animation.name = "animation"
+
+
+function preDestinationLetters( ... )
+    -- body
+
+    for k, v in pairs(splitedLetter) do
+        function preDestinationComplete()
+            transition.to( v.realImage, {time=300, xScale = 1, yScale = 1})
+            transition.to( v.holder, {time=300, xScale = 1, yScale = 1}) 
+            v.holder.isVisible = true
+        end
+        local rotate = math.random( -15, 15 )
+        transition.to( v.holder, { time=300, rotation=rotate, xScale = scalePoint, yScale = scalePoint, onComplete = preDestinationComplete})
+        transition.to( v.realImage, { time=300, rotation=rotate, xScale = scalePoint, yScale = scalePoint, onComplete = preDestinationComplete})
+        v.rotatePoint = rotate
+    end
+end
+
+function randomStructing( )
+    -- body
+    print ("Please random coordinate me")
+    preDestinationLetters()
+end
 
 
 function hitObjects(obj1, obj2)
@@ -350,7 +381,7 @@ function scene:show( event )
         -- 
         -- INSERT code here to make the scene come alive
         -- e.g. start timers, begin animation, play audio, etc
-
+        timer.performWithDelay(1000, randomStructing)
 
     end 
 end

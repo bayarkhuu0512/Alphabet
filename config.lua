@@ -3,5 +3,7 @@ application = {
 		width = 640,
 		height = 960,
 		scale = "letterbox",
+		xAlign = "center",
+		yAlign = "center"
 	}
 }
