@@ -122,6 +122,7 @@ function scene:create( event )
 local function handleInfoButtonEvent( event )
     if ( "ended" == event.phase ) then
     print("Info window is here")
+    
     end
 end
     local infoButton = widget.newButton({

@@ -1,8 +1,8 @@
 local M = {}
-M.allWords = 7
+M.allWords = 8
 M.settings = {}
 M.settings.selectedWord = 1
-M.settings.unlockedLevels = 7
+M.settings.unlockedLevels = 8
 M.settings.levels = {} 
 
 -- These lines are just here to pre-populate the table.
@@ -63,12 +63,20 @@ M.settings.levels[6].wordDef = 'bundles/006_tarvas/wordDef.mp3'
 M.settings.levels[6].thumb = 'bundles/006_tarvas/thumb.jpg'
 
 M.settings.levels[7] = {}
-M.settings.levels[7].name = 'САНСАР'
-M.settings.levels[7].count = 6
-M.settings.levels[7].seq = '20,1,15,20,1,19'
+M.settings.levels[7].name = 'САНСАРТ'
+M.settings.levels[7].count = 7
+M.settings.levels[7].seq = '20,1,15,20,1,19,21'
 M.settings.levels[7].chorus = 'bundles/007_sansar/chorus.mp3'
 M.settings.levels[7].wordListen = 'bundles/007_sansar/word.mp3'
 M.settings.levels[7].wordDef = 'bundles/007_sansar/wordDef.mp3'
 M.settings.levels[7].thumb = 'bundles/007_sansar/thumb.jpg'
 
+M.settings.levels[8] = {}
+M.settings.levels[8].name = 'МММММ'
+M.settings.levels[8].count = 5
+M.settings.levels[8].seq = '14,14,14,14,14'
+M.settings.levels[8].chorus = 'bundles/007_sansar/chorus.mp3'
+M.settings.levels[8].wordListen = 'bundles/007_sansar/word.mp3'
+M.settings.levels[8].wordDef = 'bundles/007_sansar/wordDef.mp3'
+M.settings.levels[8].thumb = 'bundles/007_sansar/thumb.jpg'
 return M
