@@ -63,37 +63,53 @@ letterMargin = 25
 
 
 local tempWidth = 0
-local counter = 1
 --Орж ирсэн үгийн үсгүүдийг dataletters.lua-с нэг array-д хийж, мөн үсгүүдийн бодит уртыг олох loop
-for word in string.gmatch(wordSequences, '([^,]+)')  do
-    local selectedLetter = dataletter.letters[tonumber(word)]
-    letters[counter] = selectedLetter
-    tempWidth = tempWidth + tonumber(selectedLetter.width)
-    counter = counter + 1
+function getTempWidth( scaleSize )
+    -- body
+    local counter = 1
+    local tempValue = 0
+    for word in string.gmatch(wordSequences, '([^,]+)')  do
+        local selectedLetter = dataletter.letters[tonumber(word)]
+        letters[counter] = selectedLetter
+        tempValue = tempValue + tonumber(selectedLetter.width) * scaleSize
+        counter = counter + 1
+    end
+    tempValue = tempValue + letterMargin *(wordCount - 1)
+    return tempValue 
 end
-tempWidth = tempWidth + letterMargin *(wordCount - 1)
+
+tempWidth = getTempWidth(1)
 
 
-local percentageDif  = 0
+local manyLettersScale  = 1
 if (tempWidth  < mainWordWidth) then
-    local dif = mainWordWidth - tempWidth
+    local dif = actualWidth - tempWidth
     leftMargin = dif/2
     mainWordWidth = tempWidth
     x = leftMargin
 
 else 
-    local dif = tempWidth - mainWordWidth
-    percentageDif = dif * tempWidth / 100
-    x =   leftMargin + dif 
+    local nonMarginedSize = mainWordWidth - letterMargin*(wordCount - 1)
+    local resizedLetterWidth = nonMarginedSize / wordCount
+    percentageDif = resizedLetterWidth *100/letterWidth
+    manyLettersScale = percentageDif /100
+    tempWidth = getTempWidth (manyLettersScale)
+
+    local dif = actualWidth - tempWidth
+    leftMargin = dif/2
+    mainWordWidth = tempWidth
+    x = leftMargin
 end
 
--- local myRectangle = display.newRect(leftMargin + mainWordWidth/2, topMargin + mainWordHeight/2, mainWordWidth, mainWordHeight)
--- myRectangle.strokeWidth = 3
--- myRectangle.alpha = 0.3
--- myRectangle:setFillColor(0.5 )
--- myRectangle:setStrokeColor( 1, 0, 0 )
+scalePoint = manyLettersScale + 0.2
 
-print("x", topMargin)
+
+local myRectangle = display.newRect(leftMargin + mainWordWidth/2, topMargin + mainWordHeight/2, mainWordWidth, mainWordHeight)
+myRectangle.strokeWidth = 3
+myRectangle.alpha = 0.3
+myRectangle:setFillColor(0.5 )
+myRectangle:setStrokeColor( 1, 0, 0 )
+
 y =  topMargin + mainWordHeight/2
 
 --SheetImage-н мэдээлэл
@@ -128,18 +144,21 @@ for k, v in pairs(letters) do
 
 
     holder = display.newImage(v.imgGrey, letterX, letterY, true)
-    holder.x = holder.x + holder.contentWidth/2
     holder.isVisible = false
     audioFile = audio.loadSound( v.soundSelected)
     audioLetter = audio.loadSound( v.soundLetter)
     realImage = display.newImage(v.imgNormal,  holder.x, holder.y, true)
 
-    -- print(holder.contentWidth, holder.contentHeight)
-    -- if (percentageDif ~= 0) then
+    if (manyLettersScale ~= 1) then
 
-    --     realImage.contentWidth = realImage.contentWidth*100/percentageDif
-    --     realImage.contentHeight = realImage.contentHeight*100/percentageDif
-    -- end
+        realImage.xScale = manyLettersScale
+        realImage.yScale = manyLettersScale
+        holder.xScale = manyLettersScale
+        holder.yScale = manyLettersScale
+    end
+    holder.x = holder.x + holder.contentWidth/2
+    realImage.x = holder.x
+    print(holder.contentWidth, realImage.contentWidth)
     realImage.name = number
 
     eachSheetData =  graphics.newImageSheet( v.imgSprite, sheetData )
@@ -153,11 +172,11 @@ for k, v in pairs(letters) do
         count = 7,
         time = 700
     }
-    splitedLetter[number] =  letter.new(letterX, letterY, holder, rotation, audioFile, audioLetter, number, name , realImage )
+    splitedLetter[number] =  letter.new(letterX, letterY, holder, rotation, audioFile, audioLetter, number, name , realImage , manyLettersScale)
 
     -- realImage:addEventListener("touch", dragLetters)
 
-    x = x + v.width + letterMargin
+    x = x + holder.contentWidth + letterMargin
 end  -- repeat untill the for loop end
 
 
@@ -176,8 +195,8 @@ function preDestinationLetters( ... )
 
     for k, v in pairs(splitedLetter) do
         function preDestinationComplete()
-            transition.to( v.realImage, {time=300, xScale = 1, yScale = 1})
-            transition.to( v.holder, {time=300, xScale = 1, yScale = 1}) 
+            transition.to( v.realImage, {time=300, xScale = v.scalePoint, yScale = v.scalePoint})
+            transition.to( v.holder, {time=300, xScale = v.scalePoint, yScale = v.scalePoint}) 
             v.holder.isVisible = true
         end
         local rotate = math.random( -15, 15 )
