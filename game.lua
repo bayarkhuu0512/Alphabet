@@ -104,11 +104,11 @@ end
 scalePoint = manyLettersScale + 0.2
 
 
-local myRectangle = display.newRect(leftMargin + mainWordWidth/2, topMargin + mainWordHeight/2, mainWordWidth, mainWordHeight)
-myRectangle.strokeWidth = 3
-myRectangle.alpha = 0.3
-myRectangle:setFillColor(0.5 )
-myRectangle:setStrokeColor( 1, 0, 0 )
+-- local myRectangle = display.newRect(leftMargin + mainWordWidth/2, topMargin + mainWordHeight/2, mainWordWidth, mainWordHeight)
+-- myRectangle.strokeWidth = 3
+-- myRectangle.alpha = 0.3
+-- myRectangle:setFillColor(0.5 )
+-- myRectangle:setStrokeColor( 1, 0, 0 )
 
 y =  topMargin + mainWordHeight/2
 
@@ -188,28 +188,72 @@ animation.isVisible = false
 animation.xScale = scalePoint
 animation.yScale = scalePoint
 animation.name = "animation"
+function fadeOut(  )
+    -- body
+    for  k, v in pairs(splitedLetter) do
+        transition.to( v.realImage, {time=300, alpha = 1})
+    end
+end
 
 
 function preDestinationLetters( ... )
     -- body
-
-    for k, v in pairs(splitedLetter) do
-        function preDestinationComplete()
-            transition.to( v.realImage, {time=300, xScale = v.scalePoint, yScale = v.scalePoint})
-            transition.to( v.holder, {time=300, xScale = v.scalePoint, yScale = v.scalePoint}) 
-            v.holder.isVisible = true
-        end
-        local rotate = math.random( -15, 15 )
-        transition.to( v.holder, { time=300, rotation=rotate, xScale = scalePoint, yScale = scalePoint, onComplete = preDestinationComplete})
-        transition.to( v.realImage, { time=300, rotation=rotate, xScale = scalePoint, yScale = scalePoint, onComplete = preDestinationComplete})
-        v.rotatePoint = rotate
+    local isUptime = true
+    local tempX = 0
+    local tempIndexArray = {}
+    for i=1,wordCount do
+        table.insert(tempIndexArray, i)
     end
+ 
+    for  i = 1, wordCount do
+       for i=1,wordCount do
+            print(tempIndexArray[i])
+        end
+        local randomIndex = math.random (#tempIndexArray)
+        print ("real randomIndex",randomIndex)   
+
+        -- randomIndex = tempIndexArray[randomIndex]
+        print ("randomIndex",tempIndexArray[randomIndex])   
+        local v = splitedLetter[ tempIndexArray[randomIndex]]
+        v.realImage.x = tempX + letterMargin + v.realImage.contentWidth/2
+        local randomY = math.random( 10, 20 )
+
+        if (isUptime == true) then
+            v.realImage.y =  randomY + v.realImage.contentHeight/2
+            isUptime = false
+        else
+            v.realImage.y =  randomY*2 + mainWordHeight*2 + v.realImage.contentHeight/2
+            isUptime = true
+        end
+        tempX = tempX  + letterMargin + v.realImage.contentWidth
+        table.remove(tempIndexArray, randomIndex)
+        print("--------------------------")
+    end
+    timer.performWithDelay( 1000, fadeOut)
 end
 
 function randomStructing( )
     -- body
-    print ("Please random coordinate me")
-    preDestinationLetters()
+    print ("Please random coordinate me", wordCount)
+    local nothingCount = 1
+    function preFadeCompleted()
+            if (nothingCount == wordCount) then
+                preDestinationLetters()
+            end
+            nothingCount = nothingCount + 1
+    end
+    for k, v in pairs(splitedLetter) do
+        function preDestinationComplete()
+            transition.to( v.realImage, {time=500, xScale = v.scalePoint, yScale = v.scalePoint, alpha = 0, onComplete = preFadeCompleted})
+            transition.to( v.holder, {time=500, xScale = v.scalePoint, yScale = v.scalePoint}) 
+            v.holder.isVisible = true
+
+        end
+        local rotate = math.random( -15, 15 )
+        transition.to( v.holder, { time=300, rotation=rotate, xScale = scalePoint, yScale = scalePoint})
+        transition.to( v.realImage, { time=300, rotation=rotate, xScale = scalePoint, yScale = scalePoint, onComplete = preDestinationComplete})
+        v.rotatePoint = rotate
+    end
 end
 
 
