@@ -11,6 +11,9 @@ local displayWidth = display.contentWidth/2
 local menuSound = audio.loadSound( "sounds/menu_touch.mp3" )
 local backgroundMusic = audio.loadStream( "sounds/nav_music.mp3" )
 
+local dialog
+
+
 -- Button handler to go to the selected level
 local function handleLevelSelect( event )
     if ( "ended" == event.phase ) then
@@ -122,7 +125,11 @@ function scene:create( event )
 local function handleInfoButtonEvent( event )
     if ( "ended" == event.phase ) then
     print("Info window is here")
-    
+--    dialog = display.newRoundedRect(display.contentCenterX, display.contentCenterY, 380, 220, 12)
+ --   dialog:setFillColor( 96 )
+  --  -- dialog.strokeWidth = 3
+    -- dialog:setStrokeColor(180, 180, 180)
+   -- dialog.alpha = 0.9
     end
 end
     local infoButton = widget.newButton({
@@ -135,7 +142,6 @@ end
         onEvent = handleInfoButtonEvent
 })
     sceneGroup:insert( infoButton )
-
 
 end
 

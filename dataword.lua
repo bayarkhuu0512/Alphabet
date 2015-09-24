@@ -72,9 +72,9 @@ M.settings.levels[7].wordDef = 'bundles/007_sansar/wordDef.mp3'
 M.settings.levels[7].thumb = 'bundles/007_sansar/thumb.jpg'
 
 M.settings.levels[8] = {}
-M.settings.levels[8].name = 'МММММMMCA'
-M.settings.levels[8].count = 9
-M.settings.levels[8].seq = '14,14,14,14,14,14,14, 20,1'
+M.settings.levels[8].name = 'МММММMMCAММММММ'
+M.settings.levels[8].count = 15
+M.settings.levels[8].seq = '14,14,14,14,14,14,14, 20,1,14,14,14,14,14,14'
 M.settings.levels[8].chorus = 'bundles/007_sansar/chorus.mp3'
 M.settings.levels[8].wordListen = 'bundles/007_sansar/word.mp3'
 M.settings.levels[8].wordDef = 'bundles/007_sansar/wordDef.mp3'
