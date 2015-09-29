@@ -370,6 +370,8 @@ function dragLetters( event )
 
             if(dataword.allWords>=dataword.settings.selectedWord) then
                 print("Go to Next word")        
+                composer.removeScene( "game", false )
+                composer.gotoScene( "game", { effect="crossFade", time=333 } )
             else
                 print("All words completed")        
             end
