@@ -52,6 +52,8 @@ local sequenceData = {}
 --dataletters.lua-н үсэгнүүдийн обектийг агуулах array
 local letters = {}
 
+local formerSplitedLetters = {}
+
 mainWordHeight = (actualHeight - navigationHeight)/3 - 20
 topMargin = (actualHeight - mainWordHeight)/2
 leftMargin = 20
@@ -173,12 +175,13 @@ for k, v in pairs(letters) do
         time = 700
     }
     splitedLetter[number] =  letter.new(letterX, letterY, holder, rotation, audioFile, audioLetter, number, name , realImage , manyLettersScale)
-
+    formerSplitedLetters [number] = letter.new(letterX, letterY, holder, rotation, audioFile, audioLetter, number, name , realImage , manyLettersScale)
     -- realImage:addEventListener("touch", dragLetters)
 
     x = x + holder.contentWidth + letterMargin
 end  -- repeat untill the for loop end
 
+-- formerSplitedLetters = splitedLetter
 
 
 animation = display.newSprite( globalSheet, sequenceData )
@@ -200,22 +203,29 @@ function preDestinationLetters( ... )
     -- body
     local isUptime = true
     local tempX = 0
+    local tempLeftMargin = leftMargin
+    local tempLetterMargin = letterMargin
+    if (mainWordWidth < (display.contentWidth - 20*2)) then
+         tempLeftMargin = (display.contentWidth - mainWordWidth) / 4
+         tempWidth = getTempWidth(1)
+         tempLetterMargin = (actualWidth  - tempWidth  - tempLeftMargin*2) / wordCount
+         print (tempLetterMargin)
+    end 
+    tempX = tempLeftMargin
+    print (mainWordWidth)
     local tempIndexArray = {}
     for i=1,wordCount do
         table.insert(tempIndexArray, i)
     end
+
  
     for  i = 1, wordCount do
-       for i=1,wordCount do
-            print(tempIndexArray[i])
-        end
         local randomIndex = math.random (#tempIndexArray)
-        print ("real randomIndex",randomIndex)   
-
+        -- print ("real randomIndex",randomIndex)   
         -- randomIndex = tempIndexArray[randomIndex]
         print ("randomIndex",tempIndexArray[randomIndex])   
         local v = splitedLetter[ tempIndexArray[randomIndex]]
-        v.realImage.x = tempX + letterMargin + v.realImage.contentWidth/2
+        v.realImage.x = tempX + v.realImage.contentWidth/2
         local randomY = math.random( 10, 20 )
 
         if (isUptime == true) then
@@ -225,7 +235,7 @@ function preDestinationLetters( ... )
             v.realImage.y =  randomY*2 + mainWordHeight*2 + v.realImage.contentHeight/2
             isUptime = true
         end
-        tempX = tempX  + letterMargin + v.realImage.contentWidth
+        tempX = tempX  + tempLetterMargin + v.realImage.contentWidth
         table.remove(tempIndexArray, randomIndex)
         print("--------------------------")
     end
@@ -256,17 +266,53 @@ function randomStructing( )
     end
 end
 
+function getContainingLetterTable (letterObj)
+    local tempContainerTable = {}
+    local b = 1
+    for k, v in pairs(formerSplitedLetters) do
+        print ("name = ",v.name, letterObj)
+        if (v.name == letterObj) then
+            tempContainerTable [b] = v
+            b = b + 1
+        end
+    end
+    return tempContainerTable
+end
 
-function hitObjects(obj1, obj2)
-        local left = obj1.contentBounds.xMin <= obj2.contentBounds.xMin and obj1.contentBounds.xMax >= obj2.contentBounds.xMin
-        local right = obj1.contentBounds.xMin >= obj2.contentBounds.xMin and obj1.contentBounds.xMin <= obj2.contentBounds.xMax
-        local up = obj1.contentBounds.yMin <= obj2.contentBounds.yMin and obj1.contentBounds.yMax >= obj2.contentBounds.yMin
-        local down = obj1.contentBounds.yMin >= obj2.contentBounds.yMin and obj1.contentBounds.yMin <= obj2.contentBounds.yMax
+local chosenHolder
+
+function hitObjects(obj1, sLetter)
+        local containerArray =  getContainingLetterTable(sLetter)
+        local left, right, up, down
+        for k,v in pairs(containerArray) do
+            print(k,v)
+            local obj2 = v.holder
+            left = obj1.contentBounds.xMin <= obj2.contentBounds.xMin and obj1.contentBounds.xMax >= obj2.contentBounds.xMin
+            right = obj1.contentBounds.xMin >= obj2.contentBounds.xMin and obj1.contentBounds.xMin <= obj2.contentBounds.xMax
+            up = obj1.contentBounds.yMin <= obj2.contentBounds.yMin and obj1.contentBounds.yMax >= obj2.contentBounds.yMin
+            down = obj1.contentBounds.yMin >= obj2.contentBounds.yMin and obj1.contentBounds.yMin <= obj2.contentBounds.yMax
+            if ((left or right) and (up or down)) then
+                chosenHolder = obj2
+                table.remove( formerSplitedLetters, v.number )
+                break
+            end
+        end
+  
         return (left or right) and (up or down)
+end
+
+function singleHiObject(obj1, obj2)
+    local left = obj1.contentBounds.xMin <= obj2.contentBounds.xMin and obj1.contentBounds.xMax >= obj2.contentBounds.xMin
+    local right = obj1.contentBounds.xMin >= obj2.contentBounds.xMin and obj1.contentBounds.xMin <= obj2.contentBounds.xMax
+    local up = obj1.contentBounds.yMin <= obj2.contentBounds.yMin and obj1.contentBounds.yMax >= obj2.contentBounds.yMin
+    local down = obj1.contentBounds.yMin >= obj2.contentBounds.yMin and obj1.contentBounds.yMin <= obj2.contentBounds.yMax
+    return (left or right) and (up or down)
+
 end
 
 local target 
 local targetAnim 
+local targetLetter
 local targetHolder
 local sound
 local soundLetter
@@ -279,7 +325,8 @@ function dragLetters( event )
         target = event.target
         targetAnim = animation
         local chosenLetter = splitedLetter[target.name]
-        print ("target",target.name )
+        targetLetter = chosenLetter.name
+        print ("target",targetLetter )
 
         targetHolder = chosenLetter.holder
         sound = chosenLetter.audioFile
@@ -310,42 +357,41 @@ function dragLetters( event )
         targetAnim.x, targetAnim.y = x,y
         target.x, target.y = x, y
 
-    elseif(event.phase == 'ended' and hitObjects(targetAnim, targetHolder)) then
+    elseif(event.phase == 'ended' and hitObjects(targetAnim, targetLetter)) then
         matchedLettersCount = matchedLettersCount+1;
 
         if(wordCount==matchedLettersCount) then            
-        dataword.settings.selectedWord = wordId +1
-        print ("All letters matched!")        
-        print ("end animation: ",matchedLettersCount)
-        print ("All words : ",dataword.allWords)
-        print ("SelectedWord : ",dataword.settings.selectedWord)
-        audio.play(chorusAudio)
+            dataword.settings.selectedWord = wordId +1
+            print ("All letters matched!")        
+            print ("end animation: ",matchedLettersCount)
+            print ("All words : ",dataword.allWords)
+            print ("SelectedWord : ",dataword.settings.selectedWord)
+            audio.play(chorusAudio)
 
-        if(dataword.allWords>=dataword.settings.selectedWord) then
-        print("Go to Next word")        
-        composer.removeScene( "game", false )
-        composer.gotoScene( "game", { effect="crossFade", time=333 } )
+            if(dataword.allWords>=dataword.settings.selectedWord) then
+                print("Go to Next word")        
+            else
+                print("All words completed")        
+            end
         else
-        print("All words completed")        
-        end
-        else
-        targetAnim:setFrame(1)  
-        targetAnim.isVisible = false    
-        target.isVisible = true
-        targetAnim:pause()  
+            targetAnim:setFrame(1)  
+            targetAnim.isVisible = false    
+            target.isVisible = true
+            targetAnim:pause()  
 
-        audio.stop(sound)
-        -- event.target.x = 60.5
-        -- event.target.y = 175
-        -- target:removeEventListener('touch', dragShape)
-        function transitionComplete()
-            endAnimation(target)
-            target:removeEventListener("touch", dragLetters)
-            b = 0
-            audio.play( soundLetter )
+            audio.stop(sound)
+            -- event.target.x = 60.5
+            -- event.target.y = 175
+            -- target:removeEventListener('touch', dragShape)
+            function transitionComplete()
+                endAnimation(target)
+                target:removeEventListener("touch", dragLetters)
+                b = 0
+                chosenHolder  = nil
+                audio.play( soundLetter )
+            end
+            transition.to( target, {time=500, x=chosenHolder.x , y = chosenHolder.y, rotation = chosenHolder.rotation, onComplete = transitionComplete} )
         end
-        transition.to( target, {time=500, x=targetHolder.x , y = targetHolder.y, onComplete = transitionComplete} )
-    end
         -- correct = correct + 1
         -- audio.play(correctSnd)
     elseif event.phase == "ended" or event.phase == "cancelled" then
@@ -362,9 +408,9 @@ function dragLetters( event )
         local notChanging = false
         for k, v in pairs(splitedLetter) do
             if (v ~= nil) then
-                print(v.name)
+                -- print(v.name)
                 if (targetHolder ~= v.holder) then
-                    if (hitObjects(targetAnim, v.holder)) then
+                    if (singleHiObject(targetAnim, v.holder)) then
                         transition.to( target, {time=500, x=target.x  + 30, y = targetHolder.y + 150, onComplete = noEqualizerCompleted} )
                         notChanging = true
                     end
