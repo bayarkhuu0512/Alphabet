@@ -1,9 +1,9 @@
 -- Meta class
-local Letter = {x = 0, y=0, holder=nil, rotatePoint=0, audio=nil, number=0, name = "", scalePoint = 1}
-local Letter_mt = { __index = Letter }  
+local letter = {x = 0, y=0, holder=nil, rotatePoint=0, audio=nil, number=0, name = "", scalePoint = 1}
+local letter_mt = { __index = Letter }  
 
 -- Base class method new
-function Letter.new (xz,yz,holderz, rotationz, audioFilez, audioLetters, numberz, namezz, realImagez, scalez)
+function letter.new (xz,yz,holderz, rotationz, audioFilez, audioLetters, numberz, namezz, realImagez, scalez)
 
   local newLetter  = {
     x  = xz,
@@ -23,8 +23,8 @@ function Letter.new (xz,yz,holderz, rotationz, audioFilez, audioLetters, numberz
 end
 
 -- Base class method printArea
-function Letter:printArea ()
+function letter:printArea ()
   print("The area is ",x, y, holder, rotatePoint, audioFile, number, name)
 end
 
-return Letter
+return letter
