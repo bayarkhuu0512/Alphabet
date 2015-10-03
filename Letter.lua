@@ -1,6 +1,6 @@
 -- Meta class
 local letter = {x = 0, y=0, holder=nil, rotatePoint=0, audio=nil, number=0, name = "", scalePoint = 1}
-local letter_mt = { __index = Letter }  
+local letter_mt = { __index = letter }  
 
 -- Base class method new
 function letter.new (xz,yz,holderz, rotationz, audioFilez, audioLetters, numberz, namezz, realImagez, scalez)
@@ -19,7 +19,7 @@ function letter.new (xz,yz,holderz, rotationz, audioFilez, audioLetters, numberz
   }
   
 
-  return setmetatable( newLetter, Letter_mt )
+  return setmetatable( newLetter, letter_mt )
 end
 
 -- Base class method printArea
