@@ -12,7 +12,27 @@ local menuSound = audio.loadSound( "sounds/menu_touch.mp3" )
 local backgroundMusic = audio.loadStream( "sounds/nav_music.mp3" )
 
 local dialog
+local smsoptions = {to = { "1234567890"},body = "asdabfa3e23asdas#23312ds"}
 
+local defaultField 
+
+local function textListener( event )
+
+    if ( event.phase == "began" ) then
+        -- user begins editing defaultField
+        print( event.text )
+
+    elseif ( event.phase == "ended" or event.phase == "submitted" ) then
+        -- do something with defaultField text
+        print( event.target.text )
+
+    elseif ( event.phase == "editing" ) then
+        print( event.newCharacters )
+        print( event.oldText )
+        print( event.startPosition )
+        print( event.text )
+    end
+end
 
 -- Button handler to go to the selected level
 local function handleLevelSelect( event )
@@ -20,6 +40,7 @@ local function handleLevelSelect( event )
         -- 'event.target' is the button and '.id' is a number indicating which level to go to.  
         -- The 'game' scene will use this setting to determine which level to load.
         -- This could be done via passed parameters as well.
+        if(tonumber(event.target.id) <= dataword.settings.unlockedLevels) then
         audio.stop()
         audio.play( menuSound)
         dataword.settings.selectedWord = event.target.id
@@ -29,6 +50,11 @@ local function handleLevelSelect( event )
 
         -- Go to the game scene
         composer.gotoScene( "game", { effect="crossFade", time=333 } )
+    else
+        native.showPopup( "sms", smsoptions )
+        print("Buy new word")
+
+    end 
     end
 end
 
@@ -97,10 +123,10 @@ function scene:create( event )
             dataword.settings.unlockedLevels = 1
         end
         if ( i <= dataword.settings.unlockedLevels ) then
-            buttons[i]:setEnabled( true )
+         --   buttons[i]:setEnabled( true )
             buttons[i].alpha = 1.0
         else 
-            buttons[i]:setEnabled( false ) 
+          --  buttons[i]:setEnabled( false ) 
             buttons[i].alpha = 0.5 
         end 
 

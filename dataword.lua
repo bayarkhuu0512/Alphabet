@@ -1,5 +1,5 @@
 local M = {}
-M.allWords = 8
+M.allWords = 9
 M.settings = {}
 M.settings.selectedWord = 1
 M.settings.unlockedLevels = 8
@@ -79,4 +79,13 @@ M.settings.levels[8].chorus = 'bundles/007_sansar/chorus.mp3'
 M.settings.levels[8].wordListen = 'bundles/007_sansar/word.mp3'
 M.settings.levels[8].wordDef = 'bundles/007_sansar/wordDef.mp3'
 M.settings.levels[8].thumb = 'bundles/007_sansar/thumb.jpg'
+
+M.settings.levels[9] = {}
+M.settings.levels[9].name = 'ААВ'
+M.settings.levels[9].count = 3
+M.settings.levels[9].seq = '1,1,3'
+M.settings.levels[9].chorus = 'bundles/001_aav/chorus.mp3'
+M.settings.levels[9].wordListen = 'bundles/001_aav/word.mp3'
+M.settings.levels[9].wordDef = 'bundles/001_aav/wordDef.mp3'
+M.settings.levels[9].thumb = 'bundles/001_aav/thumb.jpg'
 return M
