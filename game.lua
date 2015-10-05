@@ -40,6 +40,7 @@ function scene:create( event )
     local letterMargin
     local animation
     local displayMidY = displayHeight
+    local isPreparing = true
 
     -- Background Image
     local background = display.newImage("images/BG.jpg",true)
@@ -197,6 +198,7 @@ function scene:create( event )
         for  k, v in pairs(splitedLetter) do
             transition.to( v.realImage, {time=300, alpha = 1})
         end
+        isPreparing = false
     end
 
 
@@ -207,10 +209,13 @@ function scene:create( event )
         local tempLeftMargin = leftMargin
         local tempLetterMargin = letterMargin
         if (mainWordWidth < (display.contentWidth - 20*2)) then
-             tempLeftMargin = (display.contentWidth - mainWordWidth) / 4
-             tempWidth = getTempWidth(1)
-             tempLetterMargin = (actualWidth  - tempWidth  - tempLeftMargin*2) / wordCount
-             print (tempLetterMargin)
+            tempLeftMargin = (display.contentWidth - mainWordWidth) / 4
+            print ("tempLeftMargin", tempLeftMargin )
+            tempWidth = getTempWidth(manyLettersScale)
+            if (manyLettersScale == 1) then
+                tempLetterMargin = (actualWidth  - tempWidth  - tempLeftMargin*2) / wordCount
+            end
+            print (tempLetterMargin)
         end 
         tempX = tempLeftMargin
         print (mainWordWidth)
@@ -219,21 +224,28 @@ function scene:create( event )
             table.insert(tempIndexArray, i)
         end
 
-     
+        local randomYMin = 10
+        local randomYMax = 20
+        if (manyLettersScale < 1) then
+            tempMarginPercent =  letterHeight * manyLettersScale
+            randomYMin = 20
+            randomYMax = letterHeight - tempMarginPercent
+        end
+        print (randomYMax, manyLettersScale)
         for  i = 1, wordCount do
             local randomIndex = math.random (#tempIndexArray)
             -- print ("real randomIndex",randomIndex)   
             -- randomIndex = tempIndexArray[randomIndex]
-            print ("randomIndex",tempIndexArray[randomIndex])   
+            print ("randomIndex",tempIndexArray[randomIndex], "x = ", tempX)   
             local v = splitedLetter[ tempIndexArray[randomIndex]]
             v.realImage.x = tempX + v.realImage.contentWidth/2
-            local randomY = math.random( 10, 20 )
+            local randomY = math.random( randomYMin, randomYMax )
 
             if (isUptime == true) then
                 v.realImage.y =  randomY + v.realImage.contentHeight/2
                 isUptime = false
             else
-                v.realImage.y =  randomY*2 + mainWordHeight*2 + v.realImage.contentHeight/2
+                v.realImage.y =  randomY + v.holder.y  + v.realImage.contentHeight
                 isUptime = true
             end
             tempX = tempX  + tempLetterMargin + v.realImage.contentWidth
@@ -270,7 +282,7 @@ function scene:create( event )
     function getContainingLetterTable (letterObj)
         local tempContainerTable = {}
         for k, v in pairs(formerSplitedLetters) do
-            print ("formerSplitedLetters name = ",v.name, "targetLetter =",letterObj, "targetKey", k)
+            -- print ("formerSplitedLetters name = ",v.name, "targetLetter =",letterObj, "targetKey", k)
             if (v.name == letterObj) then
                 tempContainerTable [k] = v
             end
@@ -284,7 +296,6 @@ function scene:create( event )
             local containerArray =  getContainingLetterTable(sLetter)
             local left, right, up, down
             for k,v in pairs(containerArray) do
-                print(k,v)
                 local obj2 = v.holder
                 left = obj1.contentBounds.xMin <= obj2.contentBounds.xMin and obj1.contentBounds.xMax >= obj2.contentBounds.xMin
                 right = obj1.contentBounds.xMin >= obj2.contentBounds.xMin and obj1.contentBounds.xMin <= obj2.contentBounds.xMax
@@ -316,15 +327,19 @@ function scene:create( event )
     local targetHolder
     local sound
     local soundLetter
+    local chosenLetter 
     local b = 0
     local matchedLettersCount = 0;
 
 
     function dragLetters( event )
+        if (isPreparing) then
+            return
+        end
         if (b == 0) then
             target = event.target
             targetAnim = animation
-            local chosenLetter = splitedLetter[target.name]
+            chosenLetter = splitedLetter[target.name]
             targetLetter = chosenLetter.name
             print ("target",targetLetter )
 
@@ -341,6 +356,8 @@ function scene:create( event )
                     targetAnim.x, targetAnim.y = target.x,target.y
                     targetAnim.markX = target.x
                     targetAnim.markY = target.y
+                    targetAnim.contentWidth = target.contentWidth
+                    targetAnim.contentHeight = target.contentHeight
                     target.isVisible = false
                     targetAnim.isVisible = true
                     -- targetAnim.name = target.name        
@@ -354,6 +371,20 @@ function scene:create( event )
         elseif event.phase == "moved" then
             local x = (event.x - event.xStart) +  targetAnim.markX
             local y = (event.y - event.yStart) + targetAnim.markY
+            print (x, y)
+
+            if (x - targetAnim.contentWidth/2 < 0)then 
+                x = targetAnim.contentWidth / 2
+            end
+            if (y - targetAnim.contentHeight/2 < 0)then
+                y = targetAnim.contentHeight/2
+            end
+            if (y + targetAnim.contentHeight/2 > actualHeight)then
+                y = actualHeight - targetAnim.contentHeight/2 
+            end
+            if (x + targetAnim.contentWidth/2 > actualWidth)then
+                x = actualWidth - targetAnim.contentWidth/2 
+            end
             targetAnim.x, targetAnim.y = x,y
             target.x, target.y = x, y
 
@@ -416,6 +447,8 @@ function scene:create( event )
                 endAnimation(target)    
             end
             b = 0
+        else
+            print ("b")
         end
         return true
     end
@@ -423,14 +456,14 @@ function scene:create( event )
 
     function endAnimation( realImage )
         function secondComplete()
-            transition.scaleTo( realImage, {time=100, xScale = 1.0, yScale = 1.0 } )
+            transition.scaleTo( realImage, {time=100, xScale = chosenLetter.scalePoint, yScale = chosenLetter.scalePoint } )
 
         end
         function firstComplete()
-            transition.scaleTo( realImage, {time=100, xScale = 1.07, yScale = 1.07, onComplete = secondComplete} )
+            transition.scaleTo( realImage, {time=100, xScale = chosenLetter.scalePoint + 0.07, yScale = chosenLetter.scalePoint + 0.07, onComplete = secondComplete} )
 
         end
-        transition.scaleTo( realImage, {time=100, xScale = 1.0, yScale = 1.0, onComplete = firstComplete} )
+        transition.scaleTo( realImage, {time=100, xScale = chosenLetter.scalePoint, yScale = chosenLetter.scalePoint, onComplete = firstComplete} )
 
     end
 
