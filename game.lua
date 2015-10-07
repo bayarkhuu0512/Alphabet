@@ -336,9 +336,13 @@ function scene:create( event )
         if (isPreparing) then
             return
         end
-        if (b == 0) then
+        if (b == 0 and event.target.name ~= "animation") then
             target = event.target
             targetAnim = animation
+            targetAnim.x = target.x
+            targetAnim.y = target.y
+            print ("targetName ",target.name )
+
             chosenLetter = splitedLetter[target.name]
             targetLetter = chosenLetter.name
             print ("target",targetLetter )
@@ -366,7 +370,7 @@ function scene:create( event )
                 end
                 targetAnim.markX = target.x
                 targetAnim.markY = target.y
-                transition.scaleTo( target, {time=10, xScale = scalePoint, yScale = scalePoint, onComplete = complete} )
+                transition.scaleTo( target, {time=1, xScale = scalePoint, yScale = scalePoint, onComplete = complete} )
             end
         elseif event.phase == "moved" then
             local x = (event.x - event.xStart) +  targetAnim.markX
@@ -388,7 +392,8 @@ function scene:create( event )
             targetAnim.x, targetAnim.y = x,y
             target.x, target.y = x, y
 
-        elseif(event.phase == 'ended' and hitObjects(targetAnim, targetLetter)) then
+        elseif(event.phase == 'ended'  and hitObjects(targetAnim, targetLetter)) then
+            isPreparing = true
             matchedLettersCount = matchedLettersCount+1;
             targetAnim:setFrame(1)  
             targetAnim.isVisible = false    
@@ -413,6 +418,7 @@ function scene:create( event )
             -- audio.play(correctSnd)
         elseif event.phase == "ended" or event.phase == "cancelled" then
             print ("end animation")
+            isPreparing = true
             targetAnim:pause()  
             targetAnim:setFrame(1)  
             targetAnim.isVisible = false    
@@ -456,6 +462,7 @@ function scene:create( event )
 
     function endAnimation( realImage )
         function secondComplete()
+            isPreparing = false
             transition.scaleTo( realImage, {time=100, xScale = chosenLetter.scalePoint, yScale = chosenLetter.scalePoint } )
 
         end
