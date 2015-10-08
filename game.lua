@@ -11,7 +11,6 @@ local widget = require( "widget" )
 local wordId
 function scene:create( event )
     local sceneGroup = self.view
-
     print( 'Chosen word ID: ',dataword.settings.selectedWord )
 
     wordId = tonumber(dataword.settings.selectedWord)
@@ -331,7 +330,6 @@ function scene:create( event )
     local b = 0
     local matchedLettersCount = 0;
 
-
     function dragLetters( event )
         if (isPreparing) then
             return
@@ -355,6 +353,7 @@ function scene:create( event )
         end
 
         if (event.phase == "began") then
+            display.getCurrentStage():setFocus( target )
             if (target.name ~= "animation") then
                 function complete ()
                     targetAnim.x, targetAnim.y = target.x,target.y
@@ -375,7 +374,7 @@ function scene:create( event )
         elseif event.phase == "moved" then
             local x = (event.x - event.xStart) +  targetAnim.markX
             local y = (event.y - event.yStart) + targetAnim.markY
-            print (x, y)
+            print ("x ",x, " y ",y)
 
             if (x - targetAnim.contentWidth/2 < 0)then 
                 x = targetAnim.contentWidth / 2
@@ -393,6 +392,7 @@ function scene:create( event )
             target.x, target.y = x, y
 
         elseif(event.phase == 'ended'  and hitObjects(targetAnim, targetLetter)) then
+            print ("animation ended andd hitObjects")
             isPreparing = true
             matchedLettersCount = matchedLettersCount+1;
             targetAnim:setFrame(1)  
@@ -402,6 +402,7 @@ function scene:create( event )
             target:toFront( )
 
             audio.stop(sound)
+            display.getCurrentStage():setFocus( nil )
 
             function transitionComplete()
                 b = 0
@@ -417,13 +418,15 @@ function scene:create( event )
             -- correct = correct + 1
             -- audio.play(correctSnd)
         elseif event.phase == "ended" or event.phase == "cancelled" then
-            print ("end animation")
+            print ("animation ended or cancelled")
             isPreparing = true
             targetAnim:pause()  
             targetAnim:setFrame(1)  
             targetAnim.isVisible = false    
             target.isVisible = true
             audio.stop(sound)
+            display.getCurrentStage():setFocus( nil )
+
             function noEqualizerCompleted()
                 endAnimation(target)
             end
@@ -458,7 +461,6 @@ function scene:create( event )
         end
         return true
     end
-
 
     function endAnimation( realImage )
         function secondComplete()
