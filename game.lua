@@ -328,7 +328,8 @@ function scene:create( event )
     local soundLetter
     local chosenLetter 
     local b = 0
-    local matchedLettersCount = 0;
+    local matchedLettersCount = 0
+    local isFirstAnimationCompleted = false
 
     function dragLetters( event )
         if (isPreparing) then
@@ -356,6 +357,8 @@ function scene:create( event )
             display.getCurrentStage():setFocus( target )
             if (target.name ~= "animation") then
                 function complete ()
+                    print ("prepare animation compeleted")
+                    isFirstAnimationCompleted = true
                     targetAnim.x, targetAnim.y = target.x,target.y
                     targetAnim.markX = target.x
                     targetAnim.markY = target.y
@@ -372,28 +375,30 @@ function scene:create( event )
                 transition.scaleTo( target, {time=1, xScale = scalePoint, yScale = scalePoint, onComplete = complete} )
             end
         elseif event.phase == "moved" then
-            local x = (event.x - event.xStart) +  targetAnim.markX
-            local y = (event.y - event.yStart) + targetAnim.markY
-            print ("x ",x, " y ",y)
+            if (target.name ~= "animation" and isFirstAnimationCompleted == true) then
+                local x = (event.x - event.xStart) +  targetAnim.markX
+                local y = (event.y - event.yStart) + targetAnim.markY
+                print ("x ",x, " y ",y)
 
-            if (x - targetAnim.contentWidth/2 < 0)then 
-                x = targetAnim.contentWidth / 2
+                if (x - targetAnim.contentWidth/2 < 0)then 
+                    x = targetAnim.contentWidth / 2
+                end
+                if (y - targetAnim.contentHeight/2 < 0)then
+                    y = targetAnim.contentHeight/2
+                end
+                if (y + targetAnim.contentHeight/2 > actualHeight)then
+                    y = actualHeight - targetAnim.contentHeight/2 
+                end
+                if (x + targetAnim.contentWidth/2 > actualWidth)then
+                    x = actualWidth - targetAnim.contentWidth/2 
+                end
+                targetAnim.x, targetAnim.y = x,y
+                target.x, target.y = x, y
             end
-            if (y - targetAnim.contentHeight/2 < 0)then
-                y = targetAnim.contentHeight/2
-            end
-            if (y + targetAnim.contentHeight/2 > actualHeight)then
-                y = actualHeight - targetAnim.contentHeight/2 
-            end
-            if (x + targetAnim.contentWidth/2 > actualWidth)then
-                x = actualWidth - targetAnim.contentWidth/2 
-            end
-            targetAnim.x, targetAnim.y = x,y
-            target.x, target.y = x, y
-
         elseif(event.phase == 'ended'  and hitObjects(targetAnim, targetLetter)) then
             print ("animation ended andd hitObjects")
             isPreparing = true
+            isFirstAnimationCompleted = false
             matchedLettersCount = matchedLettersCount+1;
             targetAnim:setFrame(1)  
             targetAnim.isVisible = false    
@@ -411,7 +416,8 @@ function scene:create( event )
                 chosenHolder  = nil
                 audio.play( soundLetter )
                 if(wordCount == matchedLettersCount) then    
-                    timer.performWithDelay( 500, allWordsCompleted)
+                    audio.play(chorusAudio)
+                    timer.performWithDelay( 1500, allWordsCompleted)
                 end
             end
             transition.to( target, {time=500, x=chosenHolder.x , y = chosenHolder.y, rotation = chosenHolder.rotation, onComplete = transitionComplete} )
@@ -465,6 +471,7 @@ function scene:create( event )
     function endAnimation( realImage )
         function secondComplete()
             isPreparing = false
+            isFirstAnimationCompleted = false
             transition.scaleTo( realImage, {time=100, xScale = chosenLetter.scalePoint, yScale = chosenLetter.scalePoint } )
 
         end
@@ -482,7 +489,6 @@ function scene:create( event )
         print ("end animation: ",matchedLettersCount)
         print ("All words : ",dataword.allWords)
         print ("SelectedWord : ",dataword.settings.selectedWord)
-        audio.play(chorusAudio)
 
         if(dataword.allWords>=dataword.settings.selectedWord) then
             print("Go to Next word")        
