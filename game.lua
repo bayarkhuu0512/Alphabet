@@ -515,7 +515,7 @@ function scene:create( event )
 
     local function handleWordButtonEvent( event )
         if ( "ended" == event.phase ) then
-        audio.play( wordDefAudio )
+         audio.play( wordDefAudio )
         end
     end
 
