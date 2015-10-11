@@ -16,8 +16,10 @@ function scene:create( event )
     wordId = tonumber(dataword.settings.selectedWord)
     local word = dataword.settings.levels[wordId]
     local wordSequences = tostring(word.seq)
+    local wordListenAudio =  audio.loadSound(word.wordListen)
     local wordDefAudio =  audio.loadSound(word.wordDef)
     local chorusAudio =  audio.loadSound(word.chorus)
+    local stampedeAudio = audio.loadSound("sounds/stampede ")
       
       print('Chosen word Name: ',wordSequences)
 
@@ -203,6 +205,8 @@ function scene:create( event )
 
     function preDestinationLetters( ... )
         -- body
+        audio.play(stampedeAudio)
+
         local isUptime = true
         local tempX = 0
         local tempLeftMargin = leftMargin
@@ -256,6 +260,7 @@ function scene:create( event )
 
     function randomStructing( )
         -- body
+        audio.play(wordListenAudio)
         print ("Please random coordinate me", wordCount)
         local nothingCount = 1
         function preFadeCompleted()
