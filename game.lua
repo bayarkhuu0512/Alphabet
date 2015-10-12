@@ -9,6 +9,9 @@ local dataletter = require( "dataletter" )
 local letter = require ("letter")
 local widget = require( "widget" )
 local wordId
+    -- Background Music
+local backgroundMusic = audio.loadStream( "sounds/bg_music1.mp3" )
+
 function scene:create( event )
     local sceneGroup = self.view
     print( 'Chosen word ID: ',dataword.settings.selectedWord )
@@ -19,8 +22,9 @@ function scene:create( event )
     local wordListenAudio =  audio.loadSound(word.wordListen)
     local wordDefAudio =  audio.loadSound(word.wordDef)
     local chorusAudio =  audio.loadSound(word.chorus)
-    local stampedeAudio = audio.loadSound("sounds/stampede ")
-      
+    local applauseAudio =  audio.loadSound("sounds/applause.mp3")
+   --local stampedeAudio = audio.loadSound("sounds/stampede.mp3")
+      local stampedeAudio = audio.loadSound("sounds/letters_fadein.mp3")
       print('Chosen word Name: ',wordSequences)
 
     local scalePoint = 1.3
@@ -42,6 +46,8 @@ function scene:create( event )
     local animation
     local displayMidY = displayHeight
     local isPreparing = true
+
+    audio.play( backgroundMusic,{ loops=-1 }  )
 
     -- Background Image
     local background = display.newImage("images/BG.jpg",true)
@@ -421,6 +427,7 @@ function scene:create( event )
                 chosenHolder  = nil
                 audio.play( soundLetter )
                 if(wordCount == matchedLettersCount) then    
+                    audio.play(applauseAudio)
                     audio.play(chorusAudio)
                     timer.performWithDelay( 1500, allWordsCompleted)
                 end
