@@ -302,6 +302,47 @@ function scene:create( event )
 
     local chosenHolder
 
+
+    local function spawnRibbonDown()
+
+        local falling 
+        local randomColor = math.random(7)
+        local function removefalling(target)
+            target:removeSelf()
+            target = nil
+        end
+        if randomColor == 1 then
+            falling =  display.newImage("images/ribbon_green.png")
+        elseif(randomColor == 2) then
+            falling =  display.newImage("images/ribbon_red.png")
+        elseif(randomColor == 3) then
+            falling =  display.newImage("images/ribbon_blue.png")
+        elseif(randomColor == 4) then
+            falling =  display.newImage("images/ribbon_magenta.png")
+        elseif(randomColor == 5) then
+            falling =  display.newImage("images/ribbon_magenta_big.png")
+        elseif(randomColor == 6) then
+            falling =  display.newImage("images/ribbon_red_big.png")
+        elseif(randomColor == 7) then
+            falling =  display.newImage("images/ribbon_green_big.png")
+        else 
+             falling =  display.newImage("images/ribbon_blue_big.png")
+         end
+
+        falling.x = math.random(display.contentWidth)
+        falling.y = -2
+        local wind = math.random(80) - 40
+        transition.to(falling,{time=math.random(500) + 1000, y = display.contentHeight + 2, x = falling.x + wind, onComplete=removefalling})
+    end
+
+    local function makeRibbon(event)
+   --   if math.random(2) == 1 then
+        print("animation enter")
+        spawnRibbonDown()
+    --  end
+        return true
+    end
+
     function hitObjects(obj1, sLetter)
             local containerArray =  getContainingLetterTable(sLetter)
             local left, right, up, down
@@ -421,15 +462,17 @@ function scene:create( event )
             display.getCurrentStage():setFocus( nil )
 
             function transitionComplete()
+
                 b = 0
                 endAnimation(target)
                 target:removeEventListener("touch", dragLetters)
                 chosenHolder  = nil
                 audio.play( soundLetter )
-                if(wordCount == matchedLettersCount) then    
+                if(wordCount == matchedLettersCount) then   
+                    Runtime:addEventListener("enterFrame",makeRibbon) 
                     audio.play(applauseAudio)
                     audio.play(chorusAudio)
-                    timer.performWithDelay( 1500, allWordsCompleted)
+                    timer.performWithDelay( 2500, allWordsCompleted)
                 end
             end
             transition.to( target, {time=500, x=chosenHolder.x , y = chosenHolder.y, rotation = chosenHolder.rotation, onComplete = transitionComplete} )
@@ -501,6 +544,7 @@ function scene:create( event )
         print ("end animation: ",matchedLettersCount)
         print ("All words : ",dataword.allWords)
         print ("SelectedWord : ",dataword.settings.selectedWord)
+        Runtime:removeEventListener( "enterFrame", makeRibbon )
 
         if(dataword.allWords>=dataword.settings.selectedWord) then
             print("Go to Next word")        
@@ -611,6 +655,10 @@ function scene:destroy( event )
     -- INSERT code here to cleanup the scene
     -- e.g. remove display objects, remove touch listeners, save state, etc
 end
+
+
+
+
 
 -- Listener setup
 scene:addEventListener( "create", scene )
