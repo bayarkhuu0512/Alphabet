@@ -418,7 +418,8 @@ function scene:create( event )
                     targetAnim.contentHeight = target.contentHeight
                     target.isVisible = false
                     targetAnim.isVisible = true
-                    -- targetAnim.name = target.name        
+                    -- targetAnim.name = target.name      
+                    targetAnim:toFront ()  
                     targetAnim:play()
                     sound = audio.play( sound,{ loops=-1 } )
                 end
@@ -430,7 +431,7 @@ function scene:create( event )
             if (target.name ~= "animation" and isFirstAnimationCompleted == true) then
                 local x = (event.x - event.xStart) +  targetAnim.markX
                 local y = (event.y - event.yStart) + targetAnim.markY
-                print ("x ",x, " y ",y)
+                -- print ("x ",x, " y ",y)
 
                 if (x - targetAnim.contentWidth/2 < 0)then 
                     x = targetAnim.contentWidth / 2
@@ -538,20 +539,17 @@ function scene:create( event )
 
     end
 
-    function allWordsCompleted()
-        dataword.settings.selectedWord = wordId +1
-        print ("All letters matched!")        
-        print ("end animation: ",matchedLettersCount)
-        print ("All words : ",dataword.allWords)
-        print ("SelectedWord : ",dataword.settings.selectedWord)
-        Runtime:removeEventListener( "enterFrame", makeRibbon )
+    local k = 0
 
-        if(dataword.allWords>=dataword.settings.selectedWord) then
+    function allWordsCompleted()
+        if (k == 0) then
+            Runtime:removeEventListener( "enterFrame", makeRibbon )
+            k = 1
+            timer.performWithDelay( 1000, allWordsCompleted)
+        else
             print("Go to Next word")        
             composer.removeScene( "game", false )
-            composer.gotoScene( "game", { effect="crossFade", time=333 } )
-        else
-            print("All words completed")        
+            composer.gotoScene( "defineword", { effect="slideLeft", time=600 } )
         end
     end
 
