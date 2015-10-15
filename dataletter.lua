@@ -50,8 +50,8 @@ L.letters[1].width = 110
 L.letters[1].imgNormal = 'images/A.png'
 L.letters[1].imgGrey = 'images/A_grey.png'
 L.letters[1].imgSprite = 'images/A_sprite.png'
-L.letters[1].soundSelected = 'sounds/A-short.mp3'
-L.letters[1].soundLetter = 'sounds/letter_A.mp3'
+L.letters[1].soundSelected = 'sound_kando/phonic_A.mp3'
+L.letters[1].soundLetter = 'sound_kando/letter_A.mp3'
 
 
 L.letters[3] = {}
@@ -91,8 +91,8 @@ L.letters[14].width = 185
 L.letters[14].imgNormal = 'images/M.png'
 L.letters[14].imgGrey = 'images/M_grey.png'
 L.letters[14].imgSprite = 'images/M_sprite.png'
-L.letters[14].soundSelected = 'sounds/M-long.mp3'
-L.letters[14].soundLetter = 'sounds/letter_M.mp3'
+L.letters[14].soundSelected = 'sound_kando/phonic_M.mp3'
+L.letters[14].soundLetter = 'sound_kando/letter_M.mp3'
 
 L.letters[15] = {}
 L.letters[15].name = 'Н'
@@ -101,8 +101,8 @@ L.letters[15].width = 122
 L.letters[15].imgNormal = 'images/H.png'
 L.letters[15].imgGrey = 'images/H_grey.png'
 L.letters[15].imgSprite = 'images/H_sprite.png'
-L.letters[15].soundSelected = 'sounds/H-long.mp3'
-L.letters[15].soundLetter = 'sounds/letter_H.mp3'
+L.letters[15].soundSelected = 'sound_kando/phonic_N.mp3'
+L.letters[15].soundLetter = 'sound_kando/letter_N.mp3'
 
 L.letters[16] = {}
 L.letters[16].name = 'О'
@@ -121,8 +121,8 @@ L.letters[19].width = 97
 L.letters[19].imgNormal = 'images/P.png'
 L.letters[19].imgGrey = 'images/P_grey.png'
 L.letters[19].imgSprite = 'images/P_sprite.png'
-L.letters[19].soundSelected = 'sounds/P-long.mp3'
-L.letters[19].soundLetter = 'sounds/letter_P.mp3'
+L.letters[19].soundSelected = 'sound_kando/phonic_R.mp3'
+L.letters[19].soundLetter = 'sound_kando/letter_R.mp3'
 
 L.letters[20] = {}
 L.letters[20].name = 'С'

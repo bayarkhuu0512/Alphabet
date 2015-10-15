@@ -47,7 +47,7 @@ function scene:create( event )
     local displayMidY = displayHeight
     local isPreparing = true
 
-    audio.play( backgroundMusic,{ loops=-1 }  )
+  --  audio.play( backgroundMusic,{ loops=-1 }  )
 
     -- Background Image
     local background = display.newImage("images/BG.jpg",true)

@@ -40,7 +40,7 @@ M.settings.levels[4].name = 'НАМАР'
 M.settings.levels[4].count = 5
 M.settings.levels[4].seq = '15,1,14,1,19'
 M.settings.levels[4].chorus = 'bundles/004_namar/chorus.mp3'
-M.settings.levels[4].wordListen = 'bundles/004_namar/word.mp3'
+M.settings.levels[4].wordListen = 'bundles/004_namar/word_namar.mp3'
 M.settings.levels[4].wordDef = 'bundles/004_namar/wordDef.mp3'
 M.settings.levels[4].thumb = 'bundles/004_namar/thumb.jpg'
 
