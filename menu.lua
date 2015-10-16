@@ -72,19 +72,19 @@ function scene:create( event )
 
     -- Use a scrollView to contain the level buttons (for support of more than one full screen).
     -- Since this will only scroll vertically, lock horizontal scrolling.
-    local levelSelectGroup = widget.newScrollView({        
+    local levelSelectGroup = widget.newScrollView({     
+        left = 0,   
         width = display.contentWidth,
         height = display.contentHeight,
         scrollWidth = display.contentWidth,
         scrollHeight = display.contentHeight,
-        horizontalScrollDisabled = true,
+        verticalScrollDisabled = true,
         hideBackground = true
     })
 
     -- 'xOffset', 'yOffset' and 'cellCount' are used to position the buttons in the grid.
-    local xOffset = 100
-    local yOffset = 50
-    local cellCount = 1
+    local xOffset = display.contentCenterX
+    local yOffset = display.contentCenterY
 
     -- Define the array to hold the buttons
     local buttons = {}
@@ -97,18 +97,21 @@ function scene:create( event )
             label = dataword.settings.levels[i].name,
             id = tostring( i ),
             onEvent = handleLevelSelect,
+            defaultFile = dataword.settings.levels[i].thumb,
+            overFile =  dataword.settings.levels[i].thumb,
+            width = 300,
+            height = 300,
+            fontSize = 64,
+            labelColor = { default = { 0,1, 1, 1 }, over = { 0.5, 0.5, 0.5 } },
+--[[            
             emboss = false,
-            shape="roundedRect",
-            width = 100,
-            height = 50,
-            font = native.systemFontBold,
-            fontSize = 18,
-            labelColor = { default = { 1, 1, 1 }, over = { 0.5, 0.5, 0.5 } },
+
+font = native.systemFontBold,
             cornerRadius = 8,
             labelYOffset = -6, 
             fillColor = { default={ 0, 0.5, 1, 1 }, over={ 0.5, 0.75, 1, 1 } },
             strokeColor = { default={ 0, 0, 1, 1 }, over={ 0.333, 0.667, 1, 1 } },
-            strokeWidth = 2
+            strokeWidth = 5]]
         })
         -- Position the button in the grid and add it to the scrollView
         buttons[i].x = xOffset
@@ -133,16 +136,12 @@ function scene:create( event )
         end 
 
 
-        -- Compute the position of the next button.
-        -- This tutorial draws 5 buttons across.
-        -- It also spaces based on the button width and height + initial offset from the left.
-        xOffset = xOffset + 150
-        cellCount = cellCount + 1
-        if ( cellCount > 5 ) then
+        xOffset = xOffset + 350
+--[[        if ( cellCount > 5 ) then
             cellCount = 1
-            xOffset = 100
+            xOffset = xOffset
             yOffset = yOffset + 100
-        end
+        end ]]
     end
 
     -- Place the scrollView into the scene and center it.

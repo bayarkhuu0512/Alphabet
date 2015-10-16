@@ -50,9 +50,13 @@ function scene:create( event )
   --  audio.play( backgroundMusic,{ loops=-1 }  )
 
     -- Background Image
-    local background = display.newImage("images/BG.jpg",true)
+    local background = display.newImage("images/BG_Orange.jpg")
     background.x = displayWidth
     background.y = displayHeight
+
+    local header= display.newImage("images/BG_Header.png")
+    header.x = displayWidth
+    header.y = 15
 
     --Үндсэн letter.lua object-г агуулах array(үсэгний бүх мэдэээлэл scale, rotation, holder, audio etc)
     local splitedLetter = {}
@@ -577,22 +581,24 @@ function scene:create( event )
         -- Create a cancel button for return to the menu scene.
     local backButton = widget.newButton({
             id = "button1",
-            label = "Буцах",
-            left = 0,
-            top = 0,
-            width = 100,
-            height = 50,
+            defaultFile  = "images/btn_home.png",
+            overFile = "images/btn_home.png",
+            left = -60,
+            top = 20,
+            width = 80,
+            height = 80,
             onEvent = handleBackButtonEvent
     })
 
         -- Create a cancel button for return to the menu scene.
     local wordButton = widget.newButton({
             id = "buttonWord",
-            label = "Үг сонсох",
-            left = 200,
-            top = 0,
-            width = 100,
-            height = 50,
+            defaultFile  = "images/btn_music.png",
+            overFile = "images/btn_music.png",
+            left = display.contentWidth-10,
+            top = 20,
+            width = 80,
+            height = 80,
             onEvent = handleWordButtonEvent
     })
 

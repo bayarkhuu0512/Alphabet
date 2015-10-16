@@ -2,7 +2,7 @@ local M = {}
 M.allWords = 11
 M.settings = {}
 M.settings.selectedWord = 1
-M.settings.unlockedLevels = 10
+M.settings.unlockedLevels = 11
 M.settings.levels = {} 
 
 -- These lines are just here to pre-populate the table.
