@@ -15,7 +15,7 @@ local dialog
 local smsoptions = {to = { "1234567890"},body = "asdabfa3e23asdas#23312ds"}
 
 local defaultField 
-
+local levelSelectGroup
 
 local function textListener( event )
 
@@ -55,8 +55,16 @@ local function handleLevelSelect( event )
         native.showPopup( "sms", smsoptions )
         print("Buy new word")
 
-    end 
     end
+    end
+    if ( "moved" == event.phase ) then
+        local dy = math.abs( ( event.y - event.yStart ) )
+        -- If the touch on the button has moved more than 10 pixels,
+        -- pass focus back to the scroll view so it can continue scrolling
+        if ( dy > 10 ) then
+            levelSelectGroup:takeFocus( event )
+        end
+    end 
 end
 
 -- Declare the Composer event handlers
@@ -72,14 +80,15 @@ function scene:create( event )
 
     -- Use a scrollView to contain the level buttons (for support of more than one full screen).
     -- Since this will only scroll vertically, lock horizontal scrolling.
-    local levelSelectGroup = widget.newScrollView({     
+    levelSelectGroup = widget.newScrollView({     
         left = 0,   
         width = display.contentWidth,
         height = display.contentHeight,
         scrollWidth = display.contentWidth,
         scrollHeight = display.contentHeight,
         verticalScrollDisabled = true,
-        hideBackground = true
+        hideBackground = true,
+        isHitTestable = true
     })
 
     -- 'xOffset', 'yOffset' and 'cellCount' are used to position the buttons in the grid.
@@ -99,8 +108,8 @@ function scene:create( event )
             overFile =  dataword.settings.levels[i].thumb,
             width = 300,
             height = 300,
+            emboss = true,
 --[[            
-            emboss = false,
 
 font = native.systemFontBold,
             cornerRadius = 8,

@@ -186,7 +186,7 @@ M.settings.levels[20].wordDef = 'bundles/20_guyen/wordDef.mp3'
 M.settings.levels[20].thumb = 'bundles/20_guyen/thumb.jpg'
 
 M.settings.levels[21] = {}
-M.settings.levels[21].name = 'А'
+M.settings.levels[21].name = ''
 M.settings.levels[21].count = 1
 M.settings.levels[21].seq = '1'
 M.settings.levels[21].chorus = 'bundles/21_blank/chorus.mp3'
