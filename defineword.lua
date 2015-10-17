@@ -5,19 +5,43 @@ local widget = require( "widget" )
 
 local scene = composer.newScene( )
 
+
+local function fitImage( displayObject, fitWidth, fitHeight, enlarge )
+    --
+    -- first determine which edge is out of bounds
+    --
+    local scaleFactor = fitHeight / displayObject.height 
+    local newWidth = displayObject.width * scaleFactor
+    if newWidth > fitWidth then
+        scaleFactor = fitWidth / displayObject.width 
+    end
+    if not enlarge and scaleFactor > 1 then
+        return
+    end
+    displayObject:scale( scaleFactor, scaleFactor )
+end
+
 function scene:create( event )
     local sceneGroup = self.view
     local wordId = tonumber(dataword.settings.selectedWord)
     local word = dataword.settings.levels[wordId]
+    local wordImage = word.thumb
 
 	print( 'Chosen word ID: ',dataword.settings.selectedWord )
     local actualHeight =  display.contentHeight
     local actualWidth =  display.contentWidth
-    local displayHeight = display.contentHeight/2
-	local displayWidth = display.contentWidth/2
+    local displayMidY = display.contentHeight/2
+	local displayMidX = display.contentWidth/2
 	local background = display.newImage("images/BG.jpg",true)
-    background.x = displayWidth
-    background.y = displayHeight
+    background.x = displayMidX
+    background.y = displayMidY
+
+
+    local selectedWordImage =  display.newImage(wordImage)
+    selectedWordImage.x = displayMidX
+    selectedWordImage.y = displayMidY
+    fitImage(selectedWordImage, actualWidth, 400, false)
+
 
     local function handleBackButtonEvent( event )
 		if ( "ended" == event.phase ) then
@@ -66,6 +90,7 @@ function scene:create( event )
 
 
     sceneGroup:insert( background )
+    sceneGroup:insert (selectedWordImage)
     sceneGroup:insert( backButton )
     sceneGroup:insert( nextButton )
 
