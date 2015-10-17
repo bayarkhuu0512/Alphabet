@@ -93,16 +93,12 @@ function scene:create( event )
     for i = 1, dataword.allWords do
         -- Create a button
         buttons[i] = widget.newButton({
-            --label = tostring( i ),
-            label = dataword.settings.levels[i].name,
             id = tostring( i ),
             onEvent = handleLevelSelect,
             defaultFile = dataword.settings.levels[i].thumb,
             overFile =  dataword.settings.levels[i].thumb,
             width = 300,
             height = 300,
-            fontSize = 64,
-            labelColor = { default = { 0,1, 1, 1 }, over = { 0.5, 0.5, 0.5 } },
 --[[            
             emboss = false,
 
