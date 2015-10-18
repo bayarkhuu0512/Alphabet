@@ -51,14 +51,15 @@ function scene:create( event )
     end
     local function handleNextButtonEvent( event )
 		if ( "ended" == event.phase ) then
-            dataword.settings.selectedWord = wordId +1
+           if(dataword.allWords > wordId) then
 
-            print ("All letters matched!")        
-        	print ("end animation: ",matchedLettersCount)
-        	print ("All words : ",dataword.allWords)
-        	print ("SelectedWord : ",dataword.settings.selectedWord)
+                dataword.settings.selectedWord = wordId +1
 
-           if(dataword.allWords>=dataword.settings.selectedWord) then
+                print ("All letters matched!")        
+            	print ("end animation: ",matchedLettersCount)
+            	print ("All words : ",dataword.allWords)
+            	print ("SelectedWord : ",dataword.settings.selectedWord)
+
 	            print("Go to Next word")        
 	            composer.removeScene( "defineword", false )
 	            composer.gotoScene( "game", { effect="slideLeft", time=600 } )
@@ -78,21 +79,24 @@ function scene:create( event )
         height = 50,
         onEvent = handleBackButtonEvent
     })
-    local nextButton = widget.newButton({
-        id = "button1",
-        label = "Дараагийн үг",
-        left = actualWidth - 180,
-        top = 0,
-        width = 150,
-        height = 50,
-        onEvent = handleNextButtonEvent
-    })
+
 
 
     sceneGroup:insert( background )
     sceneGroup:insert (selectedWordImage)
     sceneGroup:insert( backButton )
-    sceneGroup:insert( nextButton )
+    if(dataword.allWords > wordId + 1) then
+        local nextButton = widget.newButton({
+            id = "button1",
+            label = "Дараагийн үг",
+            left = actualWidth - 180,
+            top = 0,
+            width = 150,
+            height = 50,
+            onEvent = handleNextButtonEvent
+        })
+        sceneGroup:insert( nextButton )
+    end
 
 end
 
