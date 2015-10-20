@@ -9,7 +9,7 @@ Letters Seq
 Е = 6 //E
 Ё = 7
 Ж = 8
-Ъ = 9
+З = 9
 И = 10
 Й = 11
 К = 12 //K
@@ -32,12 +32,11 @@ Letters Seq
 Щ = 29
 Ъ = 30
 Ь = 31
-В = 32
-Ы = 33
-Э = 34
-Ю = 35
-Я = 36
-- = 37
+Ы = 32
+Э = 33
+Ю = 34
+Я = 35
+- = 36
 
 ]]
 L.allLetters = 12
@@ -50,9 +49,18 @@ L.letters[1].width = 110
 L.letters[1].imgNormal = 'images/A.png'
 L.letters[1].imgGrey = 'images/A_grey.png'
 L.letters[1].imgSprite = 'images/A_sprite.png'
-L.letters[1].soundSelected = 'sound_kando/phonic_A.mp3'
-L.letters[1].soundLetter = 'sound_kando/letter_A.mp3'
+L.letters[1].soundSelected = 'letters_voice/phonic_A.mp3'
+L.letters[1].soundLetter = 'letters_voice/letter_A.mp3'
 
+L.letters[2] = {}
+L.letters[2].name = 'Б'
+L.letters[2].seq = '2'
+L.letters[2].width = 110
+L.letters[2].imgNormal = 'images/A.png'
+L.letters[2].imgGrey = 'images/A_grey.png'
+L.letters[2].imgSprite = 'images/A_sprite.png'
+L.letters[2].soundSelected = 'letters_voice/phonic_B.mp3'
+L.letters[2].soundLetter = 'letters_voice/letter_B_f.mp3'
 
 L.letters[3] = {}
 L.letters[3].name = 'В'
@@ -61,8 +69,28 @@ L.letters[3].width = 83
 L.letters[3].imgNormal = 'images/B.png'
 L.letters[3].imgGrey = 'images/B_grey.png'
 L.letters[3].imgSprite = 'images/B_sprite.png'
-L.letters[3].soundSelected = 'sounds/B-long.mp3'
-L.letters[3].soundLetter = 'sounds/letter_B.mp3'
+L.letters[3].soundSelected = 'letters_voice/phonic_V.mp3'
+L.letters[3].soundLetter = 'letters_voice/letter_V_f.mp3'
+
+L.letters[4] = {}
+L.letters[4].name = 'Г'
+L.letters[4].seq = '4'
+L.letters[4].width = 83
+L.letters[4].imgNormal = 'images/B.png'
+L.letters[4].imgGrey = 'images/B_grey.png'
+L.letters[4].imgSprite = 'images/B_sprite.png'
+L.letters[4].soundSelected = 'letters_voice/phonic_G.mp3'
+L.letters[4].soundLetter = 'letters_voice/letter_G_f.mp3'
+
+L.letters[5] = {}
+L.letters[5].name = 'Д'
+L.letters[5].seq = '5'
+L.letters[5].width = 83
+L.letters[5].imgNormal = 'images/B.png'
+L.letters[5].imgGrey = 'images/B_grey.png'
+L.letters[5].imgSprite = 'images/B_sprite.png'
+L.letters[5].soundSelected = 'letters_voice/phonic_D.mp3'
+L.letters[5].soundLetter = 'letters_voice/letter_D_f.mp3'
 
 L.letters[6] = {}
 L.letters[6].name = 'Е'
@@ -71,9 +99,50 @@ L.letters[6].width = 101
 L.letters[6].imgNormal = 'images/E.png'
 L.letters[6].imgGrey = 'images/E_grey.png'
 L.letters[6].imgSprite = 'images/E_sprite.png'
-L.letters[6].soundSelected = 'sounds/E-short.mp3'
-L.letters[6].soundLetter = 'sounds/letter_E.mp3'
+L.letters[6].soundSelected = 'letters_voice/phonic_Ye.mp3'
+L.letters[6].soundLetter = 'letters_voice/letter_Ye_f.mp3'
 
+L.letters[8] = {}
+L.letters[8].name = 'Ж'
+L.letters[8].seq = '8'
+L.letters[8].width = 101
+L.letters[8].imgNormal = 'images/E.png'
+L.letters[8].imgGrey = 'images/E_grey.png'
+L.letters[8].imgSprite = 'images/E_sprite.png'
+L.letters[8].soundSelected = 'letters_voice/phonic_J.mp3'
+L.letters[8].soundLetter = 'letters_voice/letter_J_f.mp3'
+
+L.letters[9] = {}
+L.letters[9].name = 'З'
+L.letters[9].seq = '9'
+L.letters[9].width = 101
+L.letters[9].imgNormal = 'images/E.png'
+L.letters[9].imgGrey = 'images/E_grey.png'
+L.letters[9].imgSprite = 'images/E_sprite.png'
+L.letters[9].soundSelected = 'letters_voice/phonic_Z.mp3'
+L.letters[9].soundLetter = 'letters_voice/letter_Z_f.mp3'
+
+L.letters[10] = {}
+L.letters[10].name = 'И'
+L.letters[10].seq = '10'
+L.letters[10].width = 101
+L.letters[10].imgNormal = 'images/E.png'
+L.letters[10].imgGrey = 'images/E_grey.png'
+L.letters[10].imgSprite = 'images/E_sprite.png'
+L.letters[10].soundSelected = 'letters_voice/phonic_I.mp3'
+L.letters[10].soundLetter = 'letters_voice/letter_I_f.mp3'
+
+L.letters[11] = {}
+L.letters[11].name = 'Й'
+L.letters[11].seq = '11'
+L.letters[11].width = 101
+L.letters[11].imgNormal = 'images/E.png'
+L.letters[11].imgGrey = 'images/E_grey.png'
+L.letters[11].imgSprite = 'images/E_sprite.png'
+L.letters[11].soundSelected = 'letters_voice/phonic_I.mp3'
+L.letters[11].soundLetter = 'letters_voice/letter_Ii_f.mp3'
+
+--[[
 L.letters[12] = {}
 L.letters[12].name = 'К'
 L.letters[12].seq = '12'
@@ -81,8 +150,19 @@ L.letters[12].width = 128
 L.letters[12].imgNormal = 'images/K.png'
 L.letters[12].imgGrey = 'images/K_grey.png'
 L.letters[12].imgSprite = 'images/K_sprite.png'
-L.letters[12].soundSelected = 'sounds/K-long.mp3'
-L.letters[12].soundLetter = 'sounds/letter_K.mp3'
+L.letters[12].soundSelected = 'letters_voice/phonic_K.mp3'
+L.letters[12].soundLetter = 'letters_voice/letter_K.mp3'
+]]
+
+L.letters[13] = {}
+L.letters[13].name = 'Л'
+L.letters[13].seq = '13'
+L.letters[13].width = 101
+L.letters[13].imgNormal = 'images/E.png'
+L.letters[13].imgGrey = 'images/E_grey.png'
+L.letters[13].imgSprite = 'images/E_sprite.png'
+L.letters[13].soundSelected = 'letters_voice/phonic_L.mp3'
+L.letters[13].soundLetter = 'letters_voice/letter_L_f.mp3'
 
 L.letters[14] = {}
 L.letters[14].name = 'М'
@@ -91,8 +171,8 @@ L.letters[14].width = 185
 L.letters[14].imgNormal = 'images/M.png'
 L.letters[14].imgGrey = 'images/M_grey.png'
 L.letters[14].imgSprite = 'images/M_sprite.png'
-L.letters[14].soundSelected = 'sound_kando/phonic_M.mp3'
-L.letters[14].soundLetter = 'sound_kando/letter_M.mp3'
+L.letters[14].soundSelected = 'letters_voice/phonic_M.mp3'
+L.letters[14].soundLetter = 'letters_voice/letter_M_f.mp3'
 
 L.letters[15] = {}
 L.letters[15].name = 'Н'
@@ -101,8 +181,8 @@ L.letters[15].width = 122
 L.letters[15].imgNormal = 'images/H.png'
 L.letters[15].imgGrey = 'images/H_grey.png'
 L.letters[15].imgSprite = 'images/H_sprite.png'
-L.letters[15].soundSelected = 'sound_kando/phonic_N.mp3'
-L.letters[15].soundLetter = 'sound_kando/letter_N.mp3'
+L.letters[15].soundSelected = 'letters_voice/phonic_N.mp3'
+L.letters[15].soundLetter = 'letters_voice/letter_N_f.mp3'
 
 L.letters[16] = {}
 L.letters[16].name = 'О'
@@ -111,8 +191,19 @@ L.letters[16].width = 112
 L.letters[16].imgNormal = 'images/O.png'
 L.letters[16].imgGrey = 'images/O_grey.png'
 L.letters[16].imgSprite = 'images/O_sprite.png'
-L.letters[16].soundSelected = 'sounds/O-short.mp3'
-L.letters[16].soundLetter = 'sounds/letter_O.mp3'
+L.letters[16].soundSelected = 'letters_voice/phonic_O.mp3'
+L.letters[16].soundLetter = 'letters_voice/letter_O_f.mp3'
+
+L.letters[17] = {}
+L.letters[17].name = 'Ө'
+L.letters[17].seq = '17'
+L.letters[17].width = 112
+L.letters[17].imgNormal = 'images/O.png'
+L.letters[17].imgGrey = 'images/O_grey.png'
+L.letters[17].imgSprite = 'images/O_sprite.png'
+L.letters[17].soundSelected = 'letters_voice/phonic_Uo.mp3'
+L.letters[17].soundLetter = 'letters_voice/letter_Uo_f.mp3'
+
 
 L.letters[19] = {}
 L.letters[19].name = 'Р'
@@ -121,9 +212,10 @@ L.letters[19].width = 97
 L.letters[19].imgNormal = 'images/P.png'
 L.letters[19].imgGrey = 'images/P_grey.png'
 L.letters[19].imgSprite = 'images/P_sprite.png'
-L.letters[19].soundSelected = 'sound_kando/phonic_R.mp3'
-L.letters[19].soundLetter = 'sound_kando/letter_R.mp3'
+L.letters[19].soundSelected = 'letters_voice/phonic_R.mp3'
+L.letters[19].soundLetter = 'letters_voice/letter_R_f.mp3'
 
+--[[
 L.letters[20] = {}
 L.letters[20].name = 'С'
 L.letters[20].seq = '20'
@@ -131,8 +223,9 @@ L.letters[20].width = 104
 L.letters[20].imgNormal = 'images/C.png'
 L.letters[20].imgGrey = 'images/C_grey.png'
 L.letters[20].imgSprite = 'images/C_sprite.png'
-L.letters[20].soundSelected = 'sounds/C-short.mp3'
-L.letters[20].soundLetter = 'sounds/letter_C.mp3'
+L.letters[20].soundSelected = 'letters_voice/phonic_C.mp3'
+L.letters[20].soundLetter = 'letters_voice/letter_C.mp3'
+]]
 
 L.letters[21] = {}
 L.letters[21].name = 'Т'
@@ -141,8 +234,20 @@ L.letters[21].width = 102
 L.letters[21].imgNormal = 'images/T.png'
 L.letters[21].imgGrey = 'images/T_grey.png'
 L.letters[21].imgSprite = 'images/T_sprite.png'
-L.letters[21].soundSelected = 'sounds/T-long.mp3'
-L.letters[21].soundLetter = 'sounds/letter_T.mp3'
+L.letters[21].soundSelected = 'letters_voice/phonic_T.mp3'
+L.letters[21].soundLetter = 'letters_voice/letter_T_f.mp3'
+
+
+L.letters[22] = {}
+L.letters[22].name = 'У'
+L.letters[22].seq = '22'
+L.letters[22].width = 102
+L.letters[22].imgNormal = 'images/T.png'
+L.letters[22].imgGrey = 'images/T_grey.png'
+L.letters[22].imgSprite = 'images/T_sprite.png'
+L.letters[22].soundSelected = 'letters_voice/phonic_U.mp3'
+L.letters[22].soundLetter = 'letters_voice/letter_U_f.mp3'
+
 
 L.letters[23] = {}
 L.letters[23].name = 'Ү'
@@ -151,8 +256,8 @@ L.letters[23].width = 118
 L.letters[23].imgNormal = 'images/Y.png'
 L.letters[23].imgGrey = 'images/Y_grey.png'
 L.letters[23].imgSprite = 'images/Y_sprite.png'
-L.letters[23].soundSelected = 'sounds/Y-long.mp3'
-L.letters[23].soundLetter = 'sounds/letter_Y.mp3'
+L.letters[23].soundSelected = 'letters_voice/phonic_Uo.mp3'
+L.letters[23].soundLetter = 'letters_voice/letter_Uo_f.mp3'
 
 L.letters[25] = {}
 L.letters[25].name = 'Х'
@@ -161,7 +266,36 @@ L.letters[25].width = 132
 L.letters[25].imgNormal = 'images/X.png'
 L.letters[25].imgGrey = 'images/X_grey.png'
 L.letters[25].imgSprite = 'images/X_sprite.png'
-L.letters[25].soundSelected = 'sounds/X-long.mp3'
-L.letters[25].soundLetter = 'sounds/letter_X.mp3'
+L.letters[25].soundSelected = 'letters_voice/phonic_H.mp3'
+L.letters[25].soundLetter = 'letters_voice/letter_H_f.mp3'
 
+L.letters[28] = {}
+L.letters[28].name = 'Ш'
+L.letters[28].seq = '28'
+L.letters[28].width = 132
+L.letters[28].imgNormal = 'images/X.png'
+L.letters[28].imgGrey = 'images/X_grey.png'
+L.letters[28].imgSprite = 'images/X_sprite.png'
+L.letters[28].soundSelected = 'letters_voice/phonic_Sh.mp3'
+L.letters[28].soundLetter = 'letters_voice/letter_Sh_f.mp3'
+
+L.letters[33] = {}
+L.letters[33].name = 'Э'
+L.letters[33].seq = '33'
+L.letters[33].width = 132
+L.letters[33].imgNormal = 'images/X.png'
+L.letters[33].imgGrey = 'images/X_grey.png'
+L.letters[33].imgSprite = 'images/X_sprite.png'
+L.letters[33].soundSelected = 'letters_voice/phonic_E.mp3'
+L.letters[33].soundLetter = 'letters_voice/letter_E_f.mp3'
+
+L.letters[35] = {}
+L.letters[35].name = 'Я'
+L.letters[35].seq = '35'
+L.letters[35].width = 132
+L.letters[35].imgNormal = 'images/X.png'
+L.letters[35].imgGrey = 'images/X_grey.png'
+L.letters[35].imgSprite = 'images/X_sprite.png'
+L.letters[35].soundSelected = 'letters_voice/phonic_Ya.mp3'
+L.letters[35].soundLetter = 'letters_voice/letter_Ya_f.mp3'
 return L
