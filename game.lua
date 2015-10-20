@@ -50,13 +50,18 @@ function scene:create( event )
   --  audio.play( backgroundMusic,{ loops=-1 }  )
 
     -- Background Image
-    local background = display.newImage("images/BG_Orange.jpg")
+    local background = display.newImage("images/BG.jpg")
     background.x = displayWidth
     background.y = displayHeight
 
     local header= display.newImage("images/BG_Header.png")
     header.x = displayWidth
-    header.y = 15
+    header.y = 45
+
+    local footer= display.newImage("images/BG_Footer.png")
+    footer.x = displayWidth
+    footer.y = display.contentHeight-53
+
 
     --Үндсэн letter.lua object-г агуулах array(үсэгний бүх мэдэээлэл scale, rotation, holder, audio etc)
     local splitedLetter = {}
@@ -583,8 +588,8 @@ function scene:create( event )
             id = "button1",
             defaultFile  = "images/btn_home.png",
             overFile = "images/btn_home.png",
-            left = -60,
-            top = 20,
+            left = -10,
+            top = 5,
             width = 80,
             height = 80,
             onEvent = handleBackButtonEvent
@@ -595,14 +600,15 @@ function scene:create( event )
             id = "buttonWord",
             defaultFile  = "images/btn_music.png",
             overFile = "images/btn_music.png",
-            left = display.contentWidth-10,
-            top = 20,
+            left = display.contentWidth-100,
+            top = 5,
             width = 80,
             height = 80,
             onEvent = handleWordButtonEvent
     })
 
     sceneGroup:insert( background )
+    sceneGroup:insert( header )
     sceneGroup:insert( backButton )
     sceneGroup:insert( wordButton )
 
@@ -615,6 +621,7 @@ function scene:create( event )
         end
     end
     sceneGroup:insert( animation )
+    sceneGroup:insert( footer )    
 
 end
 
