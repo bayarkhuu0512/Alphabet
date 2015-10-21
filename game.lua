@@ -163,7 +163,7 @@ function scene:create( event )
         number = k
 
 
-        holder = display.newImage(v.imgGrey, letterX, letterY, true)
+        holder = display.newImage(v.imgWhite, letterX, letterY, true)
         holder.isVisible = false
         audioFile = audio.loadSound( v.soundSelected)
         audioLetter = audio.loadSound( v.soundLetter)

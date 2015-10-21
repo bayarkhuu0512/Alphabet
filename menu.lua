@@ -92,7 +92,7 @@ function scene:create( event )
     })
 
     -- 'xOffset', 'yOffset' and 'cellCount' are used to position the buttons in the grid.
-    local xOffset = display.contentCenterX
+    local xOffset = 100
     local yOffset = display.contentCenterY
 
     -- Define the array to hold the buttons
@@ -106,8 +106,8 @@ function scene:create( event )
             onEvent = handleLevelSelect,
             defaultFile = dataword.settings.levels[i].thumb,
             overFile =  dataword.settings.levels[i].thumb,
-            width = 300,
-            height = 300,
+            width = 230,
+            height = 230,
             emboss = true,
 --[[            
 
@@ -141,7 +141,7 @@ font = native.systemFontBold,
         end 
 
 
-        xOffset = xOffset + 350
+        xOffset = xOffset + 230
 --[[        if ( cellCount > 5 ) then
             cellCount = 1
             xOffset = xOffset
