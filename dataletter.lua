@@ -242,9 +242,9 @@ L.letters[22] = {}
 L.letters[22].name = 'У'
 L.letters[22].seq = '22'
 L.letters[22].width = 102
-L.letters[22].imgNormal = 'images/T.png'
-L.letters[22].imgWhite = 'images/T_white.png'
-L.letters[22].imgSprite = 'images/T_sprite.png'
+L.letters[22].imgNormal = 'images/U.png'
+L.letters[22].imgWhite = 'images/U_white.png'
+L.letters[22].imgSprite = 'images/U_sprite.png'
 L.letters[22].soundSelected = 'letters_voice/phonic_U.mp3'
 L.letters[22].soundLetter = 'letters_voice/letter_U_f.mp3'
 
