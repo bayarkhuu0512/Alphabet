@@ -48,7 +48,7 @@ M.settings.levels[5].seq = '10,28,10,4'
 M.settings.levels[5].chorus = 'bundles/05_ishig/chorus.mp3'
 M.settings.levels[5].wordListen = 'bundles/05_ishig/ishig.mp3'
 M.settings.levels[5].wordDef = 'bundles/05_ishig/wordDef.mp3'
-M.settings.levels[5].thumb = 'bundles/05_ishig/thumb.jpg'
+M.settings.levels[5].thumb = 'bundles/05_ishig/ishig.png'
 
 M.settings.levels[6] = {}
 M.settings.levels[6].name = 'ГӨЛӨГ'
@@ -57,7 +57,7 @@ M.settings.levels[6].seq = '4,17,13,17,4'
 M.settings.levels[6].chorus = 'bundles/06_golog/chorus.mp3'
 M.settings.levels[6].wordListen = 'bundles/06_golog/golog.mp3'
 M.settings.levels[6].wordDef = 'bundles/06_golog/wordDef.mp3'
-M.settings.levels[6].thumb = 'bundles/06_golog/thumb.jpg'
+M.settings.levels[6].thumb = 'bundles/06_golog/golog.png'
 
 M.settings.levels[7] = {}
 M.settings.levels[7].name = 'ТООРОЙ'
@@ -66,7 +66,7 @@ M.settings.levels[7].seq = '21,16,16,19,16,11'
 M.settings.levels[7].chorus = 'bundles/07_tooroi/chorus.mp3'
 M.settings.levels[7].wordListen = 'bundles/07_tooroi/tooroi.mp3'
 M.settings.levels[7].wordDef = 'bundles/07_tooroi/wordDef.mp3'
-M.settings.levels[7].thumb = 'bundles/07_tooroi/thumb.jpg'
+M.settings.levels[7].thumb = 'bundles/07_tooroi/tooroi.png'
 
 M.settings.levels[8] = {}
 M.settings.levels[8].name = 'ДЭГДЭЭХИЙ'
@@ -75,7 +75,7 @@ M.settings.levels[8].seq = '5,33,4,5,33,33,25,10,11'
 M.settings.levels[8].chorus = 'bundles/08_degdeehii/chorus.mp3'
 M.settings.levels[8].wordListen = 'bundles/08_degdeehii/degdeehii.mp3'
 M.settings.levels[8].wordDef = 'bundles/08_degdeehii/wordDef.mp3'
-M.settings.levels[8].thumb = 'bundles/08_degdeehii/thumb.jpg'
+M.settings.levels[8].thumb = 'bundles/08_degdeehii/degdeehii.png'
 
 M.settings.levels[9] = {}
 M.settings.levels[9].name = 'ДУДРАН'

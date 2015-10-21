@@ -136,9 +136,9 @@ L.letters[11] = {}
 L.letters[11].name = 'Й'
 L.letters[11].seq = '11'
 L.letters[11].width = 101
-L.letters[11].imgNormal = 'images/E.png'
-L.letters[11].imgGrey = 'images/E_grey.png'
-L.letters[11].imgSprite = 'images/E_sprite.png'
+L.letters[11].imgNormal = 'images/Ii.png'
+L.letters[11].imgGrey = 'images/Ii_grey.png'
+L.letters[11].imgSprite = 'images/Ii_sprite.png'
 L.letters[11].soundSelected = 'letters_voice/phonic_I.mp3'
 L.letters[11].soundLetter = 'letters_voice/letter_Ii_f.mp3'
 
@@ -198,9 +198,9 @@ L.letters[17] = {}
 L.letters[17].name = 'Ө'
 L.letters[17].seq = '17'
 L.letters[17].width = 112
-L.letters[17].imgNormal = 'images/O.png'
-L.letters[17].imgGrey = 'images/O_grey.png'
-L.letters[17].imgSprite = 'images/O_sprite.png'
+L.letters[17].imgNormal = 'images/Ou.png'
+L.letters[17].imgGrey = 'images/Ou_grey.png'
+L.letters[17].imgSprite = 'images/Ou_sprite.png'
 L.letters[17].soundSelected = 'letters_voice/phonic_Uo.mp3'
 L.letters[17].soundLetter = 'letters_voice/letter_Uo_f.mp3'
 
