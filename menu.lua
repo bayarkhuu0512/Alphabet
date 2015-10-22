@@ -78,6 +78,17 @@ function scene:create( event )
     background.y = displayHeight
     sceneGroup:insert( background )
 
+    local  name= display.newImage("images/name.png",true)
+    name.x = display.contentCenterX
+    name.y = 100
+    sceneGroup:insert( name )
+
+
+    local  motto= display.newImage("images/motto.png",true)
+    motto.x = display.contentCenterX
+    motto.y = 200
+    sceneGroup:insert( motto )
+
     -- Use a scrollView to contain the level buttons (for support of more than one full screen).
     -- Since this will only scroll vertically, lock horizontal scrolling.
     levelSelectGroup = widget.newScrollView({     
@@ -93,7 +104,7 @@ function scene:create( event )
 
     -- 'xOffset', 'yOffset' and 'cellCount' are used to position the buttons in the grid.
     local xOffset = 100
-    local yOffset = display.contentCenterY
+    local yOffset = display.contentCenterY + 100
 
     -- Define the array to hold the buttons
     local buttons = {}
@@ -164,7 +175,8 @@ local function handleInfoButtonEvent( event )
    -- dialog.alpha = 0.9
     end
 end
-    local infoButton = widget.newButton({
+
+--[[    local infoButton = widget.newButton({
         id = "buttonInfo",
         label = "Info",
         left = 0,
@@ -174,6 +186,8 @@ end
         onEvent = handleInfoButtonEvent
 })
     sceneGroup:insert( infoButton )
+]]
+
 
 end
 

@@ -10,7 +10,7 @@ local letter = require ("letter")
 local widget = require( "widget" )
 local wordId
     -- Background Music
-local backgroundMusic = audio.loadStream( "sounds/bg_music1.mp3" )
+local backgroundMusic = audio.loadStream( "sounds/bg_music2.mp3" )
 
 function scene:create( event )
     local sceneGroup = self.view
@@ -47,7 +47,7 @@ function scene:create( event )
     local displayMidY = displayHeight
     local isPreparing = true
 
-  --  audio.play( backgroundMusic,{ loops=-1 }  )
+    audio.play( backgroundMusic,{ loops=-1 }  )
 
     -- Background Image
     local background = display.newImage("images/BG.jpg")
