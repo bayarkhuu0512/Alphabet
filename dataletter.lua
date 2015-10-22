@@ -106,9 +106,9 @@ L.letters[8] = {}
 L.letters[8].name = 'Ж'
 L.letters[8].seq = '8'
 L.letters[8].width = 101
-L.letters[8].imgNormal = 'images/E.png'
-L.letters[8].imgWhite = 'images/E_white.png'
-L.letters[8].imgSprite = 'images/E_sprite.png'
+L.letters[8].imgNormal = 'images/Je.png'
+L.letters[8].imgWhite = 'images/Je_white.png'
+L.letters[8].imgSprite = 'images/Je_sprite.png'
 L.letters[8].soundSelected = 'letters_voice/phonic_J.mp3'
 L.letters[8].soundLetter = 'letters_voice/letter_J_f.mp3'
 
