@@ -56,9 +56,9 @@ L.letters[2] = {}
 L.letters[2].name = 'Б'
 L.letters[2].seq = '2'
 L.letters[2].width = 110
-L.letters[2].imgNormal = 'images/A.png'
-L.letters[2].imgWhite = 'images/A_white.png'
-L.letters[2].imgSprite = 'images/A_sprite.png'
+L.letters[2].imgNormal = 'images/B.png'
+L.letters[2].imgWhite = 'images/B_white.png'
+L.letters[2].imgSprite = 'images/B_sprite.png'
 L.letters[2].soundSelected = 'letters_voice/phonic_B.mp3'
 L.letters[2].soundLetter = 'letters_voice/letter_B_f.mp3'
 
@@ -273,9 +273,9 @@ L.letters[28] = {}
 L.letters[28].name = 'Ш'
 L.letters[28].seq = '28'
 L.letters[28].width = 132
-L.letters[28].imgNormal = 'images/He.png'
-L.letters[28].imgWhite = 'images/He_white.png'
-L.letters[28].imgSprite = 'images/He_sprite.png'
+L.letters[28].imgNormal = 'images/Sh.png'
+L.letters[28].imgWhite = 'images/Sh_white.png'
+L.letters[28].imgSprite = 'images/Sh_sprite.png'
 L.letters[28].soundSelected = 'letters_voice/phonic_Sh.mp3'
 L.letters[28].soundLetter = 'letters_voice/letter_Sh_f.mp3'
 
