@@ -84,7 +84,7 @@ M.settings.levels[9].seq = '5,22,5,19,1,15'
 M.settings.levels[9].chorus = 'bundles/09_dudran/chorus.mp3'
 M.settings.levels[9].wordListen = 'bundles/09_dudran/dudran.mp3'
 M.settings.levels[9].wordDef = 'bundles/09_dudran/wordDef.mp3'
-M.settings.levels[9].thumb = 'bundles/09_dudran/thumb.jpg'
+M.settings.levels[9].thumb = 'bundles/09_dudran/dudran.png'
 
 M.settings.levels[10] = {}
 M.settings.levels[10].name = 'АНГААХАЙ'
@@ -93,7 +93,7 @@ M.settings.levels[10].seq = '1,15,4,1,1,25,1,11'
 M.settings.levels[10].chorus = 'bundles/10_angaahai/chorus.mp3'
 M.settings.levels[10].wordListen = 'bundles/10_angaahai/angaahai.mp3'
 M.settings.levels[10].wordDef = 'bundles/10_angaahai/wordDef.mp3'
-M.settings.levels[10].thumb = 'bundles/10_angaahai/thumb.jpg'
+M.settings.levels[10].thumb = 'bundles/10_angaahai/angaahai.png'
 
 M.settings.levels[11] = {}
 M.settings.levels[11].name = 'БҮЖИН'
