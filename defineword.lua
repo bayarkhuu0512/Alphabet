@@ -73,8 +73,8 @@ function scene:create( event )
     local backButton = widget.newButton({
         id = "button1",
         label = "Буцах",
-        left = 0,
-        top = 0,
+        x = 0,
+        y = 45,
         width = 100,
         height = 50,
         onEvent = handleBackButtonEvent
@@ -89,8 +89,8 @@ function scene:create( event )
         local nextButton = widget.newButton({
             id = "button1",
             label = "Дараагийн үг",
-            left = actualWidth - 180,
-            top = 0,
+            x = actualWidth ,
+            y = 45,
             width = 150,
             height = 50,
             onEvent = handleNextButtonEvent

@@ -54,11 +54,13 @@ function scene:create( event )
     background.x = displayWidth
     background.y = displayHeight
 
-    local header= display.newImage("images/BG_Header.png")
+    local header= display.newImage("images/BG_Header.png", true)
+    header.contentWidth = actualWidth
     header.x = displayWidth
     header.y = 45
 
-    local footer= display.newImage("images/BG_Footer.png")
+    local footer= display.newImage("images/BG_Footer.png", true)
+    footer.contentWidth = actualWidth
     footer.x = displayWidth
     footer.y = display.contentHeight-53
 
@@ -209,6 +211,7 @@ function scene:create( event )
     animation.xScale = scalePoint
     animation.yScale = scalePoint
     animation.name = "animation"
+
     function fadeOut(  )
         -- body
         for  k, v in pairs(splitedLetter) do
@@ -427,7 +430,8 @@ function scene:create( event )
                     targetAnim.contentHeight = target.contentHeight
                     target.isVisible = false
                     targetAnim.isVisible = true
-                    -- targetAnim.name = target.name      
+                    -- targetAnim.name = target.name    
+                    target:toFront( )  
                     targetAnim:toFront ()  
                     targetAnim:play()
                     sound = audio.play( sound,{ loops=-1 } )
@@ -472,17 +476,30 @@ function scene:create( event )
             display.getCurrentStage():setFocus( nil )
 
             function transitionComplete()
-
                 b = 0
                 endAnimation(target)
                 target:removeEventListener("touch", dragLetters)
                 chosenHolder  = nil
                 audio.play( soundLetter )
-                if(wordCount == matchedLettersCount) then   
-                    Runtime:addEventListener("enterFrame",makeRibbon) 
-                    audio.play(applauseAudio)
+                if(wordCount == matchedLettersCount) then  
+                    function  lastAnimation(  )
+                        -- body
+                        for k, v in pairs(splitedLetter) do
+                            function preDestinationComplete()
+                                transition.to( v.realImage, {time=500, xScale = v.scalePoint, yScale = v.scalePoint, onComplete = preFadeCompleted})
+                                transition.to( v.holder, {time=500, xScale = v.scalePoint, yScale = v.scalePoint}) 
+                                if (k == wordCount) then
+                                    Runtime:addEventListener("enterFrame",makeRibbon) 
+                                    audio.play(applauseAudio)
+                                    timer.performWithDelay( 2500, allWordsCompleted)
+                                end
+                            end
+                            transition.to( v.holder, { time=300,  xScale = scalePoint, yScale = scalePoint})
+                            transition.to( v.realImage, { time=300,  xScale = scalePoint, yScale = scalePoint, onComplete = preDestinationComplete})
+                        end
+                    end
                     audio.play(chorusAudio)
-                    timer.performWithDelay( 2500, allWordsCompleted)
+                    timer.performWithDelay(300, lastAnimation) 
                 end
             end
             transition.to( target, {time=500, x=chosenHolder.x , y = chosenHolder.y, rotation = chosenHolder.rotation, onComplete = transitionComplete} )
@@ -570,14 +587,14 @@ function scene:create( event )
 
     -- Button handler to cancel the level selection and return to the menu
     local function handleBackButtonEvent( event )
-        if ( "ended" == event.phase ) then
+        if ( "ended" == event.phase and isPreparing == false) then
             composer.removeScene( "game", false )
             composer.gotoScene( "menu", { effect="crossFade", time=333 } )
         end
     end
 
     local function handleWordButtonEvent( event )
-        if ( "ended" == event.phase ) then
+        if ( "ended" == event.phase and isPreparing == false) then
          audio.play( wordDefAudio )
         end
     end
@@ -588,8 +605,8 @@ function scene:create( event )
             id = "button1",
             defaultFile  = "images/btn_home.png",
             overFile = "images/btn_home.png",
-            left = -10,
-            top = 5,
+            x = 0,
+            y = 45,
             width = 80,
             height = 80,
             onEvent = handleBackButtonEvent
@@ -600,8 +617,8 @@ function scene:create( event )
             id = "buttonWord",
             defaultFile  = "images/btn_music.png",
             overFile = "images/btn_music.png",
-            left = display.contentWidth-100,
-            top = 5,
+            x = actualWidth,
+            y = 45,
             width = 80,
             height = 80,
             onEvent = handleWordButtonEvent
