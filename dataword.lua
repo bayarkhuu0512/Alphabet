@@ -1,5 +1,5 @@
 local M = {}
-M.allWords = 21
+M.allWords = 20
 M.settings = {}
 M.settings.selectedWord = 1
 M.settings.unlockedLevels = 20
@@ -184,15 +184,6 @@ M.settings.levels[20].chorus = 'bundles/20_guyen/chorus.mp3'
 M.settings.levels[20].wordListen = 'bundles/20_guyen/word_namar.mp3'
 M.settings.levels[20].wordDef = 'bundles/20_guyen/wordDef.mp3'
 M.settings.levels[20].thumb = 'bundles/20_guyen/thumb.jpg'
-
-M.settings.levels[21] = {}
-M.settings.levels[21].name = ''
-M.settings.levels[21].count = 1
-M.settings.levels[21].seq = '1'
-M.settings.levels[21].chorus = 'bundles/21_blank/chorus.mp3'
-M.settings.levels[21].wordListen = 'bundles/21_blank/word_namar.mp3'
-M.settings.levels[21].wordDef = 'bundles/21_blank/wordDef.mp3'
-M.settings.levels[21].thumb = 'bundles/21_blank/thumb.png'
 
 
 return M
