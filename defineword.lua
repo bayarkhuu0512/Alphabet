@@ -49,7 +49,7 @@ function scene:create( event )
     local function handleBackButtonEvent( event )
 		if ( "ended" == event.phase ) then
 		    composer.removeScene( "defineword", false )
-		    composer.gotoScene( "game", { effect="slideRight", time=333 } )
+            composer.gotoScene( "menu", { effect="crossFade", time=333 } )
 		end
     end
     local function handleWordDefButtonEvent( event )
@@ -93,21 +93,23 @@ function scene:create( event )
 
     local backButton = widget.newButton({
         id = "button1",
-        label = "Буцах",
+        defaultFile  = "images/btn_home.png",
+        overFile = "images/btn_home.png",
         x = 0,
         y = 45,
-        width = 100,
-        height = 50,
+        width = 80,
+        height = 80,
         onEvent = handleBackButtonEvent
     })
 
     local wordDefListenButton = widget.newButton({
         id = "button3",
-        label = "Тайлбар",
+        defaultFile  = "images/btn_music.png",
+        overFile = "images/btn_music.png",
         x = display.contentCenterX,
         y = 45,
-        width = 100,
-        height = 50,
+        width = 80,
+       height = 80,
         onEvent = handleWordDefButtonEvent
     })
 
