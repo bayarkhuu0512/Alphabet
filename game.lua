@@ -2,6 +2,8 @@ local sceneName = ...
 
 local composer = require( "composer" )
 
+system.activate( "multitouch" )
+
 -- Load scene with same root filename as this file
 local scene = composer.newScene( sceneName )
 local dataword = require( "dataword" )

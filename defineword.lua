@@ -5,6 +5,8 @@ local widget = require( "widget" )
 
 local scene = composer.newScene( )
 
+system.activate( "multitouch" )
+
 
 local function fitImage( displayObject, fitWidth, fitHeight, enlarge )
     --

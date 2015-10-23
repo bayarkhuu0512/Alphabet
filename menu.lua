@@ -17,6 +17,8 @@ local smsoptions = {to = { "1234567890"},body = "asdabfa3e23asdas#23312ds"}
 local defaultField 
 local levelSelectGroup
 
+system.activate( "multitouch" )
+
 local function textListener( event )
 
     if ( event.phase == "began" ) then
