@@ -28,6 +28,7 @@ function scene:create( event )
     local wordId = tonumber(dataword.settings.selectedWord)
     local word = dataword.settings.levels[wordId]
     local wordImage = word.thumb
+    local wordDefSound = audio.loadSound( word.wordDef )
 
 	print( 'Chosen word ID: ',dataword.settings.selectedWord )
     local actualHeight =  display.contentHeight
@@ -51,6 +52,24 @@ function scene:create( event )
 		    composer.gotoScene( "game", { effect="slideRight", time=333 } )
 		end
     end
+    local function handleWordDefButtonEvent( event )
+        if ( "ended" == event.phase ) then
+          audio.stop()
+          audio.play( wordDefSound)
+        end
+    end
+
+    local function handleReplayButtonEvent( event )
+        if ( "ended" == event.phase ) then
+          dataword.settings.selectedWord = wordId
+            print("Go to this word")        
+                composer.removeScene( "defineword", false )
+                composer.gotoScene( "game", { effect="slideLeft", time=600 } )
+        end
+    end
+    
+
+
     local function handleNextButtonEvent( event )
 		if ( "ended" == event.phase ) then
            if(dataword.allWords > wordId) then
@@ -85,19 +104,36 @@ function scene:create( event )
     local wordDefListenButton = widget.newButton({
         id = "button3",
         label = "Тайлбар",
-        x = 0,
+        x = display.contentCenterX,
         y = 45,
         width = 100,
         height = 50,
-        onEvent = handleBackButtonEvent
+        onEvent = handleWordDefButtonEvent
     })
 
 
+    local replayButton = widget.newButton({
+        id = "button4",
+        label = "Ахин тоглох",
+        x = display.contentCenterX,
+        y = display.contentWidth/2+100,
+        width = 100,
+        height = 50,
+        onEvent = handleReplayButtonEvent
+    })
 
+
+    audio.stop()
+    audio.play( wordDefSound)
 
     sceneGroup:insert( background )
     sceneGroup:insert (selectedWordImage)
     sceneGroup:insert( backButton )
+    sceneGroup:insert( wordDefListenButton )
+    sceneGroup:insert( replayButton )
+
+    
+
     if(dataword.allWords > wordId) then
         local nextButton = widget.newButton({
             id = "button2",
