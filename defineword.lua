@@ -85,7 +85,7 @@ function scene:create( event )
     sceneGroup:insert( background )
     sceneGroup:insert (selectedWordImage)
     sceneGroup:insert( backButton )
-    if(dataword.allWords > wordId + 1) then
+    if(dataword.allWords > wordId) then
         local nextButton = widget.newButton({
             id = "button1",
             label = "Дараагийн үг",

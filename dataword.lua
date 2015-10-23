@@ -102,7 +102,7 @@ M.settings.levels[11].seq = '2,23,8,10,15'
 M.settings.levels[11].chorus = 'bundles/11_bujin/chorus.mp3'
 M.settings.levels[11].wordListen = 'bundles/11_bujin/bujin.mp3'
 M.settings.levels[11].wordDef = 'bundles/11_bujin/wordDef.mp3'
-M.settings.levels[11].thumb = 'bundles/11_bujin/thumb.jpg'
+M.settings.levels[11].thumb = 'bundles/11_bujin/bujin.png'
 
 M.settings.levels[12] = {}
 M.settings.levels[12].name = 'ХУВДАЙ'
@@ -111,7 +111,7 @@ M.settings.levels[12].seq = '25,22,3,5,1,11'
 M.settings.levels[12].chorus = 'bundles/12_huvdai/chorus.mp3'
 M.settings.levels[12].wordListen = 'bundles/12_huvdai/huvdai.mp3'
 M.settings.levels[12].wordDef = 'bundles/12_huvdai/wordDef.mp3'
-M.settings.levels[12].thumb = 'bundles/12_huvdai/thumb.jpg'
+M.settings.levels[12].thumb = 'bundles/12_huvdai/huvdai.png'
 
 M.settings.levels[13] = {}
 M.settings.levels[13].name = 'БӨӨДИЙ'
@@ -120,7 +120,7 @@ M.settings.levels[13].seq = '2,17,17,5,10,11'
 M.settings.levels[13].chorus = 'bundles/13_boodii/chorus.mp3'
 M.settings.levels[13].wordListen = 'bundles/13_boodii/boodii.mp3'
 M.settings.levels[13].wordDef = 'bundles/13_boodii/wordDef.mp3'
-M.settings.levels[13].thumb = 'bundles/13_boodii/thumb.jpg'
+M.settings.levels[13].thumb = 'bundles/13_boodii/boodii.png'
 
 M.settings.levels[14] = {}
 M.settings.levels[14].name = 'МӨНДӨЛ'
@@ -152,7 +152,7 @@ M.settings.levels[16].thumb = 'bundles/16_hugash/thumb.jpg'
 M.settings.levels[17] = {}
 M.settings.levels[17].name = 'АЛМАНЦАГ'
 M.settings.levels[17].count = 8
-M.settings.levels[17].seq = '1'
+M.settings.levels[17].seq = '1,13,14,1,15,26,1,4'
 M.settings.levels[17].chorus = 'bundles/17_almantsag/chorus.mp3'
 M.settings.levels[17].wordListen = 'bundles/17_almantsag/word_namar.mp3'
 M.settings.levels[17].wordDef = 'bundles/17_almantsag/wordDef.mp3'

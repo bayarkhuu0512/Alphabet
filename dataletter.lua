@@ -39,7 +39,7 @@ Letters Seq
 - = 36
 
 ]]
-L.allLetters = 12
+L.allLetters = 24
 L.letters = {}
 
 L.letters[1] = {}
@@ -268,6 +268,16 @@ L.letters[25].imgWhite = 'images/He_white.png'
 L.letters[25].imgSprite = 'images/He_sprite.png'
 L.letters[25].soundSelected = 'letters_voice/phonic_H.mp3'
 L.letters[25].soundLetter = 'letters_voice/letter_H_f.mp3'
+
+L.letters[26] = {}
+L.letters[26].name = 'Ц'
+L.letters[26].seq = '28'
+L.letters[26].width = 132
+L.letters[26].imgNormal = 'images/Sh.png'
+L.letters[26].imgWhite = 'images/Sh_white.png'
+L.letters[26].imgSprite = 'images/Sh_sprite.png'
+L.letters[26].soundSelected = 'letters_voice/phonic_Sh.mp3'
+L.letters[26].soundLetter = 'letters_voice/letter_Sh_f.mp3'
 
 L.letters[28] = {}
 L.letters[28].name = 'Ш'
