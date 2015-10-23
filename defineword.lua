@@ -82,6 +82,17 @@ function scene:create( event )
         onEvent = handleBackButtonEvent
     })
 
+    local wordDefListenButton = widget.newButton({
+        id = "button3",
+        label = "Тайлбар",
+        x = 0,
+        y = 45,
+        width = 100,
+        height = 50,
+        onEvent = handleBackButtonEvent
+    })
+
+
 
 
     sceneGroup:insert( background )
@@ -89,7 +100,7 @@ function scene:create( event )
     sceneGroup:insert( backButton )
     if(dataword.allWords > wordId) then
         local nextButton = widget.newButton({
-            id = "button1",
+            id = "button2",
             label = "Дараагийн үг",
             x = actualWidth ,
             y = 45,

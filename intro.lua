@@ -4,6 +4,7 @@ local scene = composer.newScene()
 local displayHeight = display.contentHeight/2
 local displayWidth = display.contentWidth/2
 
+--[[
 local video = native.newVideo( 0, 0, display.contentWidth, display.contentHeight)
 video.x = displayWidth
 video.y = displayHeight
@@ -13,6 +14,7 @@ local onComplete = function( event )
    composer.removeScene( "intro", false )
    composer.gotoScene( "menu" )
 end
+]]
 
 local function tapListener( event )
     --code executed when the button is tapped
@@ -24,6 +26,7 @@ local function tapListener( event )
     composer.gotoScene( "menu" )
     return true
 end
+
 
 local function leaveScreen()
     composer.removeScene( "intro", false )
@@ -40,7 +43,7 @@ function scene:create( event )
     background.x = displayWidth
     background.y = displayHeight
     background:addEventListener( "tap", tapListener )        
-    sceneGroup:insert( background ) 
+    sceneGroup:insert( background )
     timer.performWithDelay(1500, leaveScreen)
 
   --  media.playVideo( "videos/intro.m4v", false, onComplete )

@@ -94,7 +94,6 @@ function scene:create( event )
     -- Use a scrollView to contain the level buttons (for support of more than one full screen).
     -- Since this will only scroll vertically, lock horizontal scrolling.
     levelSelectGroup = widget.newScrollView({     
-        left = 0,   
         width = display.contentWidth,
         height = display.contentHeight,
         scrollWidth = display.contentWidth,

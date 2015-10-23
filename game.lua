@@ -16,6 +16,7 @@ local backgroundMusic = audio.loadStream( "sounds/bg_music2.mp3" )
 
 function scene:create( event )
     local sceneGroup = self.view
+
     print( 'Chosen word ID: ',dataword.settings.selectedWord )
 
     wordId = tonumber(dataword.settings.selectedWord)
@@ -23,7 +24,6 @@ function scene:create( event )
     local wordSequences = tostring(word.seq)
     local wordListenAudio =  audio.loadSound(word.wordListen)
     local wordDefAudio =  audio.loadSound(word.wordDef)
-    local chorusAudio =  audio.loadSound(word.chorus)
     local applauseAudio =  audio.loadSound("sounds/piano.mp3")
    --local stampedeAudio = audio.loadSound("sounds/stampede.mp3")
       local stampedeAudio = audio.loadSound("sounds/letters_fadein.mp3")
@@ -500,7 +500,6 @@ function scene:create( event )
                             transition.to( v.realImage, { time=300,  xScale = scalePoint, yScale = scalePoint, onComplete = preDestinationComplete})
                         end
                     end
-                 --   audio.play(chorusAudio)
                     timer.performWithDelay(300, lastAnimation) 
                 end
             end
@@ -641,6 +640,28 @@ function scene:create( event )
     end
     sceneGroup:insert( animation )
     sceneGroup:insert( footer )    
+
+   -- Called when a key event has been received
+local function onKeyEvent( event )
+    -- Print which key was pressed down/up
+    local message = "Key '" .. event.keyName .. "' was pressed " .. event.phase
+    print( message )
+
+    -- If the "back" key was pressed on Android or Windows Phone, prevent it from backing out of the app
+    if ( event.keyName == "back" ) then
+        local platformName = system.getInfo( "platformName" )
+        if ( platformName == "Android" ) or ( platformName == "WinPhone" ) then
+            return true
+        end
+    end
+
+    -- IMPORTANT! Return false to indicate that this app is NOT overriding the received key
+    -- This lets the operating system execute its default handling of the key
+    return false
+end
+
+-- Add the key event listener
+Runtime:addEventListener( "key", onKeyEvent )
 
 end
 
