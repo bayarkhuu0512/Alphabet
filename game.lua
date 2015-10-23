@@ -22,7 +22,7 @@ function scene:create( event )
     local wordListenAudio =  audio.loadSound(word.wordListen)
     local wordDefAudio =  audio.loadSound(word.wordDef)
     local chorusAudio =  audio.loadSound(word.chorus)
-    local applauseAudio =  audio.loadSound("sounds/applause.mp3")
+    local applauseAudio =  audio.loadSound("sounds/piano.mp3")
    --local stampedeAudio = audio.loadSound("sounds/stampede.mp3")
       local stampedeAudio = audio.loadSound("sounds/letters_fadein.mp3")
       print('Chosen word Name: ',wordSequences)
@@ -498,7 +498,7 @@ function scene:create( event )
                             transition.to( v.realImage, { time=300,  xScale = scalePoint, yScale = scalePoint, onComplete = preDestinationComplete})
                         end
                     end
-                    audio.play(chorusAudio)
+                 --   audio.play(chorusAudio)
                     timer.performWithDelay(300, lastAnimation) 
                 end
             end
