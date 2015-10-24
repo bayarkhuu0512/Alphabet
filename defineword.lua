@@ -45,6 +45,27 @@ function scene:create( event )
     selectedWordImage.y = displayMidY
     fitImage(selectedWordImage, actualWidth, 400, false)
 
+    local replayButton = widget.newButton({
+        id = "button4",
+        label = "Ахин тоглох",
+        x = display.contentCenterX,
+        y = display.contentWidth/2+100,
+        width = 100,
+        height = 50,
+        onEvent = handleReplayButtonEvent
+    })
+    replayButton.isVisible = false
+
+-- Completion listener function
+    local function defFinished( event )
+    print( "Narration Finished on channel", event.channel )
+    if ( event.completed ) then
+        print( "Narration completed playback naturally" )
+        replayButton.isVisible = true
+    else
+        print( "Narration was stopped before completion" )
+    end
+end
 
     local function handleBackButtonEvent( event )
 		if ( "ended" == event.phase ) then
@@ -114,19 +135,9 @@ function scene:create( event )
     })
 
 
-    local replayButton = widget.newButton({
-        id = "button4",
-        label = "Ахин тоглох",
-        x = display.contentCenterX,
-        y = display.contentWidth/2+100,
-        width = 100,
-        height = 50,
-        onEvent = handleReplayButtonEvent
-    })
-
 
     audio.stop()
-    audio.play( wordDefSound)
+    audio.play( wordDefSound, { onComplete=defFinished})
 
     sceneGroup:insert( background )
     sceneGroup:insert (selectedWordImage)
@@ -174,6 +185,7 @@ function scene:hide( event )
         --
         -- INSERT code here to pause the scene
         -- e.g. stop timers, stop animation, unload sounds, etc.)
+    audio.stop()
     elseif phase == "did" then
         -- Called when the scene is now off screen
     end 
@@ -182,6 +194,7 @@ end
 
 function scene:destroy( event )
     local sceneGroup = self.view
+    audio.stop()
 
     -- Called prior to the removal of scene's "view" (sceneGroup)
     -- 

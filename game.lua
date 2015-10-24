@@ -424,6 +424,7 @@ function scene:create( event )
             if (target.name ~= "animation") then
                 function complete ()
                     print ("prepare animation compeleted")
+                    sound = audio.play( sound,{ loops=-1 } )
                     isFirstAnimationCompleted = true
                     targetAnim.x, targetAnim.y = target.x,target.y
                     targetAnim.markX = target.x
@@ -436,7 +437,6 @@ function scene:create( event )
                     target:toFront( )  
                     targetAnim:toFront ()  
                     targetAnim:play()
-                    sound = audio.play( sound,{ loops=-1 } )
                 end
                 targetAnim.markX = target.x
                 targetAnim.markY = target.y
@@ -464,7 +464,7 @@ function scene:create( event )
                 target.x, target.y = x, y
             end
         elseif(event.phase == 'ended'  and hitObjects(targetAnim, targetLetter)) then
-            print ("animation ended andd hitObjects")
+            print ("animation ended and hitObjects")
             isPreparing = true
             isFirstAnimationCompleted = false
             matchedLettersCount = matchedLettersCount+1;

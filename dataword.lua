@@ -115,7 +115,7 @@ M.settings.levels[14].count = 6
 M.settings.levels[14].seq = '14,17,15,5,17,13'
 M.settings.levels[14].wordListen = 'bundles/14_mondol/mondol.mp3'
 M.settings.levels[14].wordDef = 'bundles/14_mondol/wordDef.mp3'
-M.settings.levels[14].thumb = 'bundles/14_mondol/thumb.jpg'
+M.settings.levels[14].thumb = 'bundles/14_mondol/mondol.png'
 
 M.settings.levels[15] = {}
 M.settings.levels[15].name = 'ЯНЗАГА'
@@ -123,7 +123,7 @@ M.settings.levels[15].count = 6
 M.settings.levels[15].seq = '35,15,9,1,4,1'
 M.settings.levels[15].wordListen = 'bundles/15_yanzaga/yanzaga.mp3'
 M.settings.levels[15].wordDef = 'bundles/15_yanzaga/wordDef.mp3'
-M.settings.levels[15].thumb = 'bundles/15_yanzaga/thumb.jpg'
+M.settings.levels[15].thumb = 'bundles/15_yanzaga/yanzaga.png'
 
 M.settings.levels[16] = {}
 M.settings.levels[16].name = 'ХУГАШ'
