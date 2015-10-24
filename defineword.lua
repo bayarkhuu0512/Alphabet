@@ -7,7 +7,7 @@ local scene = composer.newScene( )
 
 system.activate( "multitouch" )
 
-
+--[[
 local function fitImage( displayObject, fitWidth, fitHeight, enlarge )
     --
     -- first determine which edge is out of bounds
@@ -22,7 +22,7 @@ local function fitImage( displayObject, fitWidth, fitHeight, enlarge )
     end
     displayObject:scale( scaleFactor, scaleFactor )
 end
-
+]]
 function scene:create( event )
     local sceneGroup = self.view
     local wordId = tonumber(dataword.settings.selectedWord)
@@ -40,10 +40,10 @@ function scene:create( event )
     background.y = displayMidY
 
 
-    local selectedWordImage =  display.newImage(wordImage)
-    selectedWordImage.x = displayMidX
-    selectedWordImage.y = displayMidY
-    fitImage(selectedWordImage, actualWidth, 400, false)
+--    local selectedWordImage =  display.newImage(wordImage)
+ --   selectedWordImage.x = displayMidX
+  --  selectedWordImage.y = displayMidY
+  --  fitImage(selectedWordImage, actualWidth, 400, false)
 
     local replayButton = widget.newButton({
         id = "button4",

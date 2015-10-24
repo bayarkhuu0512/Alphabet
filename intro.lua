@@ -23,14 +23,14 @@ local function tapListener( event )
  --   video:removeSelf()
  --   video = nil
     composer.removeScene( "intro", false )
-    composer.gotoScene( "menu" )
+    composer.gotoScene( "menu", { effect="fade", time=333 } )
     return true
 end
 
 
 local function leaveScreen()
     composer.removeScene( "intro", false )
-    composer.gotoScene( "menu" )
+    composer.gotoScene( "menu", { effect="fade", time=333 } )
 end
 
 function scene:create( event )    
@@ -38,12 +38,17 @@ function scene:create( event )
         local sceneGroup = self.view
 
     -- Create background
-    local background = display.newImage("images/HoldFrame.jpg",true)
+    local background = display.newImage("images/Splashscreen.jpg",true)
+    background.x=displayWidth
+    background.y=displayHeight
+--    local background =  display.newRect( 0, 0, display.pixelWidth, display.pixelHeight )
+  --  background:setFillColor( 0.5 )
     background.isHitTestable = true
-    background.x = displayWidth
-    background.y = displayHeight
+  --  background.x = display.contentCenterX
+ --   background.y = display.contentCenterY-50
     background:addEventListener( "tap", tapListener )        
-    sceneGroup:insert( background )
+ --   display.setDefault( "background", 255, 228, 0, 1 ) 
+   sceneGroup:insert( background )
     timer.performWithDelay(1500, leaveScreen)
 
   --  media.playVideo( "videos/intro.m4v", false, onComplete )

@@ -75,22 +75,23 @@ function scene:create( event )
     local sceneGroup = self.view
 
     -- Create background
-    local background = display.newImage("images/BG.jpg",true)
+    local background = display.newImage("images/BG_Menu.jpg",true)
     background.x = displayWidth
     background.y = displayHeight
     sceneGroup:insert( background )
 
-    local  name= display.newImage("images/name.png",true)
+    local  name= display.newImage("images/Header_Menu.png",true)
     name.x = display.contentCenterX
     name.y = 100
     sceneGroup:insert( name )
 
+--[[
 
     local  motto= display.newImage("images/motto.png",true)
     motto.x = display.contentCenterX
     motto.y = 200
     sceneGroup:insert( motto )
-
+]]
     -- Use a scrollView to contain the level buttons (for support of more than one full screen).
     -- Since this will only scroll vertically, lock horizontal scrolling.
     levelSelectGroup = widget.newScrollView({     
@@ -118,8 +119,8 @@ function scene:create( event )
             onEvent = handleLevelSelect,
             defaultFile = dataword.settings.levels[i].thumb,
             overFile =  dataword.settings.levels[i].thumb,
-            width = 230,
-            height = 230,
+            width = 200,
+            height = 200,
             emboss = true,
 --[[            
 

@@ -11,7 +11,8 @@ M.settings.levels[1].count = 5
 M.settings.levels[1].seq = '22,15,1,4,1'
 M.settings.levels[1].wordListen = 'bundles/01_unaga/unaga.mp3'
 M.settings.levels[1].wordDef = 'bundles/01_unaga/wordDef.mp3'
-M.settings.levels[1].thumb = 'bundles/01_unaga/unaga.png'
+M.settings.levels[1].thumb = 'bundles/01_unaga/unaga_icon.png'
+M.settings.levels[1].image = 'bundles/01_unaga/unaga.png'
 
 M.settings.levels[2] = {}
 M.settings.levels[2].name = 'ТУГАЛ'
@@ -19,7 +20,8 @@ M.settings.levels[2].count = 5
 M.settings.levels[2].seq = '21,22,4,1,13'
 M.settings.levels[2].wordListen = 'bundles/02_tugal/tugal.mp3'
 M.settings.levels[2].wordDef = 'bundles/02_tugal/wordDef.mp3'
-M.settings.levels[2].thumb = 'bundles/02_tugal/tugal.png'
+M.settings.levels[2].thumb = 'bundles/02_tugal/tugal_icon.png'
+M.settings.levels[2].image = 'bundles/02_tugal/tugal.png'
 
 M.settings.levels[3] = {}
 M.settings.levels[3].name = 'БОТГО'
@@ -27,7 +29,8 @@ M.settings.levels[3].count = 5
 M.settings.levels[3].seq = '2,16,21,4,16'
 M.settings.levels[3].wordListen = 'bundles/03_botgo/word.mp3'
 M.settings.levels[3].wordDef = 'bundles/03_botgo/wordDef.mp3'
-M.settings.levels[3].thumb = 'bundles/03_botgo/botgo.png'
+M.settings.levels[3].thumb = 'bundles/03_botgo/botgo_icon.png'
+M.settings.levels[3].image = 'bundles/03_botgo/botgo.png'
 
 M.settings.levels[4] = {}
 M.settings.levels[4].name = 'ХУРГА'
@@ -35,7 +38,8 @@ M.settings.levels[4].count = 5
 M.settings.levels[4].seq = '25,22,19,4,1'
 M.settings.levels[4].wordListen = 'bundles/04_hurga/hurga.mp3'
 M.settings.levels[4].wordDef = 'bundles/04_hurga/wordDef.mp3'
-M.settings.levels[4].thumb = 'bundles/04_hurga/hurga.png'
+M.settings.levels[4].thumb = 'bundles/04_hurga/hurga_icon.png'
+M.settings.levels[4].image = 'bundles/04_hurga/hurga.png'
 
 M.settings.levels[5] = {}
 M.settings.levels[5].name = 'ИШИГ'
@@ -43,7 +47,8 @@ M.settings.levels[5].count = 4
 M.settings.levels[5].seq = '10,28,10,4'
 M.settings.levels[5].wordListen = 'bundles/05_ishig/ishig.mp3'
 M.settings.levels[5].wordDef = 'bundles/05_ishig/wordDef.mp3'
-M.settings.levels[5].thumb = 'bundles/05_ishig/ishig.png'
+M.settings.levels[5].thumb = 'bundles/05_ishig/ishig_icon.png'
+M.settings.levels[5].image = 'bundles/05_ishig/ishig.png'
 
 M.settings.levels[6] = {}
 M.settings.levels[6].name = 'ГӨЛӨГ'
@@ -51,7 +56,8 @@ M.settings.levels[6].count = 5
 M.settings.levels[6].seq = '4,17,13,17,4'
 M.settings.levels[6].wordListen = 'bundles/06_golog/golog.mp3'
 M.settings.levels[6].wordDef = 'bundles/06_golog/wordDef.mp3'
-M.settings.levels[6].thumb = 'bundles/06_golog/golog.png'
+M.settings.levels[6].thumb = 'bundles/06_golog/golog_icon.png'
+M.settings.levels[6].image = 'bundles/06_golog/golog.png'
 
 M.settings.levels[7] = {}
 M.settings.levels[7].name = 'ТООРОЙ'
@@ -131,7 +137,7 @@ M.settings.levels[16].count = 5
 M.settings.levels[16].seq = '25,22,4,1,28'
 M.settings.levels[16].wordListen = 'bundles/16_hugash/hugash.mp3'
 M.settings.levels[16].wordDef = 'bundles/16_hugash/wordDef.mp3'
-M.settings.levels[16].thumb = 'bundles/16_hugash/thumb.jpg'
+M.settings.levels[16].thumb = 'bundles/16_hugash/hugash.png'
 
 M.settings.levels[17] = {}
 M.settings.levels[17].name = 'АЛМАНЦАГ'
@@ -139,7 +145,7 @@ M.settings.levels[17].count = 8
 M.settings.levels[17].seq = '1,13,14,1,15,26,1,4'
 M.settings.levels[17].wordListen = 'bundles/17_almantsag/almantsag.mp3'
 M.settings.levels[17].wordDef = 'bundles/17_almantsag/wordDef.mp3'
-M.settings.levels[17].thumb = 'bundles/17_almantsag/thumb.jpg'
+M.settings.levels[17].thumb = 'bundles/17_almantsag/almantsag.png'
 
 M.settings.levels[18] = {}
 M.settings.levels[18].name = 'ГАВАР'
