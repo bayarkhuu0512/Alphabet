@@ -36,6 +36,7 @@ function scene:create( event )
     local displayMidY = display.contentHeight/2
 	local displayMidX = display.contentWidth/2
 	local background = display.newImage("images/BG.jpg",true)
+    local replayButton 
     background.x = displayMidX
     background.y = displayMidY
 
@@ -54,28 +55,17 @@ function scene:create( event )
     selectedWordImage.y = displayMidY
     fitImage(selectedWordImage, actualWidth, 400, false)
 
-  local replayButton = widget.newButton({
-        id = "button4",
-        defaultFile  = "images/btn_refresh.png",
-        overFile = "images/btn_refresh_focused.png",
-        x = display.contentCenterX,
-        y = display.contentWidth/2+80,
-        width = 100,
-        height = 100,
-        onEvent = handleReplayButtonEvent
-    })
-    replayButton.isVisible = false
 
 -- Completion listener function
     local function defFinished( event )
-    print( "Narration Finished on channel", event.channel )
-    if ( event.completed ) then
-        print( "Narration completed playback naturally" )
-        replayButton.isVisible = true
-    else
-        print( "Narration was stopped before completion" )
+        print( "Narration Finished on channel", event.channel )
+        if ( event.completed ) then
+            print( "Narration completed playback naturally" )
+            replayButton.isVisible = true
+        else
+            print( "Narration was stopped before completion" )
+        end
     end
-end
 
     local function handleBackButtonEvent( event )
 		if ( "ended" == event.phase ) then
@@ -93,9 +83,9 @@ end
     local function handleReplayButtonEvent( event )
         if ( "ended" == event.phase ) then
             print("Go to this word")        
-          dataword.settings.selectedWord = wordId
-                composer.removeScene( "defineword", false )
-                composer.gotoScene( "game", { effect="slideLeft", time=600 } )
+            dataword.settings.selectedWord = wordId
+            composer.removeScene( "defineword", false )
+            composer.gotoScene( "game", { effect="slideRight", time=600 } )
         end
     end
 
@@ -119,6 +109,19 @@ end
 	        end
 	    end
     end
+
+
+    replayButton = widget.newButton({
+        id = "button4",
+        defaultFile  = "images/btn_refresh.png",
+        overFile = "images/btn_refresh_focused.png",
+        x = display.contentCenterX,
+        y = display.contentWidth/2+80,
+        width = 100,
+        height = 100,
+        onEvent = handleReplayButtonEvent
+    })
+    replayButton.isVisible = false
 
 
     local backButton = widget.newButton({
