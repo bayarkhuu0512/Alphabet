@@ -17,6 +17,10 @@ local smsoptions = {to = { "1234567890"},body = "asdabfa3e23asdas#23312ds"}
 local defaultField 
 local levelSelectGroup
 
+ -- Define the array to hold the buttons
+local buttons = {}
+local letters = {}
+
 system.activate( "multitouch" )
 
 local function textListener( event )
@@ -80,18 +84,22 @@ function scene:create( event )
     background.y = displayHeight
     sceneGroup:insert( background )
 
+     local footer= display.newImage("images/BG_Footer.png", true)
+    footer.contentWidth = actualWidth
+    footer.x = displayWidth
+    footer.y = display.contentHeight-53
+    sceneGroup:insert( footer )
+
     local  name= display.newImage("images/Header_Menu.png",true)
     name.x = display.contentCenterX
     name.y = 100
     sceneGroup:insert( name )
 
---[[
-
     local  motto= display.newImage("images/motto.png",true)
     motto.x = display.contentCenterX
-    motto.y = 200
+    motto.y = 270
     sceneGroup:insert( motto )
-]]
+
     -- Use a scrollView to contain the level buttons (for support of more than one full screen).
     -- Since this will only scroll vertically, lock horizontal scrolling.
     levelSelectGroup = widget.newScrollView({     
@@ -108,9 +116,6 @@ function scene:create( event )
     local xOffset = 100
     local yOffset = display.contentCenterY + 100
 
-    -- Define the array to hold the buttons
-    local buttons = {}
-
     -- Read 'maxLevels' from the 'data' table. Loop over them and generating one button for each.
     for i = 1, dataword.allWords do
         -- Create a button
@@ -118,28 +123,24 @@ function scene:create( event )
             id = tostring( i ),
             onEvent = handleLevelSelect,
             defaultFile = dataword.settings.levels[i].thumb,
-            overFile =  dataword.settings.levels[i].thumb,
+        --    overFile =  dataword.settings.levels[i].focused,
             width = 200,
-            height = 200,
-            emboss = true,
---[[            
-
-font = native.systemFontBold,
-            cornerRadius = 8,
-            labelYOffset = -6, 
-            fillColor = { default={ 0, 0.5, 1, 1 }, over={ 0.5, 0.75, 1, 1 } },
-            strokeColor = { default={ 0, 0, 1, 1 }, over={ 0.333, 0.667, 1, 1 } },
-            strokeWidth = 5]]
+            height = 200
         })
-        -- Position the button in the grid and add it to the scrollView
         buttons[i].x = xOffset
         buttons[i].y = yOffset
         levelSelectGroup:insert( buttons[i] )
 
-        -- Check to see if the player has achieved (completed) this level.
-        -- The '.unlockedLevels' value tracks the maximum unlocked level.
-        -- First, however, check to make sure that this value has been set.
-        -- If not set (new user), this value should be 1.
+        letters[i] = widget.newButton({
+            id = tostring( i ),
+            onEvent = handleLevelSelect,
+            defaultFile = dataword.settings.levels[i].letter,
+            width = 115,
+            height = 72
+        })
+        letters[i].x = xOffset
+        letters[i].y = yOffset + 140
+        levelSelectGroup:insert( letters[i] )
 
         -- If the level is locked, disable the button and fade it out.
         if ( dataword.settings.unlockedLevels == nil ) then

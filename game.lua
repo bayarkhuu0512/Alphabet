@@ -59,7 +59,7 @@ function scene:create( event )
     local header= display.newImage("images/BG_Header.png", true)
     header.contentWidth = actualWidth
     header.x = displayWidth
-    header.y = 45
+    header.y = 80
 
     local footer= display.newImage("images/BG_Footer.png", true)
     footer.contentWidth = actualWidth
@@ -576,7 +576,7 @@ function scene:create( event )
         else
             print("Go to Next word")        
             composer.removeScene( "game", false )
-            composer.gotoScene( "defineword", { effect="slideLeft", time=600 } )
+            composer.gotoScene( "defineword", { effect="crossFade", time=333 } )
         end
     end
 
@@ -605,9 +605,9 @@ function scene:create( event )
     local backButton = widget.newButton({
             id = "button1",
             defaultFile  = "images/btn_home.png",
-            overFile = "images/btn_home.png",
+            overFile = "images/btn_home_focused.png",
             x = 0,
-            y = 45,
+            y = 60,
             width = 80,
             height = 80,
             onEvent = handleBackButtonEvent
@@ -617,9 +617,9 @@ function scene:create( event )
     local wordButton = widget.newButton({
             id = "buttonWord",
             defaultFile  = "images/btn_music.png",
-            overFile = "images/btn_music.png",
+            overFile = "images/btn_music_focused.png",
             x = actualWidth,
-            y = 45,
+            y = 60,
             width = 80,
             height = 80,
             onEvent = handleWordButtonEvent
@@ -627,6 +627,7 @@ function scene:create( event )
 
     sceneGroup:insert( background )
     sceneGroup:insert( header )
+    sceneGroup:insert( footer )    
     sceneGroup:insert( backButton )
     sceneGroup:insert( wordButton )
 
@@ -639,7 +640,6 @@ function scene:create( event )
         end
     end
     sceneGroup:insert( animation )
-    sceneGroup:insert( footer )    
 
    -- Called when a key event has been received
 local function onKeyEvent( event )

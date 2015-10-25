@@ -23,14 +23,14 @@ local function tapListener( event )
  --   video:removeSelf()
  --   video = nil
     composer.removeScene( "intro", false )
-    composer.gotoScene( "menu", { effect="fade", time=333 } )
+    composer.gotoScene( "menu", { effect="crossFade", time=333 } )
     return true
 end
 
 
 local function leaveScreen()
     composer.removeScene( "intro", false )
-    composer.gotoScene( "menu", { effect="fade", time=333 } )
+    composer.gotoScene( "menu", { effect="crossFade", time=333 } )
 end
 
 function scene:create( event )    

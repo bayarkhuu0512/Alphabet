@@ -7,7 +7,7 @@ local scene = composer.newScene( )
 
 system.activate( "multitouch" )
 
---[[
+
 local function fitImage( displayObject, fitWidth, fitHeight, enlarge )
     --
     -- first determine which edge is out of bounds
@@ -22,12 +22,12 @@ local function fitImage( displayObject, fitWidth, fitHeight, enlarge )
     end
     displayObject:scale( scaleFactor, scaleFactor )
 end
-]]
+
 function scene:create( event )
     local sceneGroup = self.view
     local wordId = tonumber(dataword.settings.selectedWord)
     local word = dataword.settings.levels[wordId]
-    local wordImage = word.thumb
+    local wordImage = word.image
     local wordDefSound = audio.loadSound( word.wordDef )
 
 	print( 'Chosen word ID: ',dataword.settings.selectedWord )
@@ -39,19 +39,29 @@ function scene:create( event )
     background.x = displayMidX
     background.y = displayMidY
 
+    local header= display.newImage("images/BG_Header.png", true)
+    header.contentWidth = actualWidth
+    header.x = display.contentWidth/2
+    header.y = 80
 
---    local selectedWordImage =  display.newImage(wordImage)
- --   selectedWordImage.x = displayMidX
-  --  selectedWordImage.y = displayMidY
-  --  fitImage(selectedWordImage, actualWidth, 400, false)
+    local footer= display.newImage("images/BG_Footer.png", true)
+    footer.contentWidth = actualWidth
+    footer.x = display.contentWidth/2
+    footer.y = display.contentHeight-53
 
-    local replayButton = widget.newButton({
+    local selectedWordImage =  display.newImage(wordImage)
+    selectedWordImage.x = displayMidX
+    selectedWordImage.y = displayMidY
+    fitImage(selectedWordImage, actualWidth, 400, false)
+
+  local replayButton = widget.newButton({
         id = "button4",
-        label = "Ахин тоглох",
+        defaultFile  = "images/btn_refresh.png",
+        overFile = "images/btn_refresh_focused.png",
         x = display.contentCenterX,
-        y = display.contentWidth/2+100,
+        y = display.contentWidth/2+80,
         width = 100,
-        height = 50,
+        height = 100,
         onEvent = handleReplayButtonEvent
     })
     replayButton.isVisible = false
@@ -82,13 +92,12 @@ end
 
     local function handleReplayButtonEvent( event )
         if ( "ended" == event.phase ) then
-          dataword.settings.selectedWord = wordId
             print("Go to this word")        
+          dataword.settings.selectedWord = wordId
                 composer.removeScene( "defineword", false )
                 composer.gotoScene( "game", { effect="slideLeft", time=600 } )
         end
     end
-    
 
 
     local function handleNextButtonEvent( event )
@@ -115,9 +124,9 @@ end
     local backButton = widget.newButton({
         id = "button1",
         defaultFile  = "images/btn_home.png",
-        overFile = "images/btn_home.png",
+        overFile = "images/btn_home_focused.png",
         x = 0,
-        y = 45,
+        y = 60,
         width = 80,
         height = 80,
         onEvent = handleBackButtonEvent
@@ -126,35 +135,35 @@ end
     local wordDefListenButton = widget.newButton({
         id = "button3",
         defaultFile  = "images/btn_music.png",
-        overFile = "images/btn_music.png",
+        overFile = "images/btn_music_focused.png",
         x = display.contentCenterX,
-        y = 45,
+        y = 60,
         width = 80,
        height = 80,
         onEvent = handleWordDefButtonEvent
     })
 
-
-
     audio.stop()
     audio.play( wordDefSound, { onComplete=defFinished})
 
     sceneGroup:insert( background )
+    sceneGroup:insert( header )
+    sceneGroup:insert( footer )
     sceneGroup:insert (selectedWordImage)
     sceneGroup:insert( backButton )
     sceneGroup:insert( wordDefListenButton )
     sceneGroup:insert( replayButton )
 
     
-
     if(dataword.allWords > wordId) then
         local nextButton = widget.newButton({
             id = "button2",
-            label = "Дараагийн үг",
+            defaultFile  = "images/btn_next.png",
+            overFile = "images/btn_next_focused.png",
             x = actualWidth ,
-            y = 45,
-            width = 150,
-            height = 50,
+            y = 60,
+            width = 90,
+            height = 80,
             onEvent = handleNextButtonEvent
         })
         sceneGroup:insert( nextButton )
