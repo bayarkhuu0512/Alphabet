@@ -320,27 +320,51 @@ function scene:create( event )
     local function spawnRibbonDown()
 
         local falling 
-        local randomColor = math.random(7)
+        local randomColor = math.random(20)
         local function removefalling(target)
             target:removeSelf()
             target = nil
         end
         if randomColor == 1 then
-            falling =  display.newImage("images/ribbon_green.png")
+            falling =  display.newImage("images/ribbon1.png")
         elseif(randomColor == 2) then
-            falling =  display.newImage("images/ribbon_red.png")
+            falling =  display.newImage("images/ribbon2.png")
         elseif(randomColor == 3) then
-            falling =  display.newImage("images/ribbon_blue.png")
+            falling =  display.newImage("images/ribbon3.png")
         elseif(randomColor == 4) then
-            falling =  display.newImage("images/ribbon_magenta.png")
+            falling =  display.newImage("images/ribbon4.png")
         elseif(randomColor == 5) then
-            falling =  display.newImage("images/ribbon_magenta_big.png")
+            falling =  display.newImage("images/ribbon5.png")
         elseif(randomColor == 6) then
-            falling =  display.newImage("images/ribbon_red_big.png")
+            falling =  display.newImage("images/ribbon6.png")
         elseif(randomColor == 7) then
-            falling =  display.newImage("images/ribbon_green_big.png")
+            falling =  display.newImage("images/ribbon7.png")
+        elseif(randomColor == 8) then
+            falling =  display.newImage("images/ribbon8.png")
+        elseif(randomColor == 9) then
+            falling =  display.newImage("images/ribbon9.png")
+        elseif(randomColor == 10) then
+            falling =  display.newImage("images/ribbon10.png")
+        elseif(randomColor == 11) then
+            falling =  display.newImage("images/ribbon11.png")
+        elseif(randomColor == 12) then
+            falling =  display.newImage("images/ribbon12.png")
+        elseif(randomColor == 13) then
+            falling =  display.newImage("images/ribbon13.png")
+        elseif(randomColor == 14) then
+            falling =  display.newImage("images/ribbon14.png")
+        elseif(randomColor == 15) then
+            falling =  display.newImage("images/ribbon15.png")
+        elseif(randomColor == 16) then
+            falling =  display.newImage("images/ribbon16.png")
+        elseif(randomColor == 17) then
+            falling =  display.newImage("images/ribbon17.png")
+        elseif(randomColor == 18) then
+            falling =  display.newImage("images/ribbon18.png")
+        elseif(randomColor == 19) then
+            falling =  display.newImage("images/ribbon19.png")
         else 
-             falling =  display.newImage("images/ribbon_blue_big.png")
+            falling =  display.newImage("images/ribbon20.png")
          end
 
         falling.x = math.random(display.contentWidth)

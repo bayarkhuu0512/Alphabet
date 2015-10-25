@@ -276,8 +276,8 @@ L.letters[26].width = 132
 L.letters[26].imgNormal = 'images/Ts.png'
 L.letters[26].imgWhite = 'images/Ts_white.png'
 L.letters[26].imgSprite = 'images/Ts_sprite.png'
-L.letters[26].soundSelected = 'letters_voice/phonic_Sh.mp3'
-L.letters[26].soundLetter = 'letters_voice/letter_Sh_f.mp3'
+L.letters[26].soundSelected = 'letters_voice/phonic_Ts.mp3'
+L.letters[26].soundLetter = 'letters_voice/letter_Ts.mp3'
 
 L.letters[28] = {}
 L.letters[28].name = 'Ш'

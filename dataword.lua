@@ -209,9 +209,9 @@ M.settings.levels[19].count = 7
 M.settings.levels[19].seq = '2,33,13,21,19,33,4'
 M.settings.levels[19].wordListen = 'bundles/19_beltreg/beltreg.mp3'
 M.settings.levels[19].wordDef = 'bundles/19_beltreg/beltreg_worddef.mp3'
-M.settings.levels[19].thumb = 'bundles/19_beltreg/thumb.jpg'
-M.settings.levels[19].focused = 'bundles/19_beltreg/thumb.jpg'
-M.settings.levels[19].image = 'bundles/19_beltreg/thumb.jpg'
+M.settings.levels[19].thumb = 'bundles/19_beltreg/beltreg_icon.png'
+M.settings.levels[19].focused = 'bundles/19_beltreg/beltreg_focused.png'
+M.settings.levels[19].image = 'bundles/19_beltreg/beltreg_worddef.png'
 M.settings.levels[19].letter = 'bundles/19_beltreg/b.png'
 
 M.settings.levels[20] = {}
@@ -220,9 +220,9 @@ M.settings.levels[20].count = 4
 M.settings.levels[20].seq = '4,23,6,15'
 M.settings.levels[20].wordListen = 'bundles/20_guyen/guyen.mp3'
 M.settings.levels[20].wordDef = 'bundles/20_guyen/guyen_worddef.mp3'
-M.settings.levels[20].thumb = 'bundles/20_guyen/thumb.jpg'
-M.settings.levels[20].focused = 'bundles/20_guyen/thumb.jpg'
-M.settings.levels[20].image = 'bundles/20_guyen/thumb.jpg'
+M.settings.levels[20].thumb = 'bundles/20_guyen/guyen_icon.png'
+M.settings.levels[20].focused = 'bundles/20_guyen/guyen_focused.png'
+M.settings.levels[20].image = 'bundles/20_guyen/guyen_worddef.png'
 M.settings.levels[20].letter = 'bundles/20_guyen/g.png'
 
 return M
