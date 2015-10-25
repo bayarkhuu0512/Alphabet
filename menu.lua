@@ -63,10 +63,8 @@ local function handleLevelSelect( event )
 
     end
     end
-    if ( "moved" == event.phase ) then
+   if ( "moved" == event.phase ) then
         local dy = math.abs( ( event.y - event.yStart ) )
-        -- If the touch on the button has moved more than 10 pixels,
-        -- pass focus back to the scroll view so it can continue scrolling
         if ( dy > 10 ) then
             levelSelectGroup:takeFocus( event )
         end
@@ -109,7 +107,7 @@ function scene:create( event )
         scrollHeight = display.contentHeight,
         verticalScrollDisabled = true,
         hideBackground = true,
-        isHitTestable = true
+    --    isHitTestable = true
     })
 
     -- 'xOffset', 'yOffset' and 'cellCount' are used to position the buttons in the grid.

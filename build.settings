@@ -5,4 +5,8 @@ settings =
         default = "landscapeRight",
         supported = { "landscapeLeft", "landscapeRight" },
     },
+	android =
+    {
+                label = "Тоодон",
+    },
 }
