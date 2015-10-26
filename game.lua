@@ -24,7 +24,7 @@ function scene:create( event )
     local wordSequences = tostring(word.seq)
     local wordListenAudio =  audio.loadSound(word.wordListen)
     local wordDefAudio =  audio.loadSound(word.wordDef)
-    local playWordDef
+    local playWordListen
     local applauseAudio =  audio.loadSound("sounds/piano.mp3")
    --local stampedeAudio = audio.loadSound("sounds/stampede.mp3")
       local stampedeAudio = audio.loadSound("sounds/letters_fadein.mp3")
@@ -621,8 +621,8 @@ function scene:create( event )
 
     local function handleWordButtonEvent( event )
         if ( "ended" == event.phase and isPreparing == false) then
-         audio.stop( playWordDef )
-         playWordDef = audio.play( wordDefAudio )
+         audio.stop( playWordListen )
+         playWordDef = audio.play( wordListenAudio )
 
         end
     end

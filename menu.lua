@@ -43,6 +43,7 @@ end
 
 -- Button handler to go to the selected level
 local function handleLevelSelect( event )
+    print("id:",event.target.id)
     if ( "ended" == event.phase ) then
         -- 'event.target' is the button and '.id' is a number indicating which level to go to.  
         -- The 'game' scene will use this setting to determine which level to load.
@@ -62,14 +63,16 @@ local function handleLevelSelect( event )
         print("Buy new word")
 
     end
-    end
-   if ( "moved" == event.phase ) then
+  elseif ( "moved" == event.phase ) then
         local dy = math.abs( ( event.y - event.yStart ) )
-        if ( dy > 10 ) then
-            levelSelectGroup:takeFocus( event )
+        if ( dy > 10 ) then            
+           levelSelectGroup:takeFocus( event )
         end
-    end 
+    end
 end
+
+
+
 
 -- Declare the Composer event handlers
 -- On scene create...
@@ -103,16 +106,18 @@ function scene:create( event )
     levelSelectGroup = widget.newScrollView({     
         width = display.contentWidth,
         height = display.contentHeight,
-        scrollWidth = display.contentWidth,
-        scrollHeight = display.contentHeight,
+    --    scrollWidth = display.contentWidth,
+     --   scrollHeight = display.contentHeight,
         verticalScrollDisabled = true,
         hideBackground = true,
     --    isHitTestable = true
     })
+  --  levelSelectGroup.x = display.contentCenterX
+   -- levelSelectGroup.y = display.contentCenterY
 
     -- 'xOffset', 'yOffset' and 'cellCount' are used to position the buttons in the grid.
     local xOffset = 100
-    local yOffset = display.contentCenterY + 100
+    local yOffset = display.contentCenterY - 100
 
     -- Read 'maxLevels' from the 'data' table. Loop over them and generating one button for each.
     for i = 1, dataword.allWords do
@@ -121,10 +126,11 @@ function scene:create( event )
             id = tostring( i ),
             onEvent = handleLevelSelect,
             defaultFile = dataword.settings.levels[i].thumb,
-        --    overFile =  dataword.settings.levels[i].focused,
+            overFile =  dataword.settings.levels[i].focused,
             width = 200,
             height = 200
         })
+        sceneGroup:insert(buttons[i])
         buttons[i].x = xOffset
         buttons[i].y = yOffset
         levelSelectGroup:insert( buttons[i] )
@@ -138,7 +144,9 @@ function scene:create( event )
         })
         letters[i].x = xOffset
         letters[i].y = yOffset + 140
+        sceneGroup:insert(letters[i])
         levelSelectGroup:insert( letters[i] )
+
 
         -- If the level is locked, disable the button and fade it out.
         if ( dataword.settings.unlockedLevels == nil ) then
@@ -160,11 +168,8 @@ function scene:create( event )
             yOffset = yOffset + 100
         end ]]
     end
-
     -- Place the scrollView into the scene and center it.
     sceneGroup:insert( levelSelectGroup )
-    levelSelectGroup.x = display.contentCenterX
-    levelSelectGroup.y = display.contentCenterY
 
 local function handleInfoButtonEvent( event )
     if ( "ended" == event.phase ) then
