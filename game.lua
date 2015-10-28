@@ -416,6 +416,7 @@ function scene:create( event )
     local targetLetter
     local targetHolder
     local sound
+    local soundPhonic
     local soundLetter
     local chosenLetter 
     local b = 0
@@ -449,7 +450,11 @@ function scene:create( event )
             if (target.name ~= "animation") then
                 function complete ()
                     print ("prepare animation compeleted")
-                    sound = audio.play( sound,{ loops=-1 } )
+                    
+                    if(soundPhonic~=nil) then
+                        audio.stop(soundPhonic)
+                     end   
+                    soundPhonic = audio.play( sound,{ loops=-1 } )
                     isFirstAnimationCompleted = true
                     targetAnim.x, targetAnim.y = target.x,target.y
                     targetAnim.markX = target.x
@@ -499,7 +504,7 @@ function scene:create( event )
             targetAnim:pause()  
             target:toFront( )
 
-            audio.stop(sound)
+            audio.stop(soundPhonic)
             display.getCurrentStage():setFocus( nil )
 
             function transitionComplete()
@@ -538,7 +543,8 @@ function scene:create( event )
             targetAnim:setFrame(1)  
             targetAnim.isVisible = false    
             target.isVisible = true
-            audio.stop(sound)
+
+            audio.stop(soundPhonic)
             display.getCurrentStage():setFocus( nil )
 
             function noEqualizerCompleted()
