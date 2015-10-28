@@ -63,13 +63,12 @@ local function handleLevelSelect( event )
         print("Buy new word")
 
     end
-    -- elseif ( "moved" == event.phase ) then
-    --     print("moved")
-    --     local dy = math.abs( ( event.y - event.yStart ) )
-    --     if ( dy > 10 ) then            
-    --        levelSelectGroup:takeFocus( event )
-    --     end
-    -- end
+  elseif ( "moved" == event.phase ) then
+        local dy = math.abs( ( event.y - event.yStart ) )
+        if ( dy > 10 ) then            
+           levelSelectGroup:takeFocus( event )
+        end
+    end
 end
 
 
@@ -102,26 +101,11 @@ function scene:create( event )
     motto.y = 270
     sceneGroup:insert( motto )
 
-
-   local function scrollListener( event )
-        local phase = event.phase
-        if "began" == phase then
-            print("began scrolling")
-        elseif ( "moved" == event.phase ) then
-            print("moved")
-            -- local dy = math.abs( ( event.y - event.yStart ) )
-            -- if ( dy > 10 ) then            
-            levelSelectGroup:takeFocus( event )
-        end
-        return true
-    end
-
     -- Use a scrollView to contain the level buttons (for support of more than one full screen).
     -- Since this will only scroll vertically, lock horizontal scrolling.
     levelSelectGroup = widget.newScrollView({     
         width = display.contentWidth,
         height = display.contentHeight,
-        -- listener = scrollListener,
     --    scrollWidth = display.contentWidth,
      --   scrollHeight = display.contentHeight,
         verticalScrollDisabled = true,
@@ -187,28 +171,28 @@ function scene:create( event )
     -- Place the scrollView into the scene and center it.
     sceneGroup:insert( levelSelectGroup )
 
-    local function handleInfoButtonEvent( event )
-        if ( "ended" == event.phase ) then
-        print("Info window is here")
-    --    dialog = display.newRoundedRect(display.contentCenterX, display.contentCenterY, 380, 220, 12)
-     --   dialog:setFillColor( 96 )
-      --  -- dialog.strokeWidth = 3
-        -- dialog:setStrokeColor(180, 180, 180)
-       -- dialog.alpha = 0.9
-        end
+local function handleInfoButtonEvent( event )
+    if ( "ended" == event.phase ) then
+    print("Info window is here")
+--    dialog = display.newRoundedRect(display.contentCenterX, display.contentCenterY, 380, 220, 12)
+ --   dialog:setFillColor( 96 )
+  --  -- dialog.strokeWidth = 3
+    -- dialog:setStrokeColor(180, 180, 180)
+   -- dialog.alpha = 0.9
     end
+end
 
-    --[[    local infoButton = widget.newButton({
-            id = "buttonInfo",
-            label = "Info",
-            left = 0,
-            top = 0,
-            width = 100,
-            height = 50,
-            onEvent = handleInfoButtonEvent
-    })
-        sceneGroup:insert( infoButton )
-    ]]
+--[[    local infoButton = widget.newButton({
+        id = "buttonInfo",
+        label = "Info",
+        left = 0,
+        top = 0,
+        width = 100,
+        height = 50,
+        onEvent = handleInfoButtonEvent
+})
+    sceneGroup:insert( infoButton )
+]]
 
 
 end
