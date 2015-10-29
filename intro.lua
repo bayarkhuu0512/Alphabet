@@ -1,6 +1,8 @@
 local composer = require( "composer" )
 local scene = composer.newScene()
 
+local widget = require( "widget" )
+
 local displayHeight = display.contentHeight/2
 local displayWidth = display.contentWidth/2
 
@@ -46,15 +48,17 @@ function scene:create( event )
     background.isHitTestable = true
   --  background.x = display.contentCenterX
  --   background.y = display.contentCenterY-50
-    background:addEventListener( "tap", tapListener )        
- --   display.setDefault( "background", 255, 228, 0, 1 ) 
+
+   background:addEventListener( "tap", tapListener )        
    sceneGroup:insert( background )
-    timer.performWithDelay(1500, leaveScreen)
+   timer.performWithDelay(1500, leaveScreen)
 
   --  media.playVideo( "videos/intro.m4v", false, onComplete )
   --  video:load( "videos/intro.m4v", system.DocumentsDirectory )
   --  video:play()
   --  sceneGroup:insert( video )
+
+
 
 end
 
