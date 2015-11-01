@@ -88,6 +88,8 @@ function scene:create( event )
 
 
     local tempWidth = 0
+    local maxSizedLetter = 0
+    local minSizedLetter = 110
     --Орж ирсэн үгийн үсгүүдийг dataletters.lua-с нэг array-д хийж, мөн үсгүүдийн бодит уртыг олох loop
     function getTempWidth( scaleSize )
         -- body
@@ -96,6 +98,13 @@ function scene:create( event )
         for word in string.gmatch(wordSequences, '([^,]+)')  do
             local selectedLetter = dataletter.letters[tonumber(word)]
             letters[counter] = selectedLetter
+            print ()
+            if (maxSizedLetter < tonumber(selectedLetter.width)) then
+                maxSizedLetter = tonumber(selectedLetter.width)
+            end
+            if (minSizedLetter > tonumber(selectedLetter.width)) then
+                minSizedLetter = tonumber(selectedLetter.width)
+            end
             tempValue = tempValue + tonumber(selectedLetter.width) * scaleSize
             counter = counter + 1
         end
@@ -107,6 +116,8 @@ function scene:create( event )
 
 
     local manyLettersScale  = 1
+    local averageLetterSize = (maxSizedLetter + minSizedLetter) /2
+    print ("prewidth=", tempWidth, maxSizedLetter, minSizedLetter)
     if (tempWidth  < mainWordWidth) then
         local dif = actualWidth - tempWidth
         leftMargin = dif/2
@@ -115,9 +126,13 @@ function scene:create( event )
 
     else 
         local nonMarginedSize = mainWordWidth - letterMargin*(wordCount - 1)
-        local resizedLetterWidth = nonMarginedSize / wordCount
-        percentageDif = resizedLetterWidth *100/letterWidth
-        manyLettersScale = percentageDif /100
+        local eachResizedLetterWidth = nonMarginedSize / wordCount
+     
+        print ("eachResizedLetterWidth=", eachResizedLetterWidth)
+
+        percentageDif = eachResizedLetterWidth *100 / averageLetterSize
+        manyLettersScale = percentageDif / 100
+        print ("manyLettersScale", manyLettersScale)
         tempWidth = getTempWidth (manyLettersScale)
 
         local dif = actualWidth - tempWidth
@@ -129,11 +144,11 @@ function scene:create( event )
     scalePoint = manyLettersScale + 0.2
 
 
-    -- local myRectangle = display.newRect(leftMargin + mainWordWidth/2, topMargin + mainWordHeight/2, mainWordWidth, mainWordHeight)
-    -- myRectangle.strokeWidth = 3
-    -- myRectangle.alpha = 0.3
-    -- myRectangle:setFillColor(0.5 )
-    -- myRectangle:setStrokeColor( 1, 0, 0 )
+    local myRectangle = display.newRect(leftMargin + mainWordWidth/2, topMargin + mainWordHeight/2, mainWordWidth, mainWordHeight)
+    myRectangle.strokeWidth = 3
+    myRectangle.alpha = 0.3
+    myRectangle:setFillColor(0.5 )
+    myRectangle:setStrokeColor( 1, 0, 0 )
 
     y =  topMargin + mainWordHeight/2
 
@@ -197,8 +212,8 @@ function scene:create( event )
             count = 7,
             time = 700
         }
-        splitedLetter[number] =  letter.new(letterX, letterY, holder, rotation, audioFile, audioLetter, number, name , realImage , manyLettersScale)
-        formerSplitedLetters [number] = letter.new(letterX, letterY, holder, rotation, audioFile, audioLetter, number, name , realImage , manyLettersScale)
+        splitedLetter[number] =  letter.new(letterX, letterY, holder, rotation, audioFile, audioLetter, number, name , realImage , manyLettersScale, v.width)
+        formerSplitedLetters [number] = letter.new(letterX, letterY, holder, rotation, audioFile, audioLetter, number, name , realImage , manyLettersScale,  v.width)
         -- realImage:addEventListener("touch", dragLetters)
 
         x = x + holder.contentWidth + letterMargin
@@ -478,18 +493,26 @@ function scene:create( event )
                 local y = (event.y - event.yStart) + targetAnim.markY
                 -- print ("x ",x, " y ",y)
 
-                if (x - targetAnim.contentWidth/2 < 0)then 
-                    x = targetAnim.contentWidth / 2
+                local targetWidth = chosenLetter.width * scalePoint 
+                local targetHeight = chosenLetter.width * scalePoint
+
+                local dif = targetAnim.contentWidth - targetWidth
+
+
+                if (x - targetWidth/2  + dif< 0)then 
+                    x = targetWidth/ 2 - dif
                 end
-                if (y - targetAnim.contentHeight/2 < 0)then
-                    y = targetAnim.contentHeight/2
+                if (y - targetHeight/2 < 0)then
+                    y = targetHeight/2
                 end
-                if (y + targetAnim.contentHeight/2 > actualHeight)then
-                    y = actualHeight - targetAnim.contentHeight/2 
+                if (y + targetWidth/2 > actualHeight)then
+                    y = actualHeight - targetHeight/2 
                 end
-                if (x + targetAnim.contentWidth/2 > actualWidth)then
-                    x = actualWidth - targetAnim.contentWidth/2 
+                if (x + targetWidth/2  - dif > actualWidth)then
+                    x = actualWidth - targetWidth/2 + dif
                 end
+                print (targetWidth, targetAnim.contentWidth, x, dif)
+
                 targetAnim.x, targetAnim.y = x,y
                 target.x, target.y = x, y
             end
