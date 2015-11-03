@@ -144,11 +144,11 @@ function scene:create( event )
     scalePoint = manyLettersScale + 0.2
 
 
-    local myRectangle = display.newRect(leftMargin + mainWordWidth/2, topMargin + mainWordHeight/2, mainWordWidth, mainWordHeight)
-    myRectangle.strokeWidth = 3
-    myRectangle.alpha = 0.3
-    myRectangle:setFillColor(0.5 )
-    myRectangle:setStrokeColor( 1, 0, 0 )
+    -- local myRectangle = display.newRect(leftMargin + mainWordWidth/2, topMargin + mainWordHeight/2, mainWordWidth, mainWordHeight)
+    -- myRectangle.strokeWidth = 3
+    -- myRectangle.alpha = 0.3
+    -- myRectangle:setFillColor(0.5 )
+    -- myRectangle:setStrokeColor( 1, 0, 0 )
 
     y =  topMargin + mainWordHeight/2
 
@@ -397,15 +397,17 @@ function scene:create( event )
         return true
     end
 
+    local difSpaceValue = 70
+
     function hitObjects(obj1, sLetter)
             local containerArray =  getContainingLetterTable(sLetter)
             local left, right, up, down
             for k,v in pairs(containerArray) do
                 local obj2 = v.holder
-                left = obj1.contentBounds.xMin <= obj2.contentBounds.xMin and obj1.contentBounds.xMax >= obj2.contentBounds.xMin
-                right = obj1.contentBounds.xMin >= obj2.contentBounds.xMin and obj1.contentBounds.xMin <= obj2.contentBounds.xMax
-                up = obj1.contentBounds.yMin <= obj2.contentBounds.yMin and obj1.contentBounds.yMax >= obj2.contentBounds.yMin
-                down = obj1.contentBounds.yMin >= obj2.contentBounds.yMin and obj1.contentBounds.yMin <= obj2.contentBounds.yMax
+                left = obj1.contentBounds.xMin <= obj2.contentBounds.xMin - difSpaceValue and obj1.contentBounds.xMax >= obj2.contentBounds.xMin - difSpaceValue
+                right = obj1.contentBounds.xMin >= obj2.contentBounds.xMin - difSpaceValue and obj1.contentBounds.xMin <= obj2.contentBounds.xMax - difSpaceValue
+                up = obj1.contentBounds.yMin <= obj2.contentBounds.yMin - difSpaceValue  and obj1.contentBounds.yMax >= obj2.contentBounds.yMin - difSpaceValue
+                down = obj1.contentBounds.yMin >= obj2.contentBounds.yMin - difSpaceValue and obj1.contentBounds.yMin <= obj2.contentBounds.yMax - difSpaceValue
                 if ((left or right) and (up or down)) then
                     chosenHolder = obj2
                     print("remove", v.number, "------ Letter ---", v.name, "-----k = ", k)
@@ -459,148 +461,143 @@ function scene:create( event )
             targetAnim:setSequence( chosenLetter.number)
             b = 1
         end
-
-        if (event.phase == "began") then
-            display.getCurrentStage():setFocus( target )
-            if (target.name ~= "animation") then
-                function complete ()
-                    print ("prepare animation compeleted")
-                    
-                    if(soundPhonic~=nil) then
-                        audio.stop(soundPhonic)
-                     end   
-                    soundPhonic = audio.play( sound,{ loops=-1 } )
-                    isFirstAnimationCompleted = true
-                    targetAnim.x, targetAnim.y = target.x,target.y
+        if (event.target == target) then
+            if (event.phase == "began") then
+                if (target.name ~= "animation") then
+                    function complete ()
+                        print ("prepare animation compeleted")
+                        display.getCurrentStage():setFocus( target )
+                        if(soundPhonic~=nil) then
+                            audio.stop(soundPhonic)
+                         end   
+                        soundPhonic = audio.play( sound,{ loops=-1 } )
+                        isFirstAnimationCompleted = true
+                        targetAnim.x, targetAnim.y = target.x,target.y
+                        targetAnim.markX = target.x
+                        targetAnim.markY = target.y
+                        targetAnim.contentWidth = target.contentWidth
+                        targetAnim.contentHeight = target.contentHeight
+                        target.isVisible = false
+                        targetAnim.isVisible = true
+                        -- targetAnim.name = target.name    
+                        target:toFront( )  
+                        targetAnim:toFront ()  
+                        targetAnim:play()
+                    end
                     targetAnim.markX = target.x
                     targetAnim.markY = target.y
-                    targetAnim.contentWidth = target.contentWidth
-                    targetAnim.contentHeight = target.contentHeight
-                    target.isVisible = false
-                    targetAnim.isVisible = true
-                    -- targetAnim.name = target.name    
-                    target:toFront( )  
-                    targetAnim:toFront ()  
-                    targetAnim:play()
+                    transition.scaleTo( target, {time=1, xScale = scalePoint, yScale = scalePoint, onComplete = complete} )
                 end
-                targetAnim.markX = target.x
-                targetAnim.markY = target.y
-                transition.scaleTo( target, {time=1, xScale = scalePoint, yScale = scalePoint, onComplete = complete} )
-            end
-        elseif event.phase == "moved" then
-            if (target.name ~= "animation" and isFirstAnimationCompleted == true) then
-                local x = (event.x - event.xStart) +  targetAnim.markX
-                local y = (event.y - event.yStart) + targetAnim.markY
-                -- print ("x ",x, " y ",y)
+            elseif event.phase == "moved" then
+                if (target.name ~= "animation" and isFirstAnimationCompleted == true) then
+                    local x = (event.x - event.xStart) +  targetAnim.markX
+                    local y = (event.y - event.yStart) + targetAnim.markY
+                    -- print ("x ",x, " y ",y)
 
-                local targetWidth = chosenLetter.width * scalePoint 
-                local targetHeight = chosenLetter.width * scalePoint
+                    local targetWidth = chosenLetter.width * scalePoint 
+                    local targetHeight = chosenLetter.width * scalePoint
 
-                local dif = targetAnim.contentWidth - targetWidth
+                    local dif = targetAnim.contentWidth - targetWidth
 
 
-                if (x - targetWidth/2  + dif< 0)then 
-                    x = targetWidth/ 2 - dif
+                    if (x - targetWidth/2  + dif< 0)then 
+                        x = targetWidth/ 2 - dif
+                    end
+                    if (y - targetHeight/2 < 0)then
+                        y = targetHeight/2
+                    end
+                    if (y + targetWidth/2 > actualHeight)then
+                        y = actualHeight - targetHeight/2 
+                    end
+                    if (x + targetWidth/2  - dif > actualWidth)then
+                        x = actualWidth - targetWidth/2 + dif
+                    end
+                    print (targetWidth, targetAnim.contentWidth, x, dif)
+
+                    targetAnim.x, targetAnim.y = x,y
+                    target.x, target.y = x, y
                 end
-                if (y - targetHeight/2 < 0)then
-                    y = targetHeight/2
-                end
-                if (y + targetWidth/2 > actualHeight)then
-                    y = actualHeight - targetHeight/2 
-                end
-                if (x + targetWidth/2  - dif > actualWidth)then
-                    x = actualWidth - targetWidth/2 + dif
-                end
-                print (targetWidth, targetAnim.contentWidth, x, dif)
+            elseif(event.phase == 'ended'  and hitObjects(targetAnim, targetLetter)) then
+                print ("animation ended and hitObjects")
+                isPreparing = true
+                isFirstAnimationCompleted = false
+                matchedLettersCount = matchedLettersCount+1;
+                targetAnim:setFrame(1)  
+                targetAnim.isVisible = false    
+                target.isVisible = true
+                targetAnim:pause()  
+                target:toFront( )
 
-                targetAnim.x, targetAnim.y = x,y
-                target.x, target.y = x, y
-            end
-        elseif(event.phase == 'ended'  and hitObjects(targetAnim, targetLetter)) then
-            print ("animation ended and hitObjects")
-            isPreparing = true
-            isFirstAnimationCompleted = false
-            matchedLettersCount = matchedLettersCount+1;
-            targetAnim:setFrame(1)  
-            targetAnim.isVisible = false    
-            target.isVisible = true
-            targetAnim:pause()  
-            target:toFront( )
+                audio.stop(soundPhonic)
+                display.getCurrentStage():setFocus( nil )
 
-            audio.stop(soundPhonic)
-            display.getCurrentStage():setFocus( nil )
-
-            function transitionComplete()
-                b = 0
-                endAnimation(target)
-                target:removeEventListener("touch", dragLetters)
-                chosenHolder  = nil
-                audio.play( soundLetter )
-                if(wordCount == matchedLettersCount) then  
-                    function  lastAnimation(  )
-                        -- body
-                        for k, v in pairs(splitedLetter) do
-                            function preDestinationComplete()
-                                transition.to( v.realImage, {time=500, xScale = v.scalePoint, yScale = v.scalePoint, onComplete = preFadeCompleted})
-                                transition.to( v.holder, {time=500, xScale = v.scalePoint, yScale = v.scalePoint}) 
-                                if (k == wordCount) then
-                                    Runtime:addEventListener("enterFrame",makeRibbon) 
-                                    audio.play(applauseAudio)
-                                    timer.performWithDelay( 2500, allWordsCompleted)
+                function transitionComplete()
+                    b = 0
+                    endAnimation(target)
+                    target:removeEventListener("touch", dragLetters)
+                    chosenHolder  = nil
+                    audio.play( soundLetter )
+                    if(wordCount == matchedLettersCount) then  
+                        function  lastAnimation(  )
+                            -- body
+                            for k, v in pairs(splitedLetter) do
+                                function preDestinationComplete()
+                                    transition.to( v.realImage, {time=500, xScale = v.scalePoint, yScale = v.scalePoint, onComplete = preFadeCompleted})
+                                    transition.to( v.holder, {time=500, xScale = v.scalePoint, yScale = v.scalePoint}) 
+                                    if (k == wordCount) then
+                                        Runtime:addEventListener("enterFrame",makeRibbon) 
+                                        audio.play(applauseAudio)
+                                        timer.performWithDelay( 2500, allWordsCompleted)
+                                    end
                                 end
+                                transition.to( v.holder, { time=300,  xScale = scalePoint, yScale = scalePoint})
+                                transition.to( v.realImage, { time=300,  xScale = scalePoint, yScale = scalePoint, onComplete = preDestinationComplete})
                             end
-                            transition.to( v.holder, { time=300,  xScale = scalePoint, yScale = scalePoint})
-                            transition.to( v.realImage, { time=300,  xScale = scalePoint, yScale = scalePoint, onComplete = preDestinationComplete})
                         end
-                    end
-                    timer.performWithDelay(300, lastAnimation) 
-                end
-            end
-            transition.to( target, {time=500, x=chosenHolder.x , y = chosenHolder.y, rotation = chosenHolder.rotation, onComplete = transitionComplete} )
-            -- correct = correct + 1
-            -- audio.play(correctSnd)
-        elseif event.phase == "ended" or event.phase == "cancelled" then
-            print ("animation ended or cancelled")
-            isPreparing = true
-            targetAnim:pause()  
-            targetAnim:setFrame(1)  
-            targetAnim.isVisible = false    
-            target.isVisible = true
-
-            audio.stop(soundPhonic)
-            display.getCurrentStage():setFocus( nil )
-
-            function noEqualizerCompleted()
-                endAnimation(target)
-            end
-
-            local notChanging = false
-            for k, v in pairs(splitedLetter) do
-                if (v ~= nil) then
-                    if (singleHiObject(targetAnim, v.holder)) then
-
-                        local targetMidY = target.y
-                        local moveDistance = 0
-                        if (displayMidY > targetMidY) then
-                            local midDif = displayMidY - targetMidY
-                            moveDistance = (target.contentHeight - midDif)* (-1)
-                        else
-                            local midDif =  targetMidY - displayMidY
-                            moveDistance = target.contentHeight - midDif
-                        end
-
-                        transition.to( target, {time=500, y = target.y + moveDistance, onComplete = noEqualizerCompleted} )
-                        notChanging = true
-                        break
+                        timer.performWithDelay(300, lastAnimation) 
                     end
                 end
+                transition.to( target, {time=500, x=chosenHolder.x , y = chosenHolder.y, rotation = chosenHolder.rotation, onComplete = transitionComplete} )
+            elseif event.phase == "ended" or event.phase == "cancelled" then
+                print ("animation ended or cancelled")
+                isPreparing = true
+                targetAnim:pause()  
+                targetAnim:setFrame(1)  
+                targetAnim.isVisible = false    
+                target.isVisible = true
+
+                audio.stop(soundPhonic)
+                display.getCurrentStage():setFocus( nil )
+
+                function noEqualizerCompleted()
+                    endAnimation(target)
+                end
+
+                local notChanging = false
+                for k, v in pairs(splitedLetter) do
+                    if (v ~= nil) then
+                        if (singleHiObject(targetAnim, v.holder)) then
+
+                            local targetMidY = target.y
+                            local moveDistance = 0
+                            if (displayMidY > targetMidY) then
+                                local midDif = displayMidY - targetMidY
+                                moveDistance = (target.contentHeight - midDif)* (-1)
+                            else
+                                local midDif =  targetMidY - displayMidY
+                                moveDistance = target.contentHeight - midDif
+                            end
+                            transition.to( target, {time=500, y = target.y + moveDistance, onComplete = noEqualizerCompleted} )
+                            notChanging = true
+                            break
+                        end
+                    end
+                end
+                if (notChanging == false) then
+                    endAnimation(target)    
+                end
+                b = 0
             end
-            if (notChanging == false) then
-                endAnimation(target)    
-            end
-            b = 0
-        else
-            print ("b")
         end
         return true
     end
