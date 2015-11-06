@@ -256,8 +256,8 @@ L.letters[23].width = 118
 L.letters[23].imgNormal = 'images/Y.png'
 L.letters[23].imgWhite = 'images/Y_white.png'
 L.letters[23].imgSprite = 'images/Y_sprite.png'
-L.letters[23].soundSelected = 'letters_voice/phonic_Uo.mp3'
-L.letters[23].soundLetter = 'letters_voice/letter_Uo_f.mp3'
+L.letters[23].soundSelected = 'letters_voice/phonic_Yy.mp3'
+L.letters[23].soundLetter = 'letters_voice/letter_Yy_f.mp3'
 
 L.letters[25] = {}
 L.letters[25].name = 'Х'
