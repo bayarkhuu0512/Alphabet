@@ -9,4 +9,25 @@ settings =
     {
                 label = "Тоодон",
     },
+	iphone = 
+	{
+		plist = 
+		{
+			CFBundleIdentifier = "mn.odi.alphabet",	
+			
+			UIPrerenderedIcon = true,
+			UIApplicationExitsOnSuspend = false,
+						
+			CFBundleIconFiles = 
+			{
+				"Icon57",
+				"Icon60", 
+				"Icon72",
+				"Icon76",
+				"Icon29",
+				"Icon40",
+				"Icon50"
+			}
+		}
+	}
 }
