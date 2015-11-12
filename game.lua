@@ -51,6 +51,7 @@ function scene:create( event )
     local isPreparing = true
 
     audio.play( backgroundMusic,{ loops=-1 }  )
+    print (actualWidth, actualHeight)
 
     -- Background Image
     local background = display.newImage("images/BG.jpg")
@@ -659,7 +660,7 @@ function scene:create( event )
             id = "button1",
             defaultFile  = "images/btn_home.png",
             overFile = "images/btn_home_focused.png",
-            x = 0,
+            x = 60,
             y = 60,
             width = 80,
             height = 80,
@@ -671,7 +672,7 @@ function scene:create( event )
             id = "buttonWord",
             defaultFile  = "images/btn_music.png",
             overFile = "images/btn_music_focused.png",
-            x = actualWidth,
+            x = actualWidth - 60,
             y = 60,
             width = 80,
             height = 80,
