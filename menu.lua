@@ -54,6 +54,62 @@ local function handleLevelSelect( event )
 end
 
 
+    levelSelectGroup = widget.newScrollView({     
+        width = display.contentWidth,
+        height = display.contentHeight,
+        scrollWidth = display.contentWidth,
+        scrollHeight = display.contentHeight,
+        verticalScrollDisabled = true,
+        hideBackground = true,
+        isHitTestable = true
+    })
+
+    local xOffset = 100
+    local yOffset = display.contentCenterY + 100
+
+    for i = 1, dataword.allWords do
+        -- Create a button
+        buttons[i] = widget.newButton({
+            id = tostring( i ),
+            onEvent = handleLevelSelect,
+            defaultFile = dataword.settings.levels[i].thumb,
+            overFile =  dataword.settings.levels[i].focused,
+            width = 200,
+            height = 200
+        })
+ --       sceneGroup:insert(buttons[i])
+        buttons[i].x = xOffset
+        buttons[i].y = yOffset
+        levelSelectGroup:insert( buttons[i] )
+
+        letters[i] = widget.newButton({
+            id = tostring( i ),
+            onEvent = handleLevelSelect,
+            defaultFile = dataword.settings.levels[i].letter,
+            width = 115,
+            height = 72
+        })
+        letters[i].x = xOffset
+        letters[i].y = yOffset + 140
+--        sceneGroup:insert(letters[i])
+        levelSelectGroup:insert( letters[i] )
+
+
+        if ( dataword.settings.unlockedLevels == nil ) then
+            dataword.settings.unlockedLevels = 1
+        end
+        if ( i <= dataword.settings.unlockedLevels ) then
+         --   buttons[i]:setEnabled( true )
+            buttons[i].alpha = 1.0
+        else 
+          --  buttons[i]:setEnabled( false ) 
+            buttons[i].alpha = 0.5 
+        end 
+
+
+        xOffset = xOffset + 230
+    end
+
 
 
 -- Declare the Composer event handlers
@@ -83,62 +139,6 @@ function scene:create( event )
     motto.y = 270
     sceneGroup:insert( motto )
 
-
-    levelSelectGroup = widget.newScrollView({     
-        width = display.contentWidth,
-        height = display.contentHeight,
-        scrollWidth = display.contentWidth,
-        scrollHeight = display.contentHeight,
-        verticalScrollDisabled = true,
-        hideBackground = true,
-        isHitTestable = true
-    })
-
-    local xOffset = 100
-    local yOffset = display.contentCenterY + 100
-
-    for i = 1, dataword.allWords do
-        -- Create a button
-        buttons[i] = widget.newButton({
-            id = tostring( i ),
-            onEvent = handleLevelSelect,
-            defaultFile = dataword.settings.levels[i].thumb,
-            overFile =  dataword.settings.levels[i].focused,
-            width = 200,
-            height = 200
-        })
-        sceneGroup:insert(buttons[i])
-        buttons[i].x = xOffset
-        buttons[i].y = yOffset
-        levelSelectGroup:insert( buttons[i] )
-
-        letters[i] = widget.newButton({
-            id = tostring( i ),
-            onEvent = handleLevelSelect,
-            defaultFile = dataword.settings.levels[i].letter,
-            width = 115,
-            height = 72
-        })
-        letters[i].x = xOffset
-        letters[i].y = yOffset + 140
-        sceneGroup:insert(letters[i])
-        levelSelectGroup:insert( letters[i] )
-
-
-        if ( dataword.settings.unlockedLevels == nil ) then
-            dataword.settings.unlockedLevels = 1
-        end
-        if ( i <= dataword.settings.unlockedLevels ) then
-         --   buttons[i]:setEnabled( true )
-            buttons[i].alpha = 1.0
-        else 
-          --  buttons[i]:setEnabled( false ) 
-            buttons[i].alpha = 0.5 
-        end 
-
-
-        xOffset = xOffset + 230
-    end
     sceneGroup:insert( levelSelectGroup )
 
 
