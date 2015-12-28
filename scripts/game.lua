@@ -6,13 +6,18 @@ system.activate( "multitouch" )
 
 -- Load scene with same root filename as this file
 local scene = composer.newScene( sceneName )
-local dataword = require( "dataword" )
-local dataletter = require( "dataletter" )
-local letter = require ("letter")
+local dataword = require( "scripts.dataword" )
+local dataletter = require( "scripts.dataletter" )
+local letter = require ("scripts.letter")
 local widget = require( "widget" )
 local wordId
     -- Background Music
-local backgroundMusic = audio.loadStream( "sounds/bg_music2.mp3" )
+-- local backgroundMusic = audio.loadStream( "sounds/bg_music2.mp3" )
+
+
+local STATUS_NOTHING = 0
+local STATUS_SELECTWORD = 1
+local STATUS_MOVING = 2
 
 function scene:create( event )
     local sceneGroup = self.view
@@ -220,9 +225,6 @@ function scene:create( event )
         x = x + holder.contentWidth + letterMargin
     end  -- repeat untill the for loop end
 
-    -- formerSplitedLetters = splitedLetter
-
-
     animation = display.newSprite( globalSheet, sequenceData )
     animation.x = display.contentWidth/2
     animation.y = display.contentHeight/2
@@ -232,7 +234,6 @@ function scene:create( event )
     animation.name = "animation"
 
     function fadeOut(  )
-        -- body
         for  k, v in pairs(splitedLetter) do
             transition.to( v.realImage, {time=300, alpha = 1})
         end
@@ -333,100 +334,31 @@ function scene:create( event )
 
     local chosenHolder
 
-
-    local function spawnRibbonDown()
-
-        local falling 
-        local randomColor = math.random(20)
-        local function removefalling(target)
-            target:removeSelf()
-            target = nil
-        end
-        if randomColor == 1 then
-            falling =  display.newImage("images/ribbon1.png")
-        elseif(randomColor == 2) then
-            falling =  display.newImage("images/ribbon2.png")
-        elseif(randomColor == 3) then
-            falling =  display.newImage("images/ribbon3.png")
-        elseif(randomColor == 4) then
-            falling =  display.newImage("images/ribbon4.png")
-        elseif(randomColor == 5) then
-            falling =  display.newImage("images/ribbon5.png")
-        elseif(randomColor == 6) then
-            falling =  display.newImage("images/ribbon6.png")
-        elseif(randomColor == 7) then
-            falling =  display.newImage("images/ribbon7.png")
-        elseif(randomColor == 8) then
-            falling =  display.newImage("images/ribbon8.png")
-        elseif(randomColor == 9) then
-            falling =  display.newImage("images/ribbon9.png")
-        elseif(randomColor == 10) then
-            falling =  display.newImage("images/ribbon10.png")
-        elseif(randomColor == 11) then
-            falling =  display.newImage("images/ribbon11.png")
-        elseif(randomColor == 12) then
-            falling =  display.newImage("images/ribbon12.png")
-        elseif(randomColor == 13) then
-            falling =  display.newImage("images/ribbon13.png")
-        elseif(randomColor == 14) then
-            falling =  display.newImage("images/ribbon14.png")
-        elseif(randomColor == 15) then
-            falling =  display.newImage("images/ribbon15.png")
-        elseif(randomColor == 16) then
-            falling =  display.newImage("images/ribbon16.png")
-        elseif(randomColor == 17) then
-            falling =  display.newImage("images/ribbon17.png")
-        elseif(randomColor == 18) then
-            falling =  display.newImage("images/ribbon18.png")
-        elseif(randomColor == 19) then
-            falling =  display.newImage("images/ribbon19.png")
-        else 
-            falling =  display.newImage("images/ribbon20.png")
-         end
-
-        falling.x = math.random(display.contentWidth)
-        falling.y = -2
-        local wind = math.random(80) - 40
-        transition.to(falling,{time=math.random(500) + 1000, y = display.contentHeight + 2, x = falling.x + wind, onComplete=removefalling})
-    end
-
-    local function makeRibbon(event)
-   --   if math.random(2) == 1 then
-        print("animation enter")
-        spawnRibbonDown()
-    --  end
-        return true
-    end
-
     local difSpaceValue = 70
 
     function hitObjects(obj1, sLetter)
             local containerArray =  getContainingLetterTable(sLetter)
             local left, right, up, down
+            local hitTest
             for k,v in pairs(containerArray) do
                 local obj2 = v.holder
-                left = obj1.contentBounds.xMin <= obj2.contentBounds.xMin - difSpaceValue and obj1.contentBounds.xMax >= obj2.contentBounds.xMin - difSpaceValue
-                right = obj1.contentBounds.xMin >= obj2.contentBounds.xMin - difSpaceValue and obj1.contentBounds.xMin <= obj2.contentBounds.xMax - difSpaceValue
-                up = obj1.contentBounds.yMin <= obj2.contentBounds.yMin - difSpaceValue  and obj1.contentBounds.yMax >= obj2.contentBounds.yMin - difSpaceValue
-                down = obj1.contentBounds.yMin >= obj2.contentBounds.yMin - difSpaceValue and obj1.contentBounds.yMin <= obj2.contentBounds.yMax - difSpaceValue
-                if ((left or right) and (up or down)) then
+                hitTest = singleHiObject(obj1, obj2)
+                if (hitTest) then
                     chosenHolder = obj2
                     print("remove", v.number, "------ Letter ---", v.name, "-----k = ", k)
                     table.remove( formerSplitedLetters, k )
                     break
                 end
             end
-      
-            return (left or right) and (up or down)
+            return hitTest
     end
 
     function singleHiObject(obj1, obj2)
-        local left = obj1.contentBounds.xMin <= obj2.contentBounds.xMin and obj1.contentBounds.xMax >= obj2.contentBounds.xMin
-        local right = obj1.contentBounds.xMin >= obj2.contentBounds.xMin and obj1.contentBounds.xMin <= obj2.contentBounds.xMax
-        local up = obj1.contentBounds.yMin <= obj2.contentBounds.yMin and obj1.contentBounds.yMax >= obj2.contentBounds.yMin
-        local down = obj1.contentBounds.yMin >= obj2.contentBounds.yMin and obj1.contentBounds.yMin <= obj2.contentBounds.yMax
+        local left = obj1.contentBounds.xMin <= obj2.contentBounds.xMin - difSpaceValue and obj1.contentBounds.xMax >= obj2.contentBounds.xMin - difSpaceValue
+        local right = obj1.contentBounds.xMin >= obj2.contentBounds.xMin - difSpaceValue and obj1.contentBounds.xMin <= obj2.contentBounds.xMax - difSpaceValue
+        local up = obj1.contentBounds.yMin <= obj2.contentBounds.yMin - difSpaceValue  and obj1.contentBounds.yMax >= obj2.contentBounds.yMin - difSpaceValue
+        local down = obj1.contentBounds.yMin >= obj2.contentBounds.yMin - difSpaceValue and obj1.contentBounds.yMin <= obj2.contentBounds.yMax - difSpaceValue
         return (left or right) and (up or down)
-
     end
 
     local target 
@@ -437,7 +369,7 @@ function scene:create( event )
     local soundPhonic
     local soundLetter
     local chosenLetter 
-    local b = 0
+    local targetStatus = STATUS_NOTHING
     local matchedLettersCount = 0
     local isFirstAnimationCompleted = false
 
@@ -445,7 +377,7 @@ function scene:create( event )
         if (isPreparing) then
             return
         end
-        if (b == 0 and event.target.name ~= "animation") then
+        if (targetStatus == STATUS_NOTHING and event.target.name ~= "animation") then
             target = event.target
             targetAnim = animation
             targetAnim.x = target.x
@@ -460,10 +392,10 @@ function scene:create( event )
             sound = chosenLetter.audioFile
             soundLetter = chosenLetter.audioLetter
             targetAnim:setSequence( chosenLetter.number)
-            b = 1
+            targetStatus = STATUS_SELECTWORD
         end
         if (event.target == target) then
-            if (event.phase == "began") then
+            if (event.phase == "began" and targetStatus == STATUS_SELECTWORD) then
                 if (target.name ~= "animation") then
                     function complete ()
                         print ("prepare animation compeleted")
@@ -484,6 +416,7 @@ function scene:create( event )
                         target:toFront( )  
                         targetAnim:toFront ()  
                         targetAnim:play()
+                        targetStatus = STATUS_MOVING
                     end
                     targetAnim.markX = target.x
                     targetAnim.markY = target.y
@@ -513,7 +446,7 @@ function scene:create( event )
                     if (x + targetWidth/2  - dif > actualWidth)then
                         x = actualWidth - targetWidth/2 + dif
                     end
-                    print (targetWidth, targetAnim.contentWidth, x, dif)
+                    -- print (targetWidth, targetAnim.contentWidth, x, dif)
 
                     targetAnim.x, targetAnim.y = x,y
                     target.x, target.y = x, y
@@ -533,7 +466,7 @@ function scene:create( event )
                 display.getCurrentStage():setFocus( nil )
 
                 function transitionComplete()
-                    b = 0
+                    targetStatus = STATUS_NOTHING
                     endAnimation(target)
                     target:removeEventListener("touch", dragLetters)
                     chosenHolder  = nil
@@ -560,8 +493,8 @@ function scene:create( event )
                 end
                 transition.to( target, {time=500, x=chosenHolder.x , y = chosenHolder.y, rotation = chosenHolder.rotation, onComplete = transitionComplete} )
             elseif event.phase == "ended" or event.phase == "cancelled" then
-                print ("animation ended or cancelled")
                 isPreparing = true
+                print ("animation ended or cancelled")
                 targetAnim:pause()  
                 targetAnim:setFrame(1)  
                 targetAnim.isVisible = false    
@@ -597,7 +530,7 @@ function scene:create( event )
                 if (notChanging == false) then
                     endAnimation(target)    
                 end
-                b = 0
+                targetStatus = STATUS_NOTHING
             end
         end
         return true
@@ -608,14 +541,11 @@ function scene:create( event )
             isPreparing = false
             isFirstAnimationCompleted = false
             transition.scaleTo( realImage, {time=100, xScale = chosenLetter.scalePoint, yScale = chosenLetter.scalePoint } )
-
         end
         function firstComplete()
             transition.scaleTo( realImage, {time=100, xScale = chosenLetter.scalePoint + 0.07, yScale = chosenLetter.scalePoint + 0.07, onComplete = secondComplete} )
-
         end
         transition.scaleTo( realImage, {time=100, xScale = chosenLetter.scalePoint, yScale = chosenLetter.scalePoint, onComplete = firstComplete} )
-
     end
 
     local k = 0
@@ -627,8 +557,8 @@ function scene:create( event )
             timer.performWithDelay( 1000, allWordsCompleted)
         else
             print("Go to Next word")        
-            composer.removeScene( "game", false )
-            composer.gotoScene( "defineword", { effect="crossFade", time=333 } )
+            composer.removeScene( "scripts.game", false )
+            composer.gotoScene( "scripts.defineword", { effect="crossFade", time=333 } )
         end
     end
 
@@ -641,8 +571,8 @@ function scene:create( event )
     -- Button handler to cancel the level selection and return to the menu
     local function handleBackButtonEvent( event )
         if ( "ended" == event.phase and isPreparing == false) then
-            composer.removeScene( "game", false )
-            composer.gotoScene( "menu", { effect="crossFade", time=333 } )
+            composer.removeScene( "scripts.game", false )
+            composer.gotoScene( "scripts.menu", { effect="crossFade", time=333 } )
         end
     end
 
@@ -712,6 +642,71 @@ local function onKeyEvent( event )
     -- IMPORTANT! Return false to indicate that this app is NOT overriding the received key
     -- This lets the operating system execute its default handling of the key
     return false
+end
+
+
+function spawnRibbonDown()
+
+    local falling 
+    local randomColor = math.random(20)
+    local function removefalling(target)
+        target:removeSelf()
+        target = nil
+    end
+    if randomColor == 1 then
+        falling =  display.newImage("images/ribbon1.png")
+    elseif(randomColor == 2) then
+        falling =  display.newImage("images/ribbon2.png")
+    elseif(randomColor == 3) then
+        falling =  display.newImage("images/ribbon3.png")
+    elseif(randomColor == 4) then
+        falling =  display.newImage("images/ribbon4.png")
+    elseif(randomColor == 5) then
+        falling =  display.newImage("images/ribbon5.png")
+    elseif(randomColor == 6) then
+        falling =  display.newImage("images/ribbon6.png")
+    elseif(randomColor == 7) then
+        falling =  display.newImage("images/ribbon7.png")
+    elseif(randomColor == 8) then
+        falling =  display.newImage("images/ribbon8.png")
+    elseif(randomColor == 9) then
+        falling =  display.newImage("images/ribbon9.png")
+    elseif(randomColor == 10) then
+        falling =  display.newImage("images/ribbon10.png")
+    elseif(randomColor == 11) then
+        falling =  display.newImage("images/ribbon11.png")
+    elseif(randomColor == 12) then
+        falling =  display.newImage("images/ribbon12.png")
+    elseif(randomColor == 13) then
+        falling =  display.newImage("images/ribbon13.png")
+    elseif(randomColor == 14) then
+        falling =  display.newImage("images/ribbon14.png")
+    elseif(randomColor == 15) then
+        falling =  display.newImage("images/ribbon15.png")
+    elseif(randomColor == 16) then
+        falling =  display.newImage("images/ribbon16.png")
+    elseif(randomColor == 17) then
+        falling =  display.newImage("images/ribbon17.png")
+    elseif(randomColor == 18) then
+        falling =  display.newImage("images/ribbon18.png")
+    elseif(randomColor == 19) then
+        falling =  display.newImage("images/ribbon19.png")
+    else 
+        falling =  display.newImage("images/ribbon20.png")
+     end
+
+    falling.x = math.random(display.contentWidth)
+    falling.y = -2
+    local wind = math.random(80) - 40
+    transition.to(falling,{time=math.random(500) + 1000, y = display.contentHeight + 2, x = falling.x + wind, onComplete=removefalling})
+end
+
+function makeRibbon(event)
+--   if math.random(2) == 1 then
+    print("animation enter")
+    spawnRibbonDown()
+--  end
+    return true
 end
 
 -- Add the key event listener

@@ -31,8 +31,8 @@ end
 
 
 local function leaveScreen()
-    composer.removeScene( "intro", false )
-    composer.gotoScene( "menu", { effect="crossFade", time=333 } )
+    composer.removeScene( "scripts.intro", false )
+    composer.gotoScene( "scripts.menu", { effect="crossFade", time=333 } )
 end
 
 function scene:create( event )    

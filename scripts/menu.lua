@@ -3,13 +3,13 @@ local scene = composer.newScene()
 
 local widget = require( "widget" )
 
-local dataword = require( "dataword" )
+local dataword = require( "scripts.dataword" )
 
 local displayHeight = display.contentHeight/2
 local displayWidth = display.contentWidth/2
 
 local menuSound = audio.loadSound( "sounds/menu_touch.mp3" )
-local backgroundMusic = audio.loadStream( "sounds/nav_music.mp3" )
+-- local backgroundMusic = audio.loadStream( "sounds/nav_music.mp3" )
 
 local dialog
 local smsoptions = {to = { "1234567890"},body = "asdabfa3e23asdas#23312ds"}
@@ -36,10 +36,10 @@ local function handleLevelSelect( event )
         dataword.settings.selectedWord = event.target.id
 
         -- Purge the game scene so we have a fresh start
-        composer.removeScene( "game", false )
+        composer.removeScene( "scripts.game", false )
 
         -- Go to the game scene
-        composer.gotoScene( "game", { effect="crossFade", time=333 } )
+        composer.gotoScene( "scripts.game", { effect="crossFade", time=333 } )
     else
         native.showPopup( "sms", smsoptions )
         print("Buy new word")

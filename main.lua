@@ -7,5 +7,5 @@ local composer = require "composer"
 
 -- load scene1
 --composer.gotoScene( "menu" )
-composer.gotoScene( "intro" )
+composer.gotoScene( "scripts.intro" )
 

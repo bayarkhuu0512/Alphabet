@@ -1,6 +1,6 @@
 local composer = require( "composer" )
-local dataword = require( "dataword" )
-local dataletter = require( "dataletter" )
+local dataword = require( "scripts.dataword" )
+local dataletter = require( "scripts.dataletter" )
 local widget = require( "widget" )
 
 local scene = composer.newScene( )
@@ -69,8 +69,8 @@ function scene:create( event )
 
     local function handleBackButtonEvent( event )
 		if ( "ended" == event.phase ) then
-		    composer.removeScene( "defineword", false )
-            composer.gotoScene( "menu", { effect="crossFade", time=333 } )
+		    composer.removeScene( "scripts.defineword", false )
+            composer.gotoScene( "scripts.menu", { effect="crossFade", time=333 } )
 		end
     end
     local function handleWordDefButtonEvent( event )
@@ -84,8 +84,8 @@ function scene:create( event )
         if ( "ended" == event.phase ) then
             print("Go to this word")        
             dataword.settings.selectedWord = wordId
-            composer.removeScene( "defineword", false )
-            composer.gotoScene( "game", { effect="slideRight", time=600 } )
+            composer.removeScene( "scripts.defineword", false )
+            composer.gotoScene( "scripts.game", { effect="slideRight", time=600 } )
         end
     end
 
@@ -102,8 +102,8 @@ function scene:create( event )
             	print ("SelectedWord : ",dataword.settings.selectedWord)
 
 	            print("Go to Next word")        
-	            composer.removeScene( "defineword", false )
-	            composer.gotoScene( "game", { effect="slideLeft", time=600 } )
+	            composer.removeScene( "scripts.defineword", false )
+	            composer.gotoScene( "scripts.game", { effect="slideLeft", time=600 } )
 	        else
 	            print("All words completed")        
 	        end
