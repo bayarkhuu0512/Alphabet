@@ -186,6 +186,7 @@ end
 -- On scene destroy...
 function scene:destroy( event )
     local sceneGroup = self.view   
+
 end
 
 -- Composer scene listeners

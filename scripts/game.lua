@@ -748,8 +748,9 @@ end
 
 function scene:destroy( event )
     local sceneGroup = self.view
-        audio.stop()
-
+    audio.stop()
+    print ("destroyed game")
+    system.deactivate( "multitouch" )    
     -- Called prior to the removal of scene's "view" (sceneGroup)
     -- 
     -- INSERT code here to cleanup the scene
