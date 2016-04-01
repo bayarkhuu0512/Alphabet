@@ -39,15 +39,15 @@ function scene:create( event )
     local sceneGroup = self.view
     local sceneGroup = self.view
 
-    local firstImage = display.newImage("images/kke_logo_splash.png",true)
-    firstImage.x=displayWidth
-    firstImage.y=displayHeight
+    -- local firstImage = display.newImage("images/kke_logo_splash.png",true)
+    -- firstImage.x=displayWidth
+    -- firstImage.y=displayHeight
 
     -- Create background
     local background = display.newImage("images/Splashscreen.jpg",true)
     background.x=displayWidth
     background.y=displayHeight
-    background.isVisible = false
+    background.isVisible = true
 --    local background =  display.newRect( 0, 0, display.pixelWidth, display.pixelHeight )
   --  background:setFillColor( 0.5 )
     background.isHitTestable = true
@@ -55,15 +55,16 @@ function scene:create( event )
  --   background.y = display.contentCenterY-50
 
     background:addEventListener( "tap", tapListener )   
-    sceneGroup:insert( firstImage )     
+    -- sceneGroup:insert( firstImage )     
     sceneGroup:insert( background )
 
-    local function removeFirstSplash()
-        background.isVisible = true
-        firstImage.isVisible = false
-        timer.performWithDelay(1500, leaveScreen)
-    end
-    timer.performWithDelay(1500, removeFirstSplash)
+    -- local function removeFirstSplash()
+    --     background.isVisible = true
+    --     firstImage.isVisible = false
+    --     timer.performWithDelay(1500, leaveScreen)
+    -- end
+    -- timer.performWithDelay(1500, removeFirstSplash)
+    timer.performWithDelay(1500, leaveScreen)
 
   --  media.playVideo( "videos/intro.m4v", false, onComplete )
   --  video:load( "videos/intro.m4v", system.DocumentsDirectory )
