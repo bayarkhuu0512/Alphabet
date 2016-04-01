@@ -1,4 +1,4 @@
-local sceneName = ...
+local sceneName = "game"
 
 local composer = require( "composer" )
 
@@ -625,6 +625,7 @@ function scene:create( event )
     end
     sceneGroup:insert( animation )
 
+	--[[
    -- Called when a key event has been received
 local function onKeyEvent( event )
     -- Print which key was pressed down/up
@@ -635,14 +636,14 @@ local function onKeyEvent( event )
     if ( event.keyName == "back" ) then
         local platformName = system.getInfo( "platformName" )
         if ( platformName == "Android" ) or ( platformName == "WinPhone" ) then
-            return true
+			return false
         end
     end
 
     -- IMPORTANT! Return false to indicate that this app is NOT overriding the received key
     -- This lets the operating system execute its default handling of the key
     return false
-end
+end]]
 
 
 function spawnRibbonDown()
@@ -710,7 +711,7 @@ function makeRibbon(event)
 end
 
 -- Add the key event listener
-Runtime:addEventListener( "key", onKeyEvent )
+-- Runtime:addEventListener( "key", onKeyEvent )
 
 end
 
