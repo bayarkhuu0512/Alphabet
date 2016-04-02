@@ -20,13 +20,13 @@ settings =
 						
 			CFBundleIconFiles = 
 			{
-				"Icon57",
-				"Icon60", 
-				"Icon72",
-				"Icon76",
-				"Icon29",
-				"Icon40",
-				"Icon50"
+				"Icon-57",
+				"Icon-60", 
+				"Icon-72",
+				"Icon-76",
+				"Icon-29",
+				"Icon-40",
+				"Icon-50"
 			}
         }
 	}
