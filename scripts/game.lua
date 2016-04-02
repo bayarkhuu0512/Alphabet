@@ -275,13 +275,20 @@ function scene:create( event )
         print (randomYMax, manyLettersScale)
         for  i = 1, wordCount do
             local randomIndex = math.random (#tempIndexArray)
+--local randomIndex = math.random (1)
             -- print ("real randomIndex",randomIndex)   
             -- randomIndex = tempIndexArray[randomIndex]
             print ("randomIndex",tempIndexArray[randomIndex], "x = ", tempX)   
             local v = splitedLetter[ tempIndexArray[randomIndex]]
             v.realImage.x = tempX + v.realImage.contentWidth/2
+			
+			if(randomYMin>=randomYMax) then
+			randomYMax = randomYMin + 1;
+			end
+			
             local randomY = math.random( randomYMin, randomYMax )
-
+			print("randomYMin ",randomYMin," randomYMax ",randomYMax)
+--			local randomY = math.random(10,20)
             if (isUptime == true) then
                 v.realImage.y =  randomY + v.realImage.contentHeight/2
                 isUptime = false
