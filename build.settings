@@ -7,7 +7,12 @@ settings =
     },
 	android =
     {
-                label = "Тоодон",
+        label = "Тоодон",
+		usesPermissions =
+        {
+			"com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY",
+        },
+
     },
 	iphone = 
 	{
