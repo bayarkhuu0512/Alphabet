@@ -12,7 +12,7 @@ local letter = require ("scripts.letter")
 local widget = require( "widget" )
 local wordId
     -- Background Music
--- local backgroundMusic = audio.loadStream( "sounds/bg_music2.mp3" )
+local backgroundMusic = audio.loadStream( "sounds/bg_music2.mp3" )
 
 
 local STATUS_NOTHING = 0

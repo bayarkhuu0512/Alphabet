@@ -9,7 +9,7 @@ local displayHeight = display.contentHeight/2
 local displayWidth = display.contentWidth/2
 
 local menuSound = audio.loadSound( "sounds/menu_touch.mp3" )
--- local backgroundMusic = audio.loadStream( "sounds/nav_music.mp3" )
+local backgroundMusic = audio.loadStream( "sounds/nav_music.mp3" )
 
 local dialog
 local smsoptions = {to = { "1234567890"},body = "asdabfa3e23asdas#23312ds"}
