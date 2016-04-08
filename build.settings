@@ -14,7 +14,9 @@ settings =
 		plist = 
 		{
 			CFBundleIdentifier = "mn.odi.alphabet",	
-			
+			CFBundleName = "Тоодон",
+			CFBundleShortVersionString = "1.2",
+			CFBundleVersion = "1.2",
 			UIPrerenderedIcon = true,
 			UIApplicationExitsOnSuspend = false,
 						

@@ -2,7 +2,7 @@ local sceneName = "game"
 
 local composer = require( "composer" )
 
-system.activate( "multitouch" )
+-- system.activate( "multitouch" )
 
 -- Load scene with same root filename as this file
 local scene = composer.newScene( sceneName )
@@ -52,6 +52,7 @@ function scene:create( event )
     local wordCount
     local letterMargin
     local animation
+    local isItGoingOut = false
     local displayMidY = displayHeight
     local isPreparing = true
 
@@ -460,7 +461,6 @@ function scene:create( event )
                 end
             elseif(event.phase == 'ended'  and hitObjects(targetAnim, targetLetter)) then
                 print ("animation ended and hitObjects")
-                isPreparing = true
                 isFirstAnimationCompleted = false
                 matchedLettersCount = matchedLettersCount+1;
                 targetAnim:setFrame(1)  
@@ -477,8 +477,10 @@ function scene:create( event )
                     endAnimation(target)
                     target:removeEventListener("touch", dragLetters)
                     chosenHolder  = nil
+
                     audio.play( soundLetter )
                     if(wordCount == matchedLettersCount) then  
+                        isPreparing = true 
                         function  lastAnimation(  )
                             -- body
                             for k, v in pairs(splitedLetter) do
@@ -495,7 +497,9 @@ function scene:create( event )
                                 transition.to( v.realImage, { time=300,  xScale = scalePoint, yScale = scalePoint, onComplete = preDestinationComplete})
                             end
                         end
-                        timer.performWithDelay(300, lastAnimation) 
+                        timer.performWithDelay(300, lastAnimation)
+                    else
+                       isPreparing = false    
                     end
                 end
                 transition.to( target, {time=500, x=chosenHolder.x , y = chosenHolder.y, rotation = chosenHolder.rotation, onComplete = transitionComplete} )
@@ -563,9 +567,12 @@ function scene:create( event )
             k = 1
             timer.performWithDelay( 1000, allWordsCompleted)
         else
-            print("Go to Next word")        
-            composer.removeScene( "scripts.game", false )
-            composer.gotoScene( "scripts.defineword", { effect="crossFade", time=333 } )
+            isPreparing = true
+            print("Go to Next word")    
+            if (isItGoingOut == false) then
+                composer.removeScene( "scripts.game", false )
+                composer.gotoScene( "scripts.defineword", { effect="crossFade", time=333 } )
+            end
         end
     end
 
@@ -578,6 +585,7 @@ function scene:create( event )
     -- Button handler to cancel the level selection and return to the menu
     local function handleBackButtonEvent( event )
         if ( "ended" == event.phase and isPreparing == false) then
+            isItGoingOut = true
             composer.removeScene( "scripts.game", false )
             composer.gotoScene( "scripts.menu", { effect="crossFade", time=333 } )
         end

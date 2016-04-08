@@ -4,7 +4,7 @@ local dataletter = require( "scripts.dataletter" )
 local widget = require( "widget" )
 
 local scene = composer.newScene( )
-
+local backgroundMusic = audio.loadStream( "sounds/bg_music2.mp3" )
 system.activate( "multitouch" )
 
 
@@ -177,7 +177,7 @@ end
 function scene:show( event )
     local sceneGroup = self.view
     local phase = event.phase
-
+     audio.play( backgroundMusic,{ loops=-1 }  )
     if phase == "will" then
         -- Called when the scene is off screen and is about to move on screen
     elseif phase == "did" then
